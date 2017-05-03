@@ -15,7 +15,7 @@ COPY cove.ngnix.conf /etc/nginx/sites-available/default
 
 EXPOSE 8008
 
-# ENTRYPOINT ["/usr/local/bin/startup.sh"]
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
+# ENTRYPOINT ["/bin/bash"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:
