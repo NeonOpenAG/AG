@@ -12,11 +12,12 @@ RUN wget https://github.com/devgateway/open-aid-geocoder/raw/windows-local/scrip
 RUN bash update.sh
 RUN bash install.sh
 # RUN bash start.sh
+COPY open-aid-geocoder.ngnix.conf /etc/nginx/sites-available/default
+COPY open-aid-geocoder.startup.sh /usr/local/bin/startup.sh
 
-EXPOSE 3000
-EXPOSE 3333
+EXPOSE 8009
 
-# ENTRYPOINT ["/usr/local/bin/startup.sh"]
-ENTRYPOINT ["/bin/bash", "start.sh"]
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
+# ENTRYPOINT ["/bin/bash"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:

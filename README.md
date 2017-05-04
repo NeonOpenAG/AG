@@ -8,12 +8,12 @@
 ## Open aid geocoder
 
     docker pull tobybatch/ag-oageocoder
-    docker run -ti -p 3000:3000 -p 3333:3333 tobybatch/ag-oageocoder
+    docker run -ti -p 8009:8009 tobybatch/ag-oageocoder
 
 ## OIPA
 
     docker pull tobybatch/ag-oipa
-    docker run -ti -p 3000:3000 -p 3333:3333 tobybatch/ag-oipa
+    docker run -ti -p 8010:8010 tobybatch/ag-oipa
 
 
 
