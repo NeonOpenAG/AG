@@ -14,7 +14,7 @@ This docker image builds off the base node 4.4.3 image and runs the open aid geo
 We are forced to expose the 3333 port as the JS tools hoit it directly.
 
     docker pull tobybatch/ag-oageocoder
-    docker run -ti -p 8009:8009 -p 3333:3333 tobybatch/ag-oageocoder
+    docker run -ti -p 8009:8009 -p 3333:3333 -v open-aid-geocoder-data:/opt/open-aid-geocoder/api/data/ tobybatch/ag-oageocoder
 
 ## OIPA
 
