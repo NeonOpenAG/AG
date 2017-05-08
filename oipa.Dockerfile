@@ -1,7 +1,6 @@
 FROM ubuntu:xenial
 MAINTAINER tobias@neontribe.co.uk
 
-RUN sed -i 's/jessie/stretch/g' /etc/apt/sources.list
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install \
     sudo \
