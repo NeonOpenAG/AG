@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iati-activities generated-datetime="2016-03-07T10:03:51-05:00" linked-data-default="http://data.mcc.gov" version="2.01" xmlns:usg="http://foreignassistance.gov/iati#">
+    <iati-activity default-currency="USD" hierarchy="1" last-updated-datetime="2014-12-31T00:00:00-04:00" xml:lang="en">
+        <iati-identifier>US-18-TZ2-1031BXPEPD</iati-identifier>
+        <reporting-org ref="US-18" secondary-reporter="0" type="10">
+            <narrative xml:lang="en">Millennium Challenge Corporation</narrative>
+        </reporting-org>
+        <title>
+            <narrative xml:lang="en">Tanzania II-PEPFAR Fund</narrative>
+        </title>
+        <description type="1">
+            <narrative xml:lang="en">pending</narrative>
+        </description>
+        <participating-org ref="US" role="Funding" type="10">
+            <narrative>United States of America</narrative>
+        </participating-org>
+        <participating-org ref="US-18" role="Extending" type="10">
+            <narrative>Millennium Challenge Corporation</narrative>
+        </participating-org>
+        <participating-org ref="US-18" role="Accountable" type="10">
+            <narrative>Millennium Challenge Corporation</narrative>
+        </participating-org>
+        <participating-org ref="US-18" role="Implementing" type="10">
+            <narrative>Millennium Challenge Corporation</narrative>
+        </participating-org>
+        <activity-status code="0"/>
+        <activity-date iso-date="2016-01-15" type="1"/>
+        <activity-date iso-date="2016-01-15" type="2"/>
+        <activity-date iso-date="2016-01-15" type="3"/>
+        <activity-date iso-date="2016-01-15" type="4"/>
+        <contact-info>
+            <organisation>
+                <narrative>Millennium Challenge Corporation</narrative>
+            </organisation>
+            <department>
+                <narrative>Administration &amp; Finance</narrative>
+            </department>
+            <person-name>
+                <narrative>Open Data Team</narrative>
+            </person-name>
+            <job-title>
+                <narrative/>
+            </job-title>
+            <telephone>202-521-3618</telephone>
+            <email>opendata@mcc.gov</email>
+            <website>data.mcc.gov</website>
+            <mailing-address>
+                <narrative>875 Fifteenth Street NW, Washington, DC 20005-2221</narrative>
+            </mailing-address>
+        </contact-info>
+        <default-flow-type code="10"/>
+        <default-finance-type code="110"/>
+        <default-aid-type code="C01"/>
+        <default-tied-status code="5"/>
+        <related-activity ref="US-18-TZ" type="1"/>
+        <related-activity ref="US-18-TZ2-1031BXPEPD-PGM DEVEL" type="2"/>
+        <related-activity ref="US-18-TZ2-2750BX69GD" type="3"/>
+        <related-activity ref="US-18-TZ2-2750BXDILD" type="3"/>
+        <related-activity ref="US-18-TZA-1031BXPEPD" type="3"/>
+        <related-activity ref="US-18-TZA-2750BX69GD" type="3"/>
+        <related-activity ref="US-18-TZA-2750BXCOMD" type="3"/>
+        <related-activity ref="US-18-TZA-2750BXDILD" type="3"/>
+        <conditions attached="0"/>
+    </iati-activity>
+</iati-activities>
