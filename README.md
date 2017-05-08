@@ -11,8 +11,18 @@ This docker image builds off the base python 3 image and runs CoVE in the native
 
 This docker image builds off the base node 4.4.3 image and runs the open aid geocoder in the native node environment.  It is fronted with a ngix proxy.  The open aid geocoder git hub repo is pulled into /opt/open-aid-geocoder.  The docker entry point is a shell script in /usr/local/bin called startup.sh.  It startes ngix, and then runs the node server.  The server is exposed on http://127.0.0.1/8009 on the host machine.
 
+We are forced to expose the 3333 port as the JS tools hoit it directly.
+
+    mkdir conf data uploads
+    export APP_HOME=$HOME/workspace/AG/ag-docker/geocoder
     docker pull tobybatch/ag-oageocoder
-    docker run -ti -p 8009:8009 tobybatch/ag-oageocoder
+    docker run -ti \
+        -p 8009:8009 \
+        -p 3333:3333 \
+        -v $APP_HOME/data:/opt/open-aid-geocoder/api/data/ \
+        -v $APP_HOME/uploads:/opt/open-aid-geocoder/api/uploads/ \
+        -v $APP_HOME/conf:/opt/open-aid-geocoder/app/conf \
+        tobybatch/ag-oageocoder
 
 ## OIPA
 
@@ -25,5 +35,6 @@ This docker is built from the base ubuntu xenial image (16.04) and is then run i
 
 ## TODO
 
+ * Proxy forward the 3333 port for geocoded data.
  * https://github.com/devinit/D-Portal
  * Fix user creation in oipa application.
