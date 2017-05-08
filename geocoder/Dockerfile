@@ -14,15 +14,16 @@ RUN bash update.sh
 RUN bash install.sh
 # RUN bash start.sh
 RUN ls
-COPY open-aid-geocoder.settings.json /opt/open-aid-geocoder/app/conf/settings.json
+# COPY open-aid-geocoder.settings.json /opt/open-aid-geocoder/app/conf/settings.json
 COPY open-aid-geocoder.ngnix.conf /etc/nginx/sites-available/default
 COPY open-aid-geocoder.startup.sh /usr/local/bin/startup.sh
 RUN mkdir /opt/open-aid-geocoder/api/uploads
-# RUN rm /opt/open-aid-geocoder/api/data/project-data.json
+RUN rm /opt/open-aid-geocoder/api/data/project-data.json
+RUN rm /opt/open-aid-geocoder/app/conf/settings.json
 
-VOLUME /opt/open-aid-geocoder/app/conf
-VOLUME /opt/open-aid-geocoder/api/data/
-VOLUME /opt/open-aid-geocoder/api/uoloads/
+# VOLUME /opt/open-aid-geocoder/app/conf
+# VOLUME /opt/open-aid-geocoder/api/data/
+# VOLUME /opt/open-aid-geocoder/api/uploads/
 
 EXPOSE 8009
 EXPOSE 3333
