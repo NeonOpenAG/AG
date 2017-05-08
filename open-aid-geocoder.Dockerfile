@@ -16,6 +16,7 @@ COPY open-aid-geocoder.ngnix.conf /etc/nginx/sites-available/default
 COPY open-aid-geocoder.startup.sh /usr/local/bin/startup.sh
 
 EXPOSE 8009
+EXPOSE 3333
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
