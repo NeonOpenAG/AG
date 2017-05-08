@@ -1,4 +1,4 @@
-FROM node:4.4.3
+FROM node:5.4.3
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/

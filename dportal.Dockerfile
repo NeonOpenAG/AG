@@ -1,21 +1,24 @@
-FROM node:5.4.3
+FROM ubuntu:trusty
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get -y install git vim htop nginx wget
+RUN apt-get -y install git vim htop nginx wget sudo software-properties-common python-software-properties
 RUN git clone https://github.com/devinit/D-Portal
 
 WORKDIR /opt/D-Portal/bin
 
-RUN bash ./getapts && npm install
-
+# These are explode out of D-Portal/bin/getapts, they don't habe a -y to automativally install dependencies.
+RUN add-apt-repository ppa:chris-lea/node.js
+RUN apt-get update
+RUN apt-get -y install nodejs
+RUN npm install
 
 COPY dportal.ngnix.conf /etc/nginx/sites-available/default
 COPY dportal.startup.sh /usr/local/bin/startup.sh
 
-EXPOSE 8011
+EXPOSE 8012
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
