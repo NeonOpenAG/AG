@@ -1,7 +1,7 @@
 #!/bin/bash
 
 /etc/init.d/nginx restart
-cd /opt/D-Portal/dportal
-node js/serv.js --port=1337 --database=db/dstore.sqlite
+cd /opt/D-Portal
+./serv -q http://d-portal.org/
 bash
 
