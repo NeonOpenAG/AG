@@ -16,6 +16,17 @@ RUN ./bin/npm_install
 COPY dportal.ngnix.conf /etc/nginx/sites-available/default
 COPY dportal.startup.sh /usr/local/bin/startup.sh
 
+WORKDIR /opt/D-Portal/dstore
+RUN ./dstore init
+
+WORKDIR /opt/D-Portal/bin
+RUN ./dstore_import_bd_ug_hn
+
+# WORKDIR /opt/D-Portal/bin
+# RUN ./dstore import activity_data.xml
+
+WORKDIR /opt/D-Portal
+
 EXPOSE 8011
 EXPOSE 1408
 
