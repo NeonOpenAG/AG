@@ -9,7 +9,7 @@
  * [OIPA Dockerfile](https://github.com/neontribe/AG/tree/develop/oipa) and resources.
  * [D-Portal Dockerfile](https://github.com/neontribe/AG/tree/develop/dportal) and resources.
 
-### Built docker inages
+### Built docker images (on dockerhub)
 
  * [CoVE on dockerhub](https://hub.docker.com/r/tobybatch/ag-cove/).
  * [Open aid geocoder on dockerhub](https://hub.docker.com/r/tobybatch/ag-oageocoder/).
