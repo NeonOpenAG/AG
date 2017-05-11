@@ -11,6 +11,7 @@ RUN git -C /opt/cove checkout 635-sort-xml
 RUN pip3 install cython
 RUN pip3 install -r requirements_iati.txt
 RUN git clone https://github.com/IATI/IATI-Schemas.git
+RUN mkdir -p media
 
 COPY cove.startup.sh /usr/local/bin/startup.sh
 COPY cove.ngnix.conf /etc/nginx/sites-available/default
