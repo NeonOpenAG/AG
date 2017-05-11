@@ -4,9 +4,7 @@ This docker is built from the base ubuntu xenial image (16.04) and then node is 
 
     docker run -ti -p 1408:1408 -p 8011:8011 tobybatch/ag-dportal
 
-D-Portal now aailable at http://localhost:8011/
-
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/dportal).
+D-Portal now avilable at http://localhost:8011/
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-dportal/).
 

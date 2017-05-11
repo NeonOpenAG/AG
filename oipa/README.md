@@ -4,8 +4,6 @@ This docker is built from the base ubuntu xenial image (16.04) and is then run i
 
     docker run -ti -p 8010:8010 tobybatch/ag-oipa
 
-OIPA now aailable at http://localhost:8010/
-
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/oipa).
+OIPA now avilable at http://localhost:8010/
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-oipa/).

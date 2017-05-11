@@ -4,9 +4,7 @@ This docker image builds off the base python 3 image and runs CoVE in the native
 
     docker run -ti -p 8008:8008 tobybatch/ag-cove
 
-CoVE now aailable at http://localhost:8008/
-
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/cove).
+CoVE now avilable at http://localhost:8008/
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-cove/).
 

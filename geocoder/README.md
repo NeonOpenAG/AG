@@ -1,4 +1,4 @@
-pen aid geocoder
+# Open aid geocoder
 
 This docker image builds off the base node 4.4.3 image and runs the open aid geocoder in the native node environment.  It is fronted with a ngix proxy.  The open aid geocoder git hub repo is pulled into /opt/open-aid-geocoder.  The docker entry point is a shell script in /usr/local/bin called startup.sh.  It startes ngix, and then runs the node server.  The server is exposed on http://127.0.0.1/8009 on the host machine.
 
@@ -17,9 +17,7 @@ The following instructions assume you are in the root folder of this repo
         -v $APP_HOME/conf:/opt/open-aid-geocoder/app/conf \
         tobybatch/ag-oageocoder
 
-Open aid geocoder now aailable at http://localhost:8009/
-
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/geocoder).
+Open aid geocoder now avilable at http://localhost:8009/
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-oageocoder/).
 
