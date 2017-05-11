@@ -8,7 +8,7 @@ This docker image builds off the base python 3 image and runs CoVE in the native
 
 CoVE now aailable at http://localhost:8008/
 
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/cove).
+Details of this docker [here](./cove).
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-cove/).
 
@@ -33,7 +33,7 @@ The following instructions assume you are in the root folder of this repo
 
 Open aid geocoder now aailable at http://localhost:8009/
 
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/geocoder).
+Details of this docker [here](./geocoder).
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-oageocoder/).
 
@@ -46,7 +46,7 @@ This docker is built from the base ubuntu xenial image (16.04) and is then run i
 
 OIPA now aailable at http://localhost:8010/
 
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/oipa).
+Details of this docker [here](./oipa).
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-oipa/).
 
@@ -58,7 +58,7 @@ This docker is built from the base ubuntu xenial image (16.04) and then node is 
 
 D-Portal now aailable at http://localhost:8011/
 
-Details of this docker [here](https://github.com/neontribe/AG/tree/develop/dportal).
+Details of this docker [here](./dportal).
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-dportal/).
 
@@ -66,6 +66,4 @@ Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-dportal/).
 
 ## TODO
 
- * Proxy forward the 3333 port for geocoded data.
- * https://github.com/devinit/D-Portal
  * Fix user creation in oipa application.
