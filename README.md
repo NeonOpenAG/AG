@@ -4,6 +4,8 @@
 
 ### Docker files (in this repo)
 
+The Dockerfiles used to build the mages and more details on contents and how to start the containers with persisted data.
+
  * [CoVE Dockerfile](./cove) and resources.
  * [Open aid geocoder Dockerfile](./geocoder) and resources.
  * [OIPA Dockerfile](./oipa) and resources.
