@@ -1,4 +1,4 @@
-FROM node:5.4.3
+FROM node:4.4.3
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/
@@ -12,11 +12,23 @@ RUN wget https://github.com/devgateway/open-aid-geocoder/raw/windows-local/scrip
 RUN wget https://github.com/devgateway/open-aid-geocoder/raw/windows-local/scripts/install.sh
 RUN bash update.sh
 RUN bash install.sh
-# RUN bash start.sh
-RUN ls
-# COPY open-aid-geocoder.settings.json /opt/open-aid-geocoder/app/conf/settings.json
-COPY open-aid-geocoder.ngnix.conf /etc/nginx/sites-available/default
-COPY open-aid-geocoder.startup.sh /usr/local/bin/startup.sh
+
+RUN echo "server {\n\
+    listen 8009 default_server;\n\
+    root /var/www/html;\n\
+    server_name _;\n\
+    location / {\n\
+        proxy_pass http://127.0.0.1:3000;\n\
+    }\n\
+}\n" >> /etc/nginx/sites-available/default
+
+RUN echo "#!/bin/bash\n\
+\n\
+/etc/init.d/nginx restart\n\
+cd /opt/open-aid-geocoder/scripts\n\
+bash ./start.sh\n" >> /usr/local/bin/startup.sh && chmod 777 /usr/local/bin/startup.sh
+
+
 RUN mkdir /opt/open-aid-geocoder/api/uploads
 RUN rm /opt/open-aid-geocoder/api/data/project-data.json
 RUN rm /opt/open-aid-geocoder/app/conf/settings.json
@@ -24,6 +36,8 @@ RUN rm /opt/open-aid-geocoder/app/conf/settings.json
 # VOLUME /opt/open-aid-geocoder/app/conf
 # VOLUME /opt/open-aid-geocoder/api/data/
 # VOLUME /opt/open-aid-geocoder/api/uploads/
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 8009
 EXPOSE 3333

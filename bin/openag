@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# If the tmux is already running just attach
+tmux ls| grep "^AGDockers" > /dev/null
+if [ "$?" == 0 ]; then
+    tmux attach -t AGDockers
+fi
+
+OAGHOME=$HOME/.openag
+OAGCONF=$OAGHOME/openag.conf
+OAGTMUX=$OAGHOME/tmux.conf
+
+# If we don't have a home then create it
+if [ ! -d "$OAGHOME" ]; then
+    echo "Creating openag home:"
+    echo "    -> $OAGHOME"
+    mkdir -p $OAGHOME
+fi
+
+# If we don't have default config write some
+if [ ! -f "$OAGCONF" ]; then
+    echo "Creating openag default config:"
+    echo "    -> $OAGCONF"
+    cat <<EOF > $OAGCONF
+# The config file to read to start the tmux session
+OAGTMUX=$OAGTMUX
+
+# These locations set where data should be persisted to. If you change these
+# you need to delete the tmux.conf file above, or edit it.
+PERSIST_DIR=\$OAGHOME/data
+PERSIST_COVE_MEDIA=\$PERSIST_DIR/cove/media
+PERSIST_GEO_DATA=\$PERSIST_DIR/geocoder/data
+PERSIST_GEO_UPLOADS=\$PERSIST_DIR/geocoder/uploads
+PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
+EOF
+fi
+
+# Import default config
+source $OAGCONF
+
+# If we don't have a tmux.conf write one.
+if [ ! -f "$OAGTMUX" ]; then
+    echo "Creating openag tmux conf:"
+    echo "    -> $OAGTMUX"
+    cat <<EOF > $OAGTMUX
+new -s AGDockers -n 'CoVE' docker run -ti -p 8008:8008 -v $PERSIST_COVE_MEDIA:/opt/cove/media tobybatch/ag-cove
+neww -n 'Geocoder' docker run -ti -p 8009:8009 -p 3333:3333 -v $PERSIST_GEO_DATA:/opt/open-aid-geocoder/api/data/ -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ -v $PERSIST_GEO_CONF:/opt/open-aid-geocoder/app/conf tobybatch/ag-oageocoder
+neww -n 'Oipa' docker run -ti -p 8010:8010 tobybatch/ag-oipa
+neww -n 'D-Portal' docker run -ti -p 1408:1408 -p 8011:8011 tobybatch/ag-dportal
+EOF
+fi
+
+tmux source-file $OAGTMUX
+
