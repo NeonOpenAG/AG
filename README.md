@@ -18,7 +18,7 @@ Each docker exposes services on a port:
  * CoVE on [http://localhost:8008](http://localhost:8008)
  * Open aid geocoder on [http://localhost:8009](http://localhost:8009)
  * OIPA on [http://localhost:8010](http://localhost:8010)
- * D-Portal on [http://localhost:8011](http://localhost:8011
+ * D-Portal on [http://localhost:8011](http://localhost:8011)
 
 ## Building
 
