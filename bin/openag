@@ -38,6 +38,16 @@ fi
 # Import default config
 source $OAGCONF
 
+for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF; do
+    if [ ! -d "$path" ]; then
+        mkdir -p $path
+    fi
+done
+
+if [ ! -f "$PERSIST_GEO_CONF/settings.json" ]; then
+    wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/geocoder/conf/settings.json
+fi
+
 # If we don't have a tmux.conf write one.
 if [ ! -f "$OAGTMUX" ]; then
     echo "Creating openag tmux conf:"
