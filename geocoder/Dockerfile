@@ -37,6 +37,8 @@ RUN rm /opt/open-aid-geocoder/app/conf/settings.json
 # VOLUME /opt/open-aid-geocoder/api/data/
 # VOLUME /opt/open-aid-geocoder/api/uploads/
 
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 EXPOSE 8009
 EXPOSE 3333
 
