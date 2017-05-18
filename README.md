@@ -1,59 +1,24 @@
 # AG Dockers
 
-## Docker sources
+## Installation
 
-### Docker files (in this repo)
+Install details as a stand alone application are [here](INSTALL.md).
 
-The Dockerfiles used to build the mages and more details on contents and how to start the containers with persisted data.
+You can build the dockers youreslf, or just pull them from docker hub.  You need to pass a set of ports and volumes, these are dtailed on the individual docker pages in this repo:
 
  * [CoVE Dockerfile](./cove) and resources.
  * [Open aid geocoder Dockerfile](./geocoder) and resources.
  * [OIPA Dockerfile](./oipa) and resources.
  * [D-Portal Dockerfile](./dportal) and resources.
 
-### Built docker images (on dockerhub)
+## Building
+
+Each docker is built from a base image in this repo.  These are hosted on docker hub:
 
  * [CoVE on dockerhub](https://hub.docker.com/r/tobybatch/ag-cove/).
  * [Open aid geocoder on dockerhub](https://hub.docker.com/r/tobybatch/ag-oageocoder/).
  * [OIPA on dockerhub](https://hub.docker.com/r/tobybatch/ag-oipa/).
  * [D-Portal on dockerhub](https://hub.docker.com/r/tobybatch/ag-dportal/).
-
-## Quickstart
-
-The dockers are all available on dockerhub and all can be run from there:
-
-### CoVE
-
-    docker run -ti -p 8008:8008 tobybatch/ag-cove
-
-CoVE now aailable at http://localhost:8008/
-
-### Open aid geocoder
-
-    cd geocoder
-    export APP_HOME=$(pwd)
-    rm data/project-data.json # If you want an *empty* install
-    docker run -ti \
-        -p 8009:8009 \
-        -p 3333:3333 \
-        -v $APP_HOME/data:/opt/open-aid-geocoder/api/data/ \
-        -v $APP_HOME/uploads:/opt/open-aid-geocoder/api/uploads/ \
-        -v $APP_HOME/conf:/opt/open-aid-geocoder/app/conf \
-        tobybatch/ag-oageocoder
-
-Open aid geocoder now aailable at http://localhost:8009/
-
-### OIPA
-
-    docker run -ti -p 8010:8010 tobybatch/ag-oipa
-
-OIPA now aailable at http://localhost:8010/
-
-### D-Portal
-
-    docker run -ti -p 1408:1408 -p 8011:8011 tobybatch/ag-dportal
-
-D-Portal now aailable at http://localhost:8011/
 
 --------------------
 
