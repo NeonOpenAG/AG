@@ -7,3 +7,9 @@ This docker is built from the base ubuntu xenial image (16.04) and is then run i
 OIPA now avilable at http://localhost:8010/
 
 Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-oipa/).
+
+## Changing the oipa password
+
+You can change the oipa password in a running container by attaching to the container and setting the password:
+
+    docker exec -ti `docker ps -a | grep ag-oipa | awk '{print $1}'` sudo -u postgres psql oipa -c "ALTER USER oipa WITH PASSWORD 'new_password';"
