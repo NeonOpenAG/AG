@@ -4,6 +4,7 @@ Installing AG Dockers
 Ubuntu
 ------
 
+    sudo apt-get install apt-transport-https
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E3F59070
     echo "deb https://openag.neontribe.org/dists/stable/main/binary /" | sudo tee -a /etc/apt/sources.list
     sudo apt-get update
