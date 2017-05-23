@@ -1,14 +1,104 @@
 #!/bin/bash
 
-# If the tmux is already running just attach
-tmux ls| grep "^AGDockers" > /dev/null
-if [ "$?" == 0 ]; then
-    tmux attach -t AGDockers
+USAGE="$0 [-v] [-h] ACTION [ID]..."
+
+## FUNCTIONS ######################
+
+function usage {
+    echo $USAGE
+    cat <<EOF
+
+Start the Open Agricultural Data Dockers in daemon mode.
+
+h   Print help
+v   Verbose output, including instruction for stopping/connecting
+
+ACTIONs
+
+run
+    Start all dockers or those specified by [ID].  Supported IDs are
+    ag_cove, ag_oageocoder, ag_oipa and/or ag_dportal.
+kill
+    Stop all dockers or those specified by [ID].  Supported IDs are
+    ag_cove, ag_oageocoder, ag_oipa and/or ag_dportal.
+show
+    Show the status of the Open Agricultural Data Dockers.
+EOF
+}
+
+function start_ag_cove {
+    docker run \
+        -d \
+        -p 8009:8008 \
+        -v $PERSIST_COVE_MEDIA:/opt/cove/media \
+        --name ag-cove \
+        tobybatch/ag-cove
+}
+
+function start_ag_oageocoder {
+    docker run \
+        -d \
+        -p 8009:8009 -p 3333:3333 \
+        -v $PERSIST_GEO_DATA:/opt/open-aid-geocoder/api/data/ \
+        -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ \
+        -v $PERSIST_GEO_CONF:/opt/open-aid-geocoder/app/conf \
+        --name ag-oageocoder \
+        tobybatch/ag-oageocoder
+}
+
+function start_ag_oipa {
+    docker run \
+        -d \
+        -p 8010:8010 \
+        --name ag-oipa \
+        tobybatch/ag-oipa
+}
+
+function start_ag_dportal {
+    docker run \
+        -d \
+        -p 1408:1408 -p 8011:8011 \
+        --name ag-dportal \
+        tobybatch/ag-dportal
+}
+
+
+## ARGS ######################
+
+VERBOSE=0
+DOCKER_PREFIX=tobybatch
+
+while getopts "hv" options; do
+	case $options in
+		v) VERBOSE=1;;
+		h) usage; exit 0;;
+    esac
+done
+
+echo $@
+
+shift $((OPTIND-1))
+ACTION=$1
+if [ -z "$ACTION" ] || [ $ACTION != 'run' ] && [ $ACTION != 'kill' ] && [ $ACTION != 'rm' ]; then
+	echo $USAGE
+	exit 1;
 fi
+
+DOCKERS="$2 $3 $4 $5"
+if [ -z "$DOCKERS" ]; then
+    DOCKERS="ag_cove ag_oageocoder ag_oipa ag_dportal"
+fi
+
+if [ "0" != "$VERBOSE" ]; then
+    echo VERBOSE = $VERBOSE
+    echo ACTION  = $ACTION
+    echo DOCKERS = $DOCKERS
+fi
+
+## CONFIG ######################
 
 OAGHOME=$HOME/.openag
 OAGCONF=$OAGHOME/openag.conf
-OAGTMUX=$OAGHOME/tmux.conf
 
 # If we don't have a home then create it
 if [ ! -d "$OAGHOME" ]; then
@@ -22,9 +112,6 @@ if [ ! -f "$OAGCONF" ]; then
     echo "Creating openag default config:"
     echo "    -> $OAGCONF"
     cat <<EOF > $OAGCONF
-# The config file to read to start the tmux session
-OAGTMUX=$OAGTMUX
-
 # These locations set where data should be persisted to. If you change these
 # you need to delete the tmux.conf file above, or edit it.
 PERSIST_DIR=\$OAGHOME/data
@@ -48,17 +135,32 @@ if [ ! -f "$PERSIST_GEO_CONF/settings.json" ]; then
     wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/geocoder/conf/settings.json
 fi
 
-# If we don't have a tmux.conf write one.
-if [ ! -f "$OAGTMUX" ]; then
-    echo "Creating openag tmux conf:"
-    echo "    -> $OAGTMUX"
-    cat <<EOF > $OAGTMUX
-new -s AGDockers -n 'CoVE' docker run -ti -p 8008:8008 -v $PERSIST_COVE_MEDIA:/opt/cove/media tobybatch/ag-cove
-neww -n 'Geocoder' docker run -ti -p 8009:8009 -p 3333:3333 -v $PERSIST_GEO_DATA:/opt/open-aid-geocoder/api/data/ -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ -v $PERSIST_GEO_CONF:/opt/open-aid-geocoder/app/conf tobybatch/ag-oageocoder
-neww -n 'Oipa' docker run -ti -p 8010:8010 tobybatch/ag-oipa
-neww -n 'D-Portal' docker run -ti -p 1408:1408 -p 8011:8011 tobybatch/ag-dportal
-EOF
-fi
+## ACTIONS ######################
 
-tmux source-file $OAGTMUX
+for name in $DOCKERS; do
+    case $ACTION in
+        run)
+            start_${name/-/_}
+            ;;
+        kill)
+            ID=$(docker ps -a -q --filter name=$name --format="{{.ID}}")
+            if [ -z "$ID" ]; then
+                echo "Couldn't find a the container for $name"
+            else
+                docker kill $ID
+            fi
+            ;;
+        rm)
+            ID=$(docker ps -a -q --filter name=$name --format="{{.ID}}")
+            if [ -z "$ID" ]; then
+                echo "Couldn't find a the container for $name"
+            else
+                docker rm $ID
+            fi
+            ;;
+        show)
+            docker ps -a --filter name=ag-
+            ;;
+    esac
+done
 
