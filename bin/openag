@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USAGE="$0 [-v] [-h] [ACTION]"
+USAGE="$0 [-v] [-h] [status|start|stop|destroy|restart]"
 
 #############
 # FUNCTIONS #
@@ -86,7 +86,7 @@ fi
 
 case $ACTION in
     status)
-      docker ps -a --filter name=ag-;;
+      docker ps -a --filter name=openag_;;
     start)
         start_dockers;;
     stop)

@@ -13,6 +13,16 @@ ACTIONs
 
 status
     Show the status of the Open Agricultural Data Dockers.
+start
+    Start the docker, eithe rrunning new ones or starting stopped ones.
+stop
+    Stop the dockers.
+destroy
+    Stop and destroy the dockers.  Usae this reset the dockers to initial
+    state.  If you also "rm -rf $HOME/.openag/data you will remoce
+    persisted data.
+restart
+    stop and start
 EOF
 }
 
@@ -57,6 +67,10 @@ function start_docker {
         return
     fi
     echo "$NAME already running"
+}
+
+function run_openag_manager {
+    docker run -it --link openag_dportal --link openag_oipa --link openag_oageocoder --link openag_cove 8a045896c67e /bin/bash
 }
 
 function run_openag_cove {

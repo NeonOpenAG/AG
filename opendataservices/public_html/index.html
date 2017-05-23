@@ -70,22 +70,22 @@
 	<div class="row">
 		<div class="col-md-3">
 			<p>
-				<a class="btn" href="#">Access CoVE Application »</a>
+				<a class="btn" id="cove-btn" href="#">Access CoVE Application »</a>
 			</p>
 		</div>
 		<div class="col-md-3">
 			<p>
-				<a class="btn" href="#">Access Open Aid Geocoder Application »</a>
+				<a class="btn" id="geoc-btn" href="#">Access Open Aid Geocoder Application »</a>
 			</p>
 		</div>
 		<div class="col-md-3">
 			<p>
-				<a class="btn" href="#">Access local D-Portal site »</a>
+				<a class="btn" id="port-btn" href="#">Access local D-Portal site »</a>
 			</p>
 		</div>
 		<div class="col-md-3">
 			<p>
-				<a class="btn" href="#">Access local OIPA site »</a>
+				<a class="btn" id="oipa-btn" href="#">Access local OIPA site »</a>
 			</p>
 		</div>
 	</div>
@@ -94,5 +94,16 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
+    <script>
+console.log(self.location.host);
+console.log(self.location.hostname);
+console.log(self.location);
+      $( document ).ready(function() {
+        $('#cove-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8008","cove"); });
+        $('#geoc-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8009","geoc"); });
+        $('#oipa-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8010","oipa"); });
+        $('#port-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8011","port"); });
+      });
+    </script>
   </body>
 </html>
