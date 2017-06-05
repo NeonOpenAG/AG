@@ -103,6 +103,43 @@ console.log(self.location);
         $('#geoc-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8009","geoc"); });
         $('#oipa-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8010","oipa"); });
         $('#port-btn').on('click', function() { window.open ("http://" + self.location.hostname + ":8011","port"); });
+
+        function checkConnection(port, element) {
+            /*make sure you host a helloWorld HTML page in the following URL, so that requests are succeeded with 200 status code*/
+            var url = "http://" + self.location.hostname + ":" + port;
+            $.ajax({
+                url: url,
+                type: "get",
+                cache: false,
+                asynchronous : false,
+                timeout : 1500,
+                complete : function(xhr, responseText, thrownError) {
+                    if(xhr.status == "200") {
+                        isAccessible = true;
+                        success();
+                    }
+                    else {
+                        isAccessible = false;
+                        failure();
+                    }
+                }
+            });
+        }
+
+        function sucess(element) {
+            console.log("Success");
+            console.log(element);
+        }
+
+        function failure(element) {
+            console.log("Failure");
+            console.log(element);
+        }
+
+        checkConnection(8008, $('#cove-btn'));
+        checkConnection(8009, $('#geoc-btn'));
+        checkConnection(8010, $('#oipa-btn'));
+        checkConnection(8011, $('#port-btn'));
       });
     </script>
   </body>

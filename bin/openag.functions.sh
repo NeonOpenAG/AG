@@ -48,6 +48,7 @@ function start_dockers {
     start_docker openag_oageocoder
     start_docker openag_oipa
     start_docker openag_dportal
+    start_docker openag_master
 }
 
 function start_docker {
@@ -107,6 +108,14 @@ function run_openag_dportal {
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
         tobybatch/ag-dportal
+}
+
+function run_openag_master {
+    docker run \
+        -d \
+        -p 7080:80 \
+        --name openag_master \
+        tobybatch/openag
 }
 
 
