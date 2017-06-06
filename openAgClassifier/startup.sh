@@ -5,7 +5,9 @@
 mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql -e "show tables;" agrovoc_autocode
 if [ \"$?\" != \"0\" ]; then
     mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql < /var/tmp/install.sql
-    cat /opt/autocoder/src/model/base/config.py<<EOF
+fi
+
+cat <<EOF > /opt/autocoder/src/model/base/config.py
 """
 # Copyright 2017 Foundation Center. All Rights Reserved.
 #
@@ -42,10 +44,6 @@ low_threshold = {1: 0.47,
 
 
 EOF
-fi
 
-pip install wheel
-pip install pandas
-python /var/tmp/fetch_corpora.py
 cd /opt/autocoder/src/model
 python train.py model_h1 0.1 1 3
