@@ -11,3 +11,4 @@ CREATE TABLE `agrovoc_autocode`.`agrovoc_terms` (
     `Use?` varchar(128) DEFAULT NULL
 );
 source /opt/autocoder/db/create_hierarchy_table.sql
+source /opt/autocoder/db/split_training_test.sql
