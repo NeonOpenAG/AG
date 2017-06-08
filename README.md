@@ -2,7 +2,7 @@
 
 ## Installation
 
-Install details as a stand alone application are [here](INSTALL.md).
+### Docker files (in this repo)
 
 ## Running
 
