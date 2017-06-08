@@ -18,37 +18,42 @@ start
 stop
     Stop the dockers.
 destroy
-    Stop and destroy the dockers.  Usae this reset the dockers to initial
+    Stop and destroy the dockers.  Use this reset the dockers to initial
     state.  If you also "rm -rf $HOME/.openag/data you will remoce
     persisted data.
+update
+    Pulls the updated git repo.
 restart
     stop and start
 EOF
 }
 
 function destroy_dockers {
-    stop_dockers
-    IDS=$(docker ps -a -q --filter name=openag_ --format="{{.ID}}")
-    for ID in $IDS; do
+    stop_dockers $@
+    for ID in $@; do
         echo Removing $ID
         docker rm $ID
     done
 }
 
 function stop_dockers {
-    IDS=$(docker ps -a -q --filter name=openag_ --format="{{.ID}}")
-    for ID in $IDS; do
+    for ID in $@; do
         echo Stopping $ID
         docker stop $ID
     done
 }
 
+function update_dockers {
+    for ID in $@; do
+        echo Updating $ID
+        docker exec $ID update.sh
+    done
+}
+
 function start_dockers {
-    start_docker openag_cove
-    start_docker openag_oageocoder
-    start_docker openag_oipa
-    start_docker openag_dportal
-    start_docker openag_master
+    for DOCKER in $@; do
+        start_docker openag_$DOCKER
+    done
 }
 
 function start_docker {

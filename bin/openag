@@ -69,30 +69,49 @@ if [ -z "$ACTION" ]; then
     ACTION='status'
 fi
 
-if [ $ACTION != 'status' ] && [ $ACTION != 'start' ] && [ $ACTION != 'stop' ] && [ $ACTION != 'restart' ] && [ $ACTION != 'destroy' ]; then
+if [ $ACTION != 'status' ] && [ $ACTION != 'start' ] && [ $ACTION != 'stop' ] && [ $ACTION != 'restart' ] && [ $ACTION != 'destroy' ] && [ $ACTION != 'update' ]; then
 	echo $USAGE
 	exit 1;
-fi
-
-if [ "0" != "$VERBOSE" ]; then
-    echo VERBOSE = $VERBOSE
-    echo ACTION  = $ACTION
-    echo DOCKERS = $DOCKERS
 fi
 
 ###########
 # ACTIONS #
 ###########
 
+DOCKERS=`echo $@ | sed -e 's/^\w*\ *//'`
+IDS=
+for DOCKER in $DOCKERS; do
+    ID=$(docker ps -a -q --filter name=openag_${DOCKER} --format="{{.ID}}")
+    if [ ! -z "$ID" ]; then
+        IDS="$ID $IDS"
+    fi
+done
+
+if [ -z "$IDS" ]; then
+    IDS=$(docker ps -a -q --filter name=openag_ --format="{{.ID}}")
+    IDS=$(echo $IDS | sed -e "s/\n/ /g")
+fi
+
+if [ -z "$DOCKERS" ]; then
+    DOCKERS="cove oageocoder oipa dportal"
+fi
+
+if [ "0" != "$VERBOSE" ]; then
+    echo "IDS=$IDS"
+    echo "DOCKERS=$DOCKERS"
+fi
+
 case $ACTION in
     status)
       docker ps -a --filter name=openag_;;
     start)
-        start_dockers;;
+        start_dockers $DOCKERS;;
     stop)
-        stop_dockers;;
+        stop_dockers $IDS;;
     destroy)
-        destroy_dockers;;
+        destroy_dockers $IDS;;
+    update)
+        update_dockers $IDS;;
     restart)
         stop_dockers
         start_dockers;;

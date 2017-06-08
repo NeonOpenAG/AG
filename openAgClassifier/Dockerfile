@@ -36,6 +36,7 @@ COPY startup.sh /usr/local/bin/startup.sh
 RUN chmod 777 /usr/local/bin/startup.sh
 COPY install.sql /var/tmp/install.sql
 # COPY fetch_corpora.py /var/tmp/fetch_corpora.py
+COPY ../update.sh /usr/local/bin/update.sh
 
 # This is only needed for cli debug
 RUN apt-get -y install mysql-client

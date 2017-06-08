@@ -59,6 +59,7 @@ RUN virtualenv .env && .env/bin/pip install --upgrade pip && .env/bin/pip instal
 
 RUN echo "source /opt/oipa/OIPA/.env/bin/activate" >> $HOME/.bashrc
 COPY oipa.startup.sh /usr/local/bin/startup.sh
+COPY update.sh /usr/local/bin/update.sh
 
 EXPOSE 8010
 

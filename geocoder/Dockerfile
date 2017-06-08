@@ -37,10 +37,12 @@ RUN rm /opt/open-aid-geocoder/app/conf/settings.json
 # VOLUME /opt/open-aid-geocoder/api/data/
 # VOLUME /opt/open-aid-geocoder/api/uploads/
 
+COPY update.sh /usr/local/bin/update.sh
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 8009
 EXPOSE 3333
+WORKDIR /opt/open-aid-geocoder
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 
