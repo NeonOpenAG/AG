@@ -1,14 +1,19 @@
 #!/bin/bash
 
-# If the tmux is already running just attach
-tmux ls| grep "^AGDockers" > /dev/null
-if [ "$?" == 0 ]; then
-    tmux attach -t AGDockers
-fi
+USAGE="$0 [-v] [-h] [status|start|stop|destroy|restart]"
+
+#############
+# FUNCTIONS #
+#############
+
+source $(dirname $0)/openag.functions.sh
+
+############################
+# Check config and folders #
+############################
 
 OAGHOME=$HOME/.openag
 OAGCONF=$OAGHOME/openag.conf
-OAGTMUX=$OAGHOME/tmux.conf
 
 # If we don't have a home then create it
 if [ ! -d "$OAGHOME" ]; then
@@ -22,9 +27,6 @@ if [ ! -f "$OAGCONF" ]; then
     echo "Creating openag default config:"
     echo "    -> $OAGCONF"
     cat <<EOF > $OAGCONF
-# The config file to read to start the tmux session
-OAGTMUX=$OAGTMUX
-
 # These locations set where data should be persisted to. If you change these
 # you need to delete the tmux.conf file above, or edit it.
 PERSIST_DIR=\$OAGHOME/data
@@ -38,17 +40,79 @@ fi
 # Import default config
 source $OAGCONF
 
-# If we don't have a tmux.conf write one.
-if [ ! -f "$OAGTMUX" ]; then
-    echo "Creating openag tmux conf:"
-    echo "    -> $OAGTMUX"
-    cat <<EOF > $OAGTMUX
-new -s AGDockers -n 'CoVE' docker run -ti -p 8008:8008 -v $PERSIST_COVE_MEDIA:/opt/cove/media tobybatch/ag-cove
-neww -n 'Geocoder' docker run -ti -p 8009:8009 -p 3333:3333 -v $PERSIST_GEO_DATA:/opt/open-aid-geocoder/api/data/ -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ -v $PERSIST_GEO_CONF:/opt/open-aid-geocoder/app/conf tobybatch/ag-oageocoder
-neww -n 'Oipa' docker run -ti -p 8010:8010 tobybatch/ag-oipa
-neww -n 'D-Portal' docker run -ti -p 1408:1408 -p 8011:8011 tobybatch/ag-dportal
-EOF
+for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF; do
+    if [ ! -d "$path" ]; then
+        mkdir -p $path
+    fi
+done
+
+if [ ! -f "$PERSIST_GEO_CONF/settings.json" ]; then
+    wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/geocoder/conf/settings.json
 fi
 
-tmux source-file $OAGTMUX
+#####################
+# Process Arguments #
+#####################
 
+VERBOSE=0
+
+while getopts "hv" options; do
+	case $options in
+		v) VERBOSE=1;;
+		h) usage; exit 0;;
+    esac
+done
+
+shift $((OPTIND-1))
+ACTION=$1
+if [ -z "$ACTION" ]; then
+    ACTION='status'
+fi
+
+if [ $ACTION != 'status' ] && [ $ACTION != 'start' ] && [ $ACTION != 'stop' ] && [ $ACTION != 'restart' ] && [ $ACTION != 'destroy' ] && [ $ACTION != 'update' ]; then
+	echo $USAGE
+	exit 1;
+fi
+
+###########
+# ACTIONS #
+###########
+
+DOCKERS=`echo $@ | sed -e 's/^\w*\ *//'`
+IDS=
+for DOCKER in $DOCKERS; do
+    ID=$(docker ps -a -q --filter name=openag_${DOCKER} --format="{{.ID}}")
+    if [ ! -z "$ID" ]; then
+        IDS="$ID $IDS"
+    fi
+done
+
+if [ -z "$IDS" ]; then
+    IDS=$(docker ps -a -q --filter name=openag_ --format="{{.ID}}")
+    IDS=$(echo $IDS | sed -e "s/\n/ /g")
+fi
+
+if [ -z "$DOCKERS" ]; then
+    DOCKERS="cove oageocoder oipa dportal"
+fi
+
+if [ "0" != "$VERBOSE" ]; then
+    echo "IDS=$IDS"
+    echo "DOCKERS=$DOCKERS"
+fi
+
+case $ACTION in
+    status)
+      docker ps -a --filter name=openag_;;
+    start)
+        start_dockers $DOCKERS;;
+    stop)
+        stop_dockers $IDS;;
+    destroy)
+        destroy_dockers $IDS;;
+    update)
+        update_dockers $IDS;;
+    restart)
+        stop_dockers
+        start_dockers;;
+esac

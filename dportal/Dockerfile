@@ -24,6 +24,8 @@ RUN ./dstore_import_bd_ug_hn
 
 # WORKDIR /opt/D-Portal/bin
 # RUN ./dstore import activity_data.xml
+COPY update.sh /usr/local/bin/update.sh
+RUN chmod 777 /usr/local/bin/update.sh
 
 WORKDIR /opt/D-Portal
 

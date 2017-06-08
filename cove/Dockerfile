@@ -30,6 +30,8 @@ RUN echo "server {\n\
     }\n\
 }\n" >> /etc/nginx/sites-available/default
 
+COPY update.sh /usr/local/bin/update.sh
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 8008
