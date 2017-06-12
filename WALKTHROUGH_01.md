@@ -11,6 +11,7 @@ The first and simplest script for passing data through the application.
    1. Do some geo coding
    1. Download data from geocoder ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) The export function does not work
  * Classifier
+   1. Using the text "I want to grow apples. I'm interested in raising cows."
    1. Upload data to the classifier (use the remote [API](http://gis.foundationcenter.org/OpenAgCoder/index.php) for now) using sample document. ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) We need a sample document.
    1. Retrieve suggestions
    1. Integrate suggestions into original document
