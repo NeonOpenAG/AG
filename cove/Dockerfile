@@ -15,6 +15,7 @@ RUN mkdir -p media
 
 RUN echo "#!/bin/bash\n\
 \n\
+/usr/local/bin/update.sh\n\
 /etc/init.d/nginx restart\n\
 cd /opt/cove\n\
 export DJANGO_SETTINGS_MODULE=cove_iati.settings\n\

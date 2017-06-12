@@ -24,6 +24,7 @@ RUN echo "server {\n\
 
 RUN echo "#!/bin/bash\n\
 \n\
+/usr/local/bin/update.sh\n\
 /etc/init.d/nginx restart\n\
 cd /opt/open-aid-geocoder/scripts\n\
 bash ./start.sh\n" >> /usr/local/bin/startup.sh && chmod 777 /usr/local/bin/startup.sh
