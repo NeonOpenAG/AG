@@ -32,16 +32,19 @@ RUN echo "server {\n\
 EXPOSE 8012
 VOLUME agmysql
 
-COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod 777 /usr/local/bin/startup.sh
-COPY install.sql /var/tmp/install.sql
-# COPY fetch_corpora.py /var/tmp/fetch_corpora.py
-COPY ../update.sh /usr/local/bin/update.sh
-
-# This is only needed for cli debug
+# This is only needed for cli debug"
 RUN apt-get -y install mysql-client
 
+COPY install.sql /var/tmp/install.sql
+COPY clean.sql /var/tmp/clean.sql
+COPY update.sh /usr/local/bin/update.sh
+COPY startup.sh /usr/local/bin/startup.sh
+RUN chmod 777 /usr/local/bin/startup.sh
+
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN echo "mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql < /var/tmp/clean.sql" >> .bash_history
+RUN echo "startup.sh" >> .bash_history
 
 # ENTRYPOINT ["/usr/local/bin/startup.sh"]
 ENTRYPOINT ["/bin/bash"]

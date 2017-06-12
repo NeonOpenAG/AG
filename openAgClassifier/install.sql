@@ -1,4 +1,5 @@
 CREATE DATABASE IF NOT EXISTS agrovoc_autocode;
+USE agrovoc_autocode;
 CREATE TABLE `agrovoc_autocode`.`agrovoc_terms` (
     L1 varchar(128) DEFAULT NULL,
     L2 varchar(128) DEFAULT NULL,
