@@ -75,8 +75,30 @@ function start_docker {
     echo "$NAME already running"
 }
 
+function ensure_volume {
+    VOLUME=$(docker volume ls --quiet --filter name=$1)
+    if [ -z "$VOLUME" ]; then
+        echo "Creating volume $1"
+        docker volume create $1
+    fi
+}
+
 function run_openag_manager {
     docker run -it --link openag_dportal --link openag_oipa --link openag_oageocoder --link openag_cove 8a045896c67e /bin/bash
+}
+
+function run_openag_mysql {
+    ensure_volume openag_mysql
+    if [ -z $MYSQL_ROOT_PASSWORD ]; then
+        echo "Mysql docker password not set. Either enter here or ctrl-c and set it in ~/.openegrc"
+        read MYSQL_ROOT_PASSWORD
+    fi
+    docker run \
+        -d \
+        -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+        -v openag_mysql:/var/lib/mysql \
+        --name openag_mysql \
+        mysql
 }
 
 function run_openag_cove {

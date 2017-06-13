@@ -4,7 +4,7 @@ MAINTAINER tobias@neontribe.co.uk
 WORKDIR /opt/autocoder
 
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get -y install git vim htop nginx gettext build-essential python-pip qt5-default libqt5webkit5-dev build-essential python-lxml python-pip xvfb
+RUN apt-get -y install git vim htop nginx gettext build-essential python-pip qt5-default libqt5webkit5-dev build-essential python-lxml python-pip xvfb unzip wget
 
 RUN wget -O /tmp/Anaconda3-4.3.0-Linux-x86_64.sh http://repo.continuum.io/archive/Anaconda3-4.3.0-Linux-x86_64.sh
 RUN bash /tmp/Anaconda3-4.3.0-Linux-x86_64.sh -b
@@ -29,22 +29,24 @@ RUN echo "server {\n\
     }\n\
 }\n" >> /etc/nginx/sites-available/default
 
-EXPOSE 8012
-VOLUME agmysql
-
 # This is only needed for cli debug"
 RUN apt-get -y install mysql-client
+
+EXPOSE 8012
+VOLUME agmysql
 
 COPY install.sql /var/tmp/install.sql
 COPY clean.sql /var/tmp/clean.sql
 COPY update.sh /usr/local/bin/update.sh
-COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod 777 /usr/local/bin/startup.sh
 
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql < /var/tmp/clean.sql" >> .bash_history
 RUN echo "startup.sh" >> .bash_history
+RUN echo "export PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;34m\]\h\[\033[00m\] \[\033[01;36m\]\W\[\033[00m\] $ '" >> /root/.bashrc
+
+COPY startup.sh /usr/local/bin/startup.sh
+RUN chmod 777 /usr/local/bin/startup.sh
 
 # ENTRYPOINT ["/usr/local/bin/startup.sh"]
 ENTRYPOINT ["/bin/bash"]

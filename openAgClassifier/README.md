@@ -8,6 +8,9 @@ This docker depends on mysql:
 
 And then can be started with:
 
-    docker run -e MYSQL_ROOT_PASSWORD=inventedreadywatchgasoline --link agmysql -ti CONTAINER_ID
-
-Currently it drops you insta bash shell as the trainer does not function.
+    docker run \
+        -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+        -p 8013:8013 \
+        --link openag_mysql \
+        -v openag-claissifier-data:/opt/autocoder/src/model/clf_data \
+        -ti d85af205f5c4
