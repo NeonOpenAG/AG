@@ -1,10 +1,23 @@
 #!/bin/bash
 
-# docker run --name agmysql -e MYSQL_ROOT_PASSWORD=PASSWORD -v agmysql:/var/lib/mysql -d mysql
+# docker run --name openag_mysql -e MYSQL_ROOT_PASSWORD=PASSWORD -v openag_mysql:/var/lib/mysql -d mysql
 
-mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql -e "show tables;" agrovoc_autocode
-if [ \"$?\" != \"0\" ]; then
-    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql < /var/tmp/install.sql
+mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql -e "show tables;" agrovoc_autocode
+if [ "$?" != "0" ]; then
+    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql -e "CREATE DATABASE IF NOT EXISTS agrovoc_autocode;"
+    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql agrovoc_autocode < /opt/autocoder/db/create_hierarchy_table.sql
+fi
+
+if grep -qa /opt/autocoder/src/model /proc/mounts; then
+    datacount=$(ls /opt/autocoder/src/model/clf_data/| wc -l)
+    if [ "0" == "$datacount" ]; then
+        echo "Fetching model data, this may trake some time"
+        wget -O /opt/autocoder/src/model/clf_data/open_ag_models.zip https://s3.amazonaws.com/fc-public/svm/open_ag_models.zip
+        unzip -d /opt/autocoder/src/model/clf_data /opt/autocoder/src/model/clf_data/open_ag_models.zip
+    fi
+else
+    echo "openag-claissifier-data volume not mounted, will not proceed"
+    exit 1
 fi
 
 cat <<EOF > /opt/autocoder/src/model/base/config.py
@@ -24,7 +37,7 @@ cat <<EOF > /opt/autocoder/src/model/base/config.py
 # limitations under the License.
 # ==============================================================================
 """
-db = {"SERVER": "agmysql",
+db = {"SERVER": "openag_mysql",
       "UID": "root",
       "PWD": "${MYSQL_ROOT_PASSWORD}",
       "DATABASE": "agrovoc_autocode",
@@ -44,6 +57,3 @@ low_threshold = {1: 0.47,
 
 
 EOF
-
-cd /opt/autocoder/src/model
-python train.py model_h1 0.1 1 3
