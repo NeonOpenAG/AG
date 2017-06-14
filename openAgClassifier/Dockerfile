@@ -46,6 +46,8 @@ RUN chmod 777 /usr/local/bin/startup.sh
 RUN echo "mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql < /var/tmp/clean.sql" >> .bash_history
 RUN echo "startup.sh" >> .bash_history
 
+EXPOSE 9091
+
 # ENTRYPOINT ["/usr/local/bin/startup.sh"]
 ENTRYPOINT ["/bin/bash"]
 

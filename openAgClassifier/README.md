@@ -8,6 +8,6 @@ This docker depends on mysql:
 
 And then can be started with:
 
-    docker run -e MYSQL_ROOT_PASSWORD=inventedreadywatchgasoline --link agmysql -ti CONTAINER_ID
+    docker run -p 9091 -e MYSQL_ROOT_PASSWORD=inventedreadywatchgasoline --link agmysql -ti CONTAINER_ID
 
 Currently it drops you insta bash shell as the trainer does not function.
