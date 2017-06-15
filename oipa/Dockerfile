@@ -61,6 +61,8 @@ RUN echo "source /opt/oipa/OIPA/.env/bin/activate" >> $HOME/.bashrc
 COPY oipa.startup.sh /usr/local/bin/startup.sh
 COPY update.sh /usr/local/bin/update.sh
 
+RUN /etc/init.d/postgresql stop
+
 EXPOSE 8010
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
