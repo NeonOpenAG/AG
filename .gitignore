@@ -1,3 +1,4 @@
 cove/media/*
 data/project-data.json
 openAgClassifier/clf_data/
+uploads/test.csv
