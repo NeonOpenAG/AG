@@ -50,7 +50,9 @@ RUN chmod 777 /usr/local/bin/startup.sh
 
 EXPOSE 9091
 
-# ENTRYPOINT ["/usr/local/bin/startup.sh"]
-ENTRYPOINT ["/bin/bash"]
+WORKDIR /opt/autocoder/src
+
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
+# ENTRYPOINT ["/bin/bash"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:

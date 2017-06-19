@@ -6,6 +6,7 @@ mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql -e "show tables;" agrovoc
 if [ "$?" != "0" ]; then
     mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql -e "CREATE DATABASE IF NOT EXISTS agrovoc_autocode;"
     mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql agrovoc_autocode < /opt/autocoder/db/create_hierarchy_table.sql
+    mysql -u root -p${MYSQL_ROOT_PASSWORD} -h openag_mysql -e 'CREATE TABLE IF NOT EXISTS `agrovoc_autocode`.`agrovoc_terms` ( L1 varchar(128) DEFAULT NULL, L2 varchar(128) DEFAULT NULL, L3 varchar(128) DEFAULT NULL, L4 varchar(128) DEFAULT NULL, L5 varchar(128) DEFAULT NULL, L6 varchar(128) DEFAULT NULL, L7 varchar(128) DEFAULT NULL, Code  varchar(128) DEFAULT NULL, `Use?` varchar(128) DEFAULT NULL);' agrovoc_autocode
 fi
 
 if grep -qa /opt/autocoder/src/model /proc/mounts; then
@@ -57,3 +58,6 @@ low_threshold = {1: 0.47,
 
 
 EOF
+
+python model/server.py
+/bin/bash
