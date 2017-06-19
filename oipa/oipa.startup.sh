@@ -8,8 +8,8 @@ COL_BLUE=$ESC_SEQ"34;01m"
 COL_MAGENTA=$ESC_SEQ"35;01m"
 COL_CYAN=$ESC_SEQ"36;01m"
 
-/etc/init.d/redis-server start
-/etc/init.d/postgresql start
+# /etc/init.d/redis-server start
+# /etc/init.d/postgresql start
 
 # /etc/init.d/nginx restart
 cd /opt/oipa/OIPA

@@ -35,13 +35,16 @@ PERSIST_COVE_MEDIA=\$PERSIST_DIR/cove/media
 PERSIST_GEO_DATA=\$PERSIST_DIR/geocoder/data
 PERSIST_GEO_UPLOADS=\$PERSIST_DIR/geocoder/uploads
 PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
+PERSIST_MYSQL=\$PERSIST_DIR/mysql
+PERSIST_PGSQL=\$PERSIST_DIR/pgsql
+PERSIST_REDIS=\$PERSIST_DIR/redis
 EOF
 fi
 
 # Import default config
 source $OAGCONF
 
-for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF; do
+for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS; do
     if [ ! -d "$path" ]; then
         mkdir -p $path
     fi
@@ -94,7 +97,7 @@ if [ -z "$IDS" ]; then
 fi
 
 if [ -z "$DOCKERS" ]; then
-    DOCKERS="cove oageocoder oipa dportal"
+    DOCKERS="cove geocode oipa dportal"
 fi
 
 if [ "0" != "$VERBOSE" ]; then
