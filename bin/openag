@@ -96,8 +96,8 @@ if [ -z "$IDS" ]; then
     IDS=$(echo $IDS | sed -e "s/\n/ /g")
 fi
 
-if [ -z "$DOCKERS" ]; then
-    DOCKERS="cove geocode oipa dportal"
+if [ -z "$DOCKERS" ] && [ -z "$@" ]; then
+    DOCKERS="mysql pgsql redis cove geocode oipa dportal"
 fi
 
 if [ "0" != "$VERBOSE" ]; then
