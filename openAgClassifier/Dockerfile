@@ -33,17 +33,12 @@ RUN echo "server {\n\
 RUN apt-get -y install mysql-client
 
 EXPOSE 8012
-VOLUME agmysql
 
 COPY install.sql /var/tmp/install.sql
 COPY clean.sql /var/tmp/clean.sql
 COPY update.sh /usr/local/bin/update.sh
 
 # RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN echo "mysql -u root -p${MYSQL_ROOT_PASSWORD} -h agmysql < /var/tmp/clean.sql" >> .bash_history
-RUN echo "startup.sh" >> .bash_history
-RUN echo "export PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;34m\]\h\[\033[00m\] \[\033[01;36m\]\W\[\033[00m\] $ '" >> /root/.bashrc
 
 COPY startup.sh /usr/local/bin/startup.sh
 RUN chmod 777 /usr/local/bin/startup.sh
