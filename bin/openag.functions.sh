@@ -6,6 +6,12 @@ function usage {
 
 Start the Open Agricultural Data Dockers in daemon mode.
 
+Docker names are:
+ * cove
+ * geocoder
+ * oipa
+ * dportal
+
 h   Print help
 v   Verbose output, including instruction for stopping/connecting
 
@@ -76,7 +82,40 @@ function start_docker {
 }
 
 function run_openag_manager {
-    docker run -it --link openag_dportal --link openag_oipa --link openag_oageocoder --link openag_cove 8a045896c67e /bin/bash
+    docker run -it --link openag_dportal --link openag_oipa --link openag_geocoder --link openag_cove 8a045896c67e /bin/bash
+}
+
+function run_openag_redis {
+    docker run \
+        --name openag_redis \
+        -v $PERSIST_REDIS:/data \
+        -d redis redis-server \
+        --appendonly yes
+}
+
+function run_openag_pgsql {
+    docker run \
+        -d \
+        -e POSTGRES_PASSWORD=oipa \
+        -e POSTGRES_USER=oipa \
+        -e PGDATA=/var/lib/postgresql/data/pgdata \
+        -e POSTGRES_DB=oipa \
+        -v $PERSIST_PGSQL:/var/lib/postgresql/data/pgdata \
+        --name openag_pgsql \
+        postgres
+}
+
+function run_openag_mysql {
+    if [ -z $MYSQL_ROOT_PASSWORD ]; then
+        echo "Mysql docker password not set. Either enter here or ctrl-c and set it in ~/.openegrc"
+        read MYSQL_ROOT_PASSWORD
+    fi
+    docker run \
+        -d \
+        -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
+        -v $PERSIST_MYSQL:/var/lib/mysql \
+        --name openag_mysql \
+        mysql
 }
 
 function run_openag_cove {
@@ -85,26 +124,30 @@ function run_openag_cove {
         -p 8008:8008 \
         -v $PERSIST_COVE_MEDIA:/opt/cove/media \
         --name openag_cove \
-        tobybatch/ag-cove
+        openagdata/cove
 }
 
-function run_openag_oageocoder {
+function run_openag_geocoder {
     docker run \
         -d \
         -p 8009:8009 -p 3333:3333 \
         -v $PERSIST_GEO_DATA:/opt/open-aid-geocoder/api/data/ \
         -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ \
         -v $PERSIST_GEO_CONF:/opt/open-aid-geocoder/app/conf \
-        --name openag_oageocoder \
-        tobybatch/ag-oageocoder
+        --name openag_geocoder \
+        openagdata/geocoder
 }
 
 function run_openag_oipa {
+    run_openag_pgsql
+    run_openag_redis
     docker run \
         -d \
         -p 8010:8010 \
+        --link openag_pgsql \
+        --link openag_redis \
         --name openag_oipa \
-        tobybatch/ag-oipa
+        openagdata/oipa
 }
 
 function run_openag_dportal {
@@ -112,7 +155,7 @@ function run_openag_dportal {
         -d \
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
-        tobybatch/ag-dportal
+        openagdata/dportal
 }
 
 function run_openag_master {

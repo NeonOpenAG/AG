@@ -6,6 +6,7 @@ USAGE="$0 [-v] [-h] [status|start|stop|destroy|restart]"
 # FUNCTIONS #
 #############
 
+source $HOME/.openagrc
 source $(dirname $0)/openag.functions.sh
 
 ############################
@@ -27,6 +28,7 @@ if [ ! -f "$OAGCONF" ]; then
     echo "Creating openag default config:"
     echo "    -> $OAGCONF"
     cat <<EOF > $OAGCONF
+
 # These locations set where data should be persisted to. If you change these
 # you need to delete the tmux.conf file above, or edit it.
 PERSIST_DIR=\$OAGHOME/data
@@ -34,13 +36,16 @@ PERSIST_COVE_MEDIA=\$PERSIST_DIR/cove/media
 PERSIST_GEO_DATA=\$PERSIST_DIR/geocoder/data
 PERSIST_GEO_UPLOADS=\$PERSIST_DIR/geocoder/uploads
 PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
+PERSIST_MYSQL=\$PERSIST_DIR/mysql
+PERSIST_PGSQL=\$PERSIST_DIR/pgsql
+PERSIST_REDIS=\$PERSIST_DIR/redis
 EOF
 fi
 
 # Import default config
 source $OAGCONF
 
-for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF; do
+for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS; do
     if [ ! -d "$path" ]; then
         mkdir -p $path
     fi
@@ -92,8 +97,8 @@ if [ -z "$IDS" ]; then
     IDS=$(echo $IDS | sed -e "s/\n/ /g")
 fi
 
-if [ -z "$DOCKERS" ]; then
-    DOCKERS="cove oageocoder oipa dportal"
+if [ -z "$DOCKERS" ] && [ -z "$@" ]; then
+    DOCKERS="mysql pgsql redis cove geocode oipa dportal"
 fi
 
 if [ "0" != "$VERBOSE" ]; then

@@ -1,1 +1,4 @@
 cove/media/*
+data/project-data.json
+openAgClassifier/clf_data/
+geocoder/uploads/test.csv

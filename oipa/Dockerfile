@@ -51,15 +51,23 @@ RUN apt-get -y install virtualenv
 
 WORKDIR /opt/oipa/OIPA
 
-RUN /etc/init.d/postgresql start && \
-  sudo -u postgres bash -c "psql -c \"CREATE USER oipa WITH PASSWORD 'oipa';\"" && \
-  sudo -u postgres bash -c "psql -c \"ALTER ROLE oipa SUPERUSER;\"" && \
-  sudo -u postgres bash -c "psql -c \"CREATE DATABASE oipa;\""
+# RUN /etc/init.d/postgresql start && \
+  # sudo -u postgres bash -c "psql -c \"CREATE USER oipa WITH PASSWORD 'oipa';\"" && \
+  # sudo -u postgres bash -c "psql -c \"ALTER ROLE oipa SUPERUSER;\"" && \
+  # sudo -u postgres bash -c "psql -c \"CREATE DATABASE oipa;\""
+# RUN /etc/init.d/postgresql stop
+RUN sed -i 's/localhost:6379/openag_redis:6379/g' OIPA/production_settings.py
+RUN sed -i 's/localhost:6379/openag_redis:6379/g' OIPA/development_settings.py
+
+RUN sed -i 's/127\.0\.0\.1/openag_pgsql/g' OIPA/production_settings.py
+RUN sed -i 's/127\.0\.0\.1/openag_pgsql/g' OIPA/development_settings.py
+
 RUN virtualenv .env && .env/bin/pip install --upgrade pip && .env/bin/pip install -r /opt/oipa/OIPA/requirements.txt
 
 RUN echo "source /opt/oipa/OIPA/.env/bin/activate" >> $HOME/.bashrc
 COPY oipa.startup.sh /usr/local/bin/startup.sh
 COPY update.sh /usr/local/bin/update.sh
+
 
 EXPOSE 8010
 
