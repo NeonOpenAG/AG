@@ -11,6 +11,8 @@ Docker names are:
  * geocoder
  * oipa
  * dportal
+ * classifier (only runs if system memory >= 32gb)
+ * manager
 
 h   Print help
 v   Verbose output, including instruction for stopping/connecting
