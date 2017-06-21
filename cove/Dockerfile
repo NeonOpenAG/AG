@@ -23,6 +23,7 @@ python3 manage.py compilemessages\n\
 python3 manage.py runserver\n" >> /usr/local/bin/startup.sh && chmod 777 /usr/local/bin/startup.sh
 RUN echo "server {\n\
     listen 8008 default_server;\n\
+    client_max_body_size 20M;\n\
     root /var/www/html;\n\
     server_name _;\n\
     location / {\n\
@@ -35,6 +36,7 @@ COPY update.sh /usr/local/bin/update.sh
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 8008
+EXPOSE 8000
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
