@@ -7,10 +7,9 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install git vim htop nginx gettext
 RUN echo "DJANGO_SETTINGS_MODULE=cove_iati.settings" >> /etc/environment
 RUN git clone https://github.com/OpenDataServices/cove.git /opt/cove
-RUN git -C /opt/cove checkout 635-sort-xml
+RUN git -C /opt/cove checkout iati-dev
 RUN pip3 install cython
 RUN pip3 install -r requirements_iati.txt
-RUN git clone https://github.com/IATI/IATI-Schemas.git
 RUN mkdir -p media
 
 RUN echo "#!/bin/bash\n\
