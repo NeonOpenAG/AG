@@ -13,6 +13,13 @@ source $(dirname $0)/openag.functions.sh
 # Check config and folders #
 ############################
 
+which docker > /dev/null
+if [ "$?" != 0 ]; then
+    echo "You need to install docker for the dockers to work"
+    echo "Check here: https://www.docker.com/get-docker"
+    exit 1
+fi
+
 OAGHOME=$HOME/.openag
 OAGCONF=$OAGHOME/openag.conf
 
