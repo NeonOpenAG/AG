@@ -1,0 +1,13 @@
+# behat.yml
+default:
+    suites:
+        default:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - FeatureContext
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://localhost
+            files_path: "%paths.base%"
+            selenium2:
+                browser: chrome
