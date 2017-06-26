@@ -143,7 +143,7 @@ function run_openag_autogeocoder {
     docker run \
         -ti \
         --link openag_nerserver \
-        --name openag_autogeocoder
+        --name openag_autogeocoder \
         openagdata/autogeocoder
 }
 
