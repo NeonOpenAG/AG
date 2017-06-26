@@ -87,6 +87,14 @@ function run_openag_manager {
     docker run -it --link openag_dportal --link openag_oipa --link openag_geocoder --link openag_cove 8a045896c67e /bin/bash
 }
 
+function run_openag_nerserver {
+    docker run \
+        --name openag_nerserver \
+        -dt \
+        --rm \
+        zmarty/stanford-ner-server
+}
+
 function run_openag_redis {
     docker run \
         --name openag_redis \
@@ -129,6 +137,14 @@ function run_openag_cove {
         -v $PERSIST_COVE_MEDIA:/opt/cove/media \
         --name openag_cove \
         openagdata/cove
+}
+
+function run_openag_autogeocoder {
+    run_openag_nerserver
+    docker run \
+        -ti \
+        --link ner-server \
+        openagdata/autogeocoder
 }
 
 function run_openag_geocoder {
