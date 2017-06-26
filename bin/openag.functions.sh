@@ -91,7 +91,6 @@ function run_openag_nerserver {
     docker run \
         --name openag_nerserver \
         -dt \
-        --rm \
         zmarty/stanford-ner-server
 }
 
@@ -144,6 +143,7 @@ function run_openag_autogeocoder {
     docker run \
         -ti \
         --link openag_nerserver \
+        --name openag_autogeocoder
         openagdata/autogeocoder
 }
 
