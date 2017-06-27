@@ -111,7 +111,7 @@ if [ -z "$IDS" ]; then
 fi
 
 if [ -z "$DOCKERS" ]; then
-    DOCKERS="mysql pgsql redis cove geocode oipa dportal master"
+    DOCKERS="mysql pgsql redis cove geocoder oipa dportal master"
     SYSMEM=$(free|awk '/^Mem:/{print $2}')
     if [ "$SYSMEM" -lt 33554432 ]; then
         echo "Insufficient memory to run the classifier"
