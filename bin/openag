@@ -13,6 +13,13 @@ source $(dirname $0)/openag.functions.sh
 # Check config and folders #
 ############################
 
+which docker > /dev/null
+if [ "$?" != 0 ]; then
+    echo "You need to install docker for the dockers to work"
+    echo "Check here: https://www.docker.com/get-docker"
+    exit 1
+fi
+
 OAGHOME=$HOME/.openag
 OAGCONF=$OAGHOME/openag.conf
 
@@ -39,13 +46,14 @@ PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
 PERSIST_MYSQL=\$PERSIST_DIR/mysql
 PERSIST_PGSQL=\$PERSIST_DIR/pgsql
 PERSIST_REDIS=\$PERSIST_DIR/redis
+PERSIST_CLASSIFIER=\$PERSIST_DIR/classifier
 EOF
 fi
 
 # Import default config
 source $OAGCONF
 
-for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS; do
+for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS $PERSIST_CLASSIFIER; do
     if [ ! -d "$path" ]; then
         mkdir -p $path
     fi
@@ -79,6 +87,12 @@ if [ $ACTION != 'status' ] && [ $ACTION != 'start' ] && [ $ACTION != 'stop' ] &&
 	exit 1;
 fi
 
+if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+    echo "Mysql root password is not set."
+    echo "echo 'export MYSQL_ROOT_PASSWORD=somemysqlpassword' > ~/.openagrc"
+    exit 1
+fi
+
 ###########
 # ACTIONS #
 ###########
@@ -97,8 +111,14 @@ if [ -z "$IDS" ]; then
     IDS=$(echo $IDS | sed -e "s/\n/ /g")
 fi
 
-if [ -z "$DOCKERS" ] && [ -z "$@" ]; then
-    DOCKERS="mysql pgsql redis cove geocode oipa dportal"
+if [ -z "$DOCKERS" ]; then
+    DOCKERS="mysql pgsql redis cove geocoder oipa dportal master"
+    SYSMEM=$(free|awk '/^Mem:/{print $2}')
+    if [ "$SYSMEM" -lt 33554432 ]; then
+        echo "Insufficient memory to run the classifier"
+    else
+        DOCKERS="$DOCKERS classifier"
+    fi
 fi
 
 if [ "0" != "$VERBOSE" ]; then

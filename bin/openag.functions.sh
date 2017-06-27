@@ -11,6 +11,8 @@ Docker names are:
  * geocoder
  * oipa
  * dportal
+ * classifier (only runs if system memory >= 32gb)
+ * manager
 
 h   Print help
 v   Verbose output, including instruction for stopping/connecting
@@ -85,17 +87,25 @@ function run_openag_manager {
     docker run -it --link openag_dportal --link openag_oipa --link openag_geocoder --link openag_cove 8a045896c67e /bin/bash
 }
 
+function run_openag_nerserver {
+    docker run \
+        --name openag_nerserver \
+        -dt \
+        zmarty/stanford-ner-server
+}
+
 function run_openag_redis {
     docker run \
         --name openag_redis \
         -v $PERSIST_REDIS:/data \
-        -d redis redis-server \
+        -dt \
+        redis redis-server \
         --appendonly yes
 }
 
 function run_openag_pgsql {
     docker run \
-        -d \
+        -dt \
         -e POSTGRES_PASSWORD=oipa \
         -e POSTGRES_USER=oipa \
         -e PGDATA=/var/lib/postgresql/data/pgdata \
@@ -111,7 +121,7 @@ function run_openag_mysql {
         read MYSQL_ROOT_PASSWORD
     fi
     docker run \
-        -d \
+        -td \
         -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
         -v $PERSIST_MYSQL:/var/lib/mysql \
         --name openag_mysql \
@@ -120,16 +130,26 @@ function run_openag_mysql {
 
 function run_openag_cove {
     docker run \
-        -d \
+        -dt \
         -p 8008:8008 \
+        -p 8000:8000 \
         -v $PERSIST_COVE_MEDIA:/opt/cove/media \
         --name openag_cove \
         openagdata/cove
 }
 
+function run_openag_autogeocoder {
+    run_openag_nerserver
+    docker run \
+        -ti \
+        --link openag_nerserver \
+        --name openag_autogeocoder \
+        openagdata/autogeocoder
+}
+
 function run_openag_geocoder {
     docker run \
-        -d \
+        -dt \
         -p 8009:8009 -p 3333:3333 \
         -v $PERSIST_GEO_DATA:/opt/open-aid-geocoder/api/data/ \
         -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ \
@@ -142,7 +162,7 @@ function run_openag_oipa {
     run_openag_pgsql
     run_openag_redis
     docker run \
-        -d \
+        -dt \
         -p 8010:8010 \
         --link openag_pgsql \
         --link openag_redis \
@@ -152,10 +172,23 @@ function run_openag_oipa {
 
 function run_openag_dportal {
     docker run \
-        -d \
+        -dt \
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
         openagdata/dportal
+}
+
+function run_openag_classifier {
+    run_openag_mysql
+    docker run \
+        -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} \
+        -p 8013:8013 \
+        -p 9091:9091 \
+        --link openag_mysql \
+        -v openag-claissifier-data:/opt/autocoder/src/model/clf_data \
+        -dt \
+        --name openag_classisifer \
+        openagdata/classifier
 }
 
 function run_openag_master {

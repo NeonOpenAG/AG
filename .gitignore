@@ -2,3 +2,5 @@ cove/media/*
 data/project-data.json
 openAgClassifier/clf_data/
 geocoder/uploads/test.csv
+geocoder/data/project-data.json
+behat/vendor
