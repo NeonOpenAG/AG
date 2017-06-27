@@ -2,7 +2,7 @@
 
 ## Installation
 
-[INSTALL.md](Install instruction)
+[Install instruction](INSTALL.md)
 
 ### Docker files (in this repo)
 
