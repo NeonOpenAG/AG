@@ -15,4 +15,4 @@ And then can be started with:
         -p 9091:9091 \
         --link openag_mysql \
         -v $PERSIST_CLASSIFIER:/opt/autocoder/src/model/clf_data \
-        -ti d85af205f5c4
+        -ti openagdata/autogeocoder

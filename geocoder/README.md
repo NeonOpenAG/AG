@@ -15,7 +15,7 @@ The following instructions assume you are in the root folder of this repo
         -v $APP_HOME/data:/opt/open-aid-geocoder/api/data/ \
         -v $APP_HOME/uploads:/opt/open-aid-geocoder/api/uploads/ \
         -v $APP_HOME/conf:/opt/open-aid-geocoder/app/conf \
-        tobybatch/ag-oageocoder
+        openagdata/oageocoder
 
 Open aid geocoder now avilable at http://localhost:8009/
 

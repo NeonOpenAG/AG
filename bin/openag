@@ -40,6 +40,7 @@ if [ ! -f "$OAGCONF" ]; then
 # you need to delete the tmux.conf file above, or edit it.
 PERSIST_DIR=\$OAGHOME/data
 PERSIST_COVE_MEDIA=\$PERSIST_DIR/cove/media
+PERSIST_COVE_UPLOAD=\$PERSIST_DIR/cove/upload
 PERSIST_GEO_DATA=\$PERSIST_DIR/geocoder/data
 PERSIST_GEO_UPLOADS=\$PERSIST_DIR/geocoder/uploads
 PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
@@ -53,7 +54,17 @@ fi
 # Import default config
 source $OAGCONF
 
-for path in $PERSIST_COVE_MEDIA $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS $PERSIST_CLASSIFIER; do
+if [ -z "$PERSIST_COVE_MEDIA" ];  then export PERSIST_COVE_MEDIA=$HOME/.openag/data/cove/media; fi
+if [ -z "$PERSIST_COVE_UPLOAD" ]; then export PERSIST_COVE_UPLOAD=$HOME/.openag/data/cove/upload; fi
+if [ -z "$PERSIST_GEO_DATA" ];    then export PERSIST_GEO_DATA=$HOME/.openag/data/geocoder/data; fi
+if [ -z "$PERSIST_GEO_UPLOADS" ]; then export PERSIST_GEO_UPLOADS=$HOME/.openag/data/geocoder/uploads; fi
+if [ -z "$PERSIST_GEO_CONF" ];    then export PERSIST_GEO_CONF=$HOME/.openag/data/geocoder/conf; fi
+if [ -z "$PERSIST_MYSQL" ];       then export PERSIST_MYSQL=$HOME/.openag/data/mysql; fi
+if [ -z "$PERSIST_PGSQL" ];       then export PERSIST_PGSQL=$HOME/.openag/data/pgsql; fi
+if [ -z "$PERSIST_REDIS" ];       then export PERSIST_REDIS=$HOME/.openag/data/redis; fi
+if [ -z "$PERSIST_CLASSIFIER" ];  then export PERSIST_CLASSIFIER=$HOME/.openag/data/classifier; fi
+
+for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS $PERSIST_CLASSIFIER; do
     if [ ! -d "$path" ]; then
         mkdir -p $path
     fi

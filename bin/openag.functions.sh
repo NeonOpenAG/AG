@@ -134,6 +134,7 @@ function run_openag_cove {
         -p 8008:8008 \
         -p 8000:8000 \
         -v $PERSIST_COVE_MEDIA:/opt/cove/media \
+        -v $PERSIST_COVE_UPLOAD:/opt/cove/upload \
         --name openag_cove \
         openagdata/cove
 }

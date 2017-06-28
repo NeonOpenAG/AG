@@ -39,6 +39,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 EXPOSE 8008
 EXPOSE 8000
 
+ENV DJANGO_SETTINGS_MODULE=cove_iati.settings
+
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
 # DJANGO_SETTINGS_MODULE=cove_iati.settings python manage.py upload path/to/file.xlsx
