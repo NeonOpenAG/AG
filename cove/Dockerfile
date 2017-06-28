@@ -7,7 +7,8 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install git vim htop nginx gettext
 RUN echo "DJANGO_SETTINGS_MODULE=cove_iati.settings" >> /etc/environment
 RUN git clone https://github.com/OpenDataServices/cove.git /opt/cove
-RUN git -C /opt/cove checkout iati-dev
+# RUN git -C /opt/cove checkout iati-dev
+RUN git fetch && git -C /opt/cove checkout 722-upload-management
 RUN pip3 install cython
 RUN pip3 install -r requirements_iati.txt
 RUN mkdir -p media
@@ -40,5 +41,6 @@ EXPOSE 8000
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
+# DJANGO_SETTINGS_MODULE=cove_iati.settings python manage.py upload path/to/file.xlsx
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:

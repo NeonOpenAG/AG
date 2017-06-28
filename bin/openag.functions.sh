@@ -91,7 +91,7 @@ function run_openag_nerserver {
     docker run \
         --name openag_nerserver \
         -dt \
-        zmarty/stanford-ner-server
+        openagdata/nerserver
 }
 
 function run_openag_redis {
