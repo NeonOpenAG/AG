@@ -33,6 +33,10 @@ update
     Pulls the updated git repo.
 restart
     stop and start
+reset
+    Where possible clean out the data store.  Currently only D-Portal supports this
+import
+    Import data into the specified docker
 EOF
 }
 
@@ -176,6 +180,7 @@ function run_openag_dportal {
         -dt \
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
+        -v $PERSIST_DPORTAL_CACHE:/opt/D-Portal/dstore/cache \
         openagdata/dportal
 }
 
@@ -200,4 +205,28 @@ function run_openag_master {
         tobybatch/openag
 }
 
+function data_reset {
+    if [ "$DOCKER" == 'dportal' ]; then
+        docker exec openag_dportal /bin/bash /opt/D-Portal/bin/dstore_reset
+    else
+        echo Unsupported action $2 for $DOCKER
+    fi
+}
 
+function data_import {
+    DOCKER=$1
+    FILE=$2
+
+    if [ -z "$2" ] || [ -z "$3" ]; then
+        echo $USAGE
+        exit 1
+    fi
+
+    if [ "$DOCKER" == 'cove' ]; then
+        docker exec -ti openag_$DOCKER python manage.py upload $FILE
+    elif [ "$DOCKER" == 'dportal' ]; then
+        docker exec openag_dportal /bin/bash /opt/D-Portal/bin/dstore_import_cache
+    else
+        echo Unsupported action $2 for $DOCKER
+    fi
+}
