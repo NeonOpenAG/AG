@@ -6,5 +6,5 @@ This docker is built from the base ubuntu xenial image (16.04) and then node is 
 
 D-Portal now avilable at http://localhost:8011/
 
-Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-dportal/).
+Dockerhub [here](https://hub.docker.com/r/openagdata/dportal/).
 

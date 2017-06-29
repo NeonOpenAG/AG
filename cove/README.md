@@ -8,8 +8,7 @@ To upload a file use (/opt/cove/upload/ is mointed from $HOME/.openag/data/cove/
 
     docker exec -ti openag_cove python manage.py upload /opt/cove/upload/before_enrichment_activities.xml
 
-
 CoVE now avilable at http://localhost:8008/
 
-Dockerhub [here](https://hub.docker.com/r/tobybatch/ag-cove/).
+Dockerhub [here](https://hub.docker.com/r/openagdata/cove/).
 

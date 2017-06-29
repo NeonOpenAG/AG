@@ -12,7 +12,7 @@ After installing just run the script:
 
     /usr/bin/openag start
 
-Running the script with a -h will give additional options.  Start, stop, destroy and status are supported.
+Running the script with a -h will give additional options.  See [here](OPENAG.md) for more detailed usage.
 
 ## Building
 
@@ -20,7 +20,6 @@ You can build the dockers youreslf, or just pull them from docker hub.  You need
 
  * [CoVE Dockerfile](./cove) and resources.
  * [Open aid geocoder Dockerfile](./geocoder) and resources.
- * [OIPA Dockerfile](./oipa) and resources.
  * [D-Portal Dockerfile](./dportal) and resources.
 
 ## Accessing
@@ -29,17 +28,15 @@ Each docker exposes services on a port:
 
  * CoVE on [http://localhost:8008](http://localhost:8008)
  * Open aid geocoder on [http://localhost:8009](http://localhost:8009)
- * OIPA on [http://localhost:8010](http://localhost:8010)
  * D-Portal on [http://localhost:8011](http://localhost:8011)
 
 ## Images
 
 Each docker is built from a base image in this repo.  These are hosted on docker hub:
 
- * [CoVE on dockerhub](https://hub.docker.com/r/tobybatch/ag-cove/).
- * [Open aid geocoder on dockerhub](https://hub.docker.com/r/tobybatch/ag-oageocoder/).
- * [OIPA on dockerhub](https://hub.docker.com/r/tobybatch/ag-oipa/).
- * [D-Portal on dockerhub](https://hub.docker.com/r/tobybatch/ag-dportal/).
+ * [CoVE on dockerhub](https://hub.docker.com/r/openagdata/ag-cove/).
+ * [Open aid geocoder on dockerhub](https://hub.docker.com/r/openagdata/ag-oageocoder/).
+ * [D-Portal on dockerhub](https://hub.docker.com/r/openagdata/ag-dportal/).
 
 --------------------
 

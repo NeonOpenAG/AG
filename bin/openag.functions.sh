@@ -217,14 +217,21 @@ function data_import {
     DOCKER=$1
     FILE=$2
 
-    if [ -z "$2" ] || [ -z "$3" ]; then
+    if [ -z "$DOCKER" ] || [ -z "$FILE" ]; then
         echo $USAGE
         exit 1
     fi
 
+    if [ ! -e "$FILE" ]; then
+        echo Cannot locate file $FILE
+        exit 1
+    fi
+
     if [ "$DOCKER" == 'cove' ]; then
-        docker exec -ti openag_$DOCKER python manage.py upload $FILE
+        cp $FILE $PERSIST_COVE_UPLOAD/$(basename $FILE)
+        docker exec -ti openag_$DOCKER python manage.py upload /opt/cove/upload/$(basename $FILE)
     elif [ "$DOCKER" == 'dportal' ]; then
+        cp $FILE $PERSIST_DPORTAL_CACHE/$(basename $FILE)
         docker exec openag_dportal /bin/bash /opt/D-Portal/bin/dstore_import_cache
     else
         echo Unsupported action $2 for $DOCKER
