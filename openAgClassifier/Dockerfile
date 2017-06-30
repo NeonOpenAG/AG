@@ -2,25 +2,10 @@ FROM python:3
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/autocoder
-
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get -y install git vim htop nginx gettext build-essential python-pip qt5-default libqt5webkit5-dev build-essential python-lxml python-pip xvfb unzip wget
-
-RUN wget -O /tmp/Anaconda3-4.3.0-Linux-x86_64.sh http://repo.continuum.io/archive/Anaconda3-4.3.0-Linux-x86_64.sh
-RUN bash /tmp/Anaconda3-4.3.0-Linux-x86_64.sh -b
 ENV PATH /root/anaconda3/bin:$PATH
-
-RUN conda install -c anaconda qt=4.8.6 -y
 ENV QMAKESPEC /root/anaconda3/mkspecs/linux-g++
 
-RUN git clone https://github.com/fcappdev/OpenAgClassifier.git /opt/autocoder
-RUN pip install -U numpy scipy scikit-learn
-RUN pip install -r /opt/autocoder/requirements.txt
-RUN /root/anaconda3/bin/python -m nltk.downloader punkt
-RUN /root/anaconda3/bin/python -m nltk.downloader stopwords
-RUN /root/anaconda3/bin/python -m nltk.downloader wordnet
-
-RUN echo "server {\n\
+RUN apt-get update && apt-get upgrade -y && apt-get -y install git vim htop nginx gettext build-essential python-pip qt5-default libqt5webkit5-dev build-essential python-lxml python-pip xvfb unzip wget && wget -O /tmp/Anaconda3-4.3.0-Linux-x86_64.sh http://repo.continuum.io/archive/Anaconda3-4.3.0-Linux-x86_64.sh && bash /tmp/Anaconda3-4.3.0-Linux-x86_64.sh -b && conda install -c anaconda qt=4.8.6 -y && git clone https://github.com/fcappdev/OpenAgClassifier.git /opt/autocoder && pip install -U numpy scipy scikit-learn && pip install -r /opt/autocoder/requirements.txt && /root/anaconda3/bin/python -m nltk.downloader punkt && /root/anaconda3/bin/python -m nltk.downloader stopwords && /root/anaconda3/bin/python -m nltk.downloader wordnet && echo "server {\n\
     listen 8012 default_server;\n\
     root /var/www/html;\n\
     server_name _;\n\
@@ -29,23 +14,18 @@ RUN echo "server {\n\
     }\n\
 }\n" >> /etc/nginx/sites-available/default
 
-# This is only needed for cli debug"
-RUN apt-get -y install mysql-client
-
 EXPOSE 8012
 
 COPY install.sql /var/tmp/install.sql
 COPY clean.sql /var/tmp/clean.sql
 COPY update.sh /usr/local/bin/update.sh
 
-# RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod 777 /usr/local/bin/startup.sh
-
 EXPOSE 9091
-
 WORKDIR /opt/autocoder/src
+
+# RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
