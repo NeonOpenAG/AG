@@ -158,8 +158,7 @@ function data_import {
     if [ "$DOCKER" == 'cove' ]; then
         cp $FILE $PERSIST_COVE_UPLOAD/$(basename $FILE)
         UPLOAD_FOLDER=$(docker exec -ti openag_$DOCKER python manage.py upload /opt/cove/upload/$(basename $FILE))
-	HASH=$(echo $(basename $UPLOAD_FOLDER) | cut -c -36)
-	cat $PERSIST_COVE_MEDIA/$HASH/*.xml
+        echo $UPLOAD_FOLDER
     elif [ "$DOCKER" == 'dportal' ]; then
         cp $FILE $PERSIST_DPORTAL_CACHE/$(basename $FILE)
         docker exec openag_dportal /bin/bash /opt/D-Portal/bin/dstore_import_cache
