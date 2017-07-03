@@ -6,7 +6,7 @@ USAGE="$0 [-v] [-h] [status|start|stop|destroy|restart|reset|import] [[docker]..
 # FUNCTIONS #
 #############
 
-source $HOME/.openagrc
+# source $HOME/.openagrc
 source $(dirname $0)/openag.functions.sh
 
 ############################
