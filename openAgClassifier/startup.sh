@@ -24,11 +24,11 @@ cat <<EOF > /opt/autocoder/src/model/base/config.py
 # limitations under the License.
 # ==============================================================================
 """
-db = {"SERVER": "open-ag-classifier-mysql.cpd6ve6te6op.us-west-2.rds.amazonaws.com",
-      "UID": "classifier",
-      "PWD": "${SQL_ROOT_PASSWORD}",
+db = {"SERVER": "${SQL_HOST}",
+      "UID": "${SQL_USER}",
+      "PWD": "${SQL_PASSWORD}",
       "DATABASE": "agrovoc_autocode",
-      "PORT": "3306"
+      "PORT": "${SQL_PORT}"
       }
 
 

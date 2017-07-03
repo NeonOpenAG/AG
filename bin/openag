@@ -44,10 +44,6 @@ PERSIST_COVE_UPLOAD=\$PERSIST_DIR/cove/upload
 PERSIST_GEO_DATA=\$PERSIST_DIR/geocoder/data
 PERSIST_GEO_UPLOADS=\$PERSIST_DIR/geocoder/uploads
 PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
-PERSIST_MYSQL=\$PERSIST_DIR/mysql
-PERSIST_PGSQL=\$PERSIST_DIR/pgsql
-PERSIST_REDIS=\$PERSIST_DIR/redis
-# PERSIST_CLASSIFIER=\$PERSIST_DIR/classifier
 EOF
 fi
 
@@ -59,13 +55,9 @@ if [ -z "$PERSIST_COVE_UPLOAD" ];   then export PERSIST_COVE_UPLOAD=$HOME/.opena
 if [ -z "$PERSIST_GEO_DATA" ];      then export PERSIST_GEO_DATA=$HOME/.openag/data/geocoder/data; fi
 if [ -z "$PERSIST_GEO_UPLOADS" ];   then export PERSIST_GEO_UPLOADS=$HOME/.openag/data/geocoder/uploads; fi
 if [ -z "$PERSIST_GEO_CONF" ];      then export PERSIST_GEO_CONF=$HOME/.openag/data/geocoder/conf; fi
-if [ -z "$PERSIST_MYSQL" ];         then export PERSIST_MYSQL=$HOME/.openag/data/mysql; fi
-if [ -z "$PERSIST_PGSQL" ];         then export PERSIST_PGSQL=$HOME/.openag/data/pgsql; fi
-if [ -z "$PERSIST_REDIS" ];         then export PERSIST_REDIS=$HOME/.openag/data/redis; fi
-# if [ -z "$PERSIST_CLASSIFIER" ];    then export PERSIST_CLASSIFIER=$HOME/.openag/data/classifier; fi
 if [ -z "$PERSIST_DPORTAL_CACHE" ]; then export PERSIST_DPORTAL_CACHE=$HOME/.openag/data/dportal; fi
 
-for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_MYSQL $PERSIST_PGSQL $PERSIST_REDIS $PERSIST_CLASSIFIER $PERSIST_DPORTAL_CACHE; do
+for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_DPORTAL_CACHE; do
     if [ ! -d "$path" ]; then
         mkdir -p $path
     fi
@@ -99,12 +91,6 @@ if [ $ACTION != 'status' ] && [ $ACTION != 'start' ] && [ $ACTION != 'stop' ] &&
 	exit 1;
 fi
 
-if [ -z "$SQL_ROOT_PASSWORD" ]; then
-    echo "Mysql root password is not set."
-    echo "echo 'export SQL_ROOT_PASSWORD=somemysqlpassword' > ~/.openagrc"
-    exit 1
-fi
-
 ###########
 # ACTIONS #
 ###########
@@ -124,13 +110,7 @@ if [ -z "$IDS" ]; then
 fi
 
 if [ -z "$DOCKERS" ]; then
-    DOCKERS="mysql pgsql redis cove geocoder oipa dportal master"
-    SYSMEM=$(free|awk '/^Mem:/{print $2}')
-    # if [ "$SYSMEM" -lt 33554432 ]; then
-        # echo "Insufficient memory to run the classifier"
-    # else
-        # DOCKERS="$DOCKERS classifier"
-    # fi
+    DOCKERS="cove geocoder autogeocoder dportal"
 fi
 
 if [ "0" != "$VERBOSE" ]; then

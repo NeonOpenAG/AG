@@ -20,8 +20,6 @@ COPY install.sql /var/tmp/install.sql
 COPY update.sh /usr/local/bin/update.sh
 COPY startup.sh /usr/local/bin/startup.sh
 
-EXPOSE 9091
-
 WORKDIR /opt/autocoder/src
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]

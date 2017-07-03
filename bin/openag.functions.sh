@@ -86,50 +86,12 @@ function start_docker {
     echo "$NAME already running"
 }
 
-function run_openag_manager {
-    docker run -it --link openag_dportal --link openag_oipa --link openag_geocoder --link openag_cove 8a045896c67e /bin/bash
-}
-
 function run_openag_nerserver {
     docker run \
         --name openag_nerserver \
         -dt \
         openagdata/nerserver
 }
-
-function run_openag_redis {
-    docker run \
-        --name openag_redis \
-        -v $PERSIST_REDIS:/data \
-        -dt \
-        redis redis-server \
-        --appendonly yes
-}
-
-function run_openag_pgsql {
-    docker run \
-        -dt \
-        -e POSTGRES_PASSWORD=oipa \
-        -e POSTGRES_USER=oipa \
-        -e PGDATA=/var/lib/postgresql/data/pgdata \
-        -e POSTGRES_DB=oipa \
-        -v $PERSIST_PGSQL:/var/lib/postgresql/data/pgdata \
-        --name openag_pgsql \
-        postgres
-}
-
-# function run_openag_mysql {
-    # if [ -z $SQL_ROOT_PASSWORD ]; then
-        # echo "Mysql docker password not set. Either enter here or ctrl-c and set it in ~/.openegrc"
-        # read SQL_ROOT_PASSWORD
-    # fi
-    # docker run \
-        # -td \
-        # -e SQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD \
-        # -v $PERSIST_MYSQL:/var/lib/mysql \
-        # --name openag_mysql \
-        # mysql
-# }
 
 function run_openag_cove {
     docker run \
@@ -162,18 +124,6 @@ function run_openag_geocoder {
         openagdata/geocoder
 }
 
-function run_openag_oipa {
-    run_openag_pgsql
-    run_openag_redis
-    docker run \
-        -dt \
-        -p 8010:8010 \
-        --link openag_pgsql \
-        --link openag_redis \
-        --name openag_oipa \
-        openagdata/oipa
-}
-
 function run_openag_dportal {
     docker run \
         -dt \
@@ -181,27 +131,6 @@ function run_openag_dportal {
         --name openag_dportal \
         -v $PERSIST_DPORTAL_CACHE:/opt/D-Portal/dstore/cache \
         openagdata/dportal
-}
-
-# function run_openag_classifier {
-    # run_openag_mysql
-    # docker run \
-        # -e SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD} \
-        # -p 8013:8013 \
-        # -p 9091:9091 \
-        # --link openag_mysql \
-        # -v openag-claissifier-data:/opt/autocoder/src/model/clf_data \
-        # -dt \
-        # --name openag_classisifer \
-        # openagdata/classifier
-# }
-
-function run_openag_master {
-    docker run \
-        -d \
-        -p 7080:80 \
-        --name openag_master \
-        tobybatch/openag
 }
 
 function data_reset {
