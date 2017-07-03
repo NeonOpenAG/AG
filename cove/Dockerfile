@@ -2,6 +2,7 @@ FROM python:3
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/cove
+ENV SECRET_KEY=somesecretkey
 
 RUN apt-get update && \
     apt-get upgrade -y && \
