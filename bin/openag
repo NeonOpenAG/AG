@@ -20,7 +20,8 @@ if [ "$?" != 0 ]; then
     exit 1
 fi
 
-OAGHOME=$HOME/.openag
+# TODO Fix this to a system wide folder
+OAGHOME=/var/tmp/.openag
 OAGCONF=$OAGHOME/openag.conf
 
 # If we don't have a home then create it
