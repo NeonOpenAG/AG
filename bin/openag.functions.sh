@@ -166,3 +166,48 @@ function data_import {
         echo Unsupported action $3 for $DOCKER
     fi
 }
+
+function openag_install_message {
+    echo "openag not installed.  Run 'sudo openag install'"
+    echo "or follow the hand install instructions at"
+    echo "https://github.com/neontribe/AG/blob/develop/INSTALL.md"
+}
+
+function openag_install {
+    set -e
+    ROOTUID="0"
+    if [ "$(id -u)" -ne "$ROOTUID" ] ; then
+        openag_install_message
+        exit 1
+    fi
+
+    if [ -e "$OAGCONF" ]; then
+       echo "Configuration already exists at $OAGCONF"
+       echo "Refusing to overwrite"
+       exit 1
+    fi
+
+    mkdir -p $(dirname $OAGCONF)
+    mkdir -p $OAGLIB
+
+    echo "Creating openag default config:"
+    cat <<EOF > $OAGCONF
+PERSIST_COVE_MEDIA=$OAGLIB/cove/media
+PERSIST_COVE_UPLOAD=$OAGLIB/cove/upload
+PERSIST_GEO_DATA=$OAGLIB/geocoder/data
+PERSIST_GEO_UPLOADS=$OAGLIB/geocoder/uploads
+PERSIST_GEO_CONF=$OAGLIB/geocoder/conf
+PERSIST_DPORTAL_CACHE=$OAGLIB/dportal
+EOF
+
+    for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_DPORTAL_CACHE; do
+        if [ ! -d "$path" ]; then
+            mkdir -p $path
+        fi
+    done
+
+    if [ ! -f "$PERSIST_GEO_CONF/settings.json" ]; then
+        wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/geocoder/conf/settings.json
+    fi
+    set +e
+}

@@ -1,12 +1,9 @@
 #!/bin/bash
 
 USAGE="$0 [-v] [-h] [status|start|stop|destroy|restart|reset|import] [[docker]...]"
+OAGLIB=/usr/local/lib/openag
+OAGCONF=/usr/local/etc/openag.conf
 
-#############
-# FUNCTIONS #
-#############
-
-# source $HOME/.openagrc
 source $(dirname $0)/openag.functions.sh
 
 ############################
@@ -20,53 +17,15 @@ if [ "$?" != 0 ]; then
     exit 1
 fi
 
-# TODO Fix this to a system wide folder
-OAGHOME=/var/tmp/.openag
-OAGCONF=$OAGHOME/openag.conf
-
-# If we don't have a home then create it
-if [ ! -d "$OAGHOME" ]; then
-    echo "Creating openag home:"
-    echo "    -> $OAGHOME"
-    mkdir -p $OAGHOME
+# Special case `openag install`
+if [ "$1" == "install" ]; then
+    openag_install
+    exit 0
 fi
 
-# If we don't have default config write some
-if [ ! -f "$OAGCONF" ]; then
-    echo "Creating openag default config:"
-    echo "    -> $OAGCONF"
-    cat <<EOF > $OAGCONF
-
-# These locations set where data should be persisted to. If you change these
-# you need to delete the tmux.conf file above, or edit it.
-PERSIST_DIR=\$OAGHOME/data
-PERSIST_COVE_MEDIA=\$PERSIST_DIR/cove/media
-PERSIST_COVE_UPLOAD=\$PERSIST_DIR/cove/upload
-PERSIST_GEO_DATA=\$PERSIST_DIR/geocoder/data
-PERSIST_GEO_UPLOADS=\$PERSIST_DIR/geocoder/uploads
-PERSIST_GEO_CONF=\$PERSIST_DIR/geocoder/conf
-PERSIST_DPORTAL_CACHE=\$PERSIST_DIR/dportal
-EOF
-fi
-
-# Import default config
-source $OAGCONF
-
-if [ -z "$PERSIST_COVE_MEDIA" ];    then export PERSIST_COVE_MEDIA=$OAGHOME/data/cove/media; fi
-if [ -z "$PERSIST_COVE_UPLOAD" ];   then export PERSIST_COVE_UPLOAD=$OAGHOME/data/cove/upload; fi
-if [ -z "$PERSIST_GEO_DATA" ];      then export PERSIST_GEO_DATA=$OAGHOME/data/geocoder/data; fi
-if [ -z "$PERSIST_GEO_UPLOADS" ];   then export PERSIST_GEO_UPLOADS=$OAGHOME/data/geocoder/uploads; fi
-if [ -z "$PERSIST_GEO_CONF" ];      then export PERSIST_GEO_CONF=$OAGHOME/data/geocoder/conf; fi
-if [ -z "$PERSIST_DPORTAL_CACHE" ]; then export PERSIST_DPORTAL_CACHE=$OAGHOME/data/dportal; fi
-
-for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_DPORTAL_CACHE; do
-    if [ ! -d "$path" ]; then
-        mkdir -p $path
-    fi
-done
-
-if [ ! -f "$PERSIST_GEO_CONF/settings.json" ]; then
-    wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/geocoder/conf/settings.json
+if [ ! -e "$OAGCONF" ]; then
+   openag_install_message
+   exit 1
 fi
 
 #####################
