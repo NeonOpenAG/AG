@@ -52,12 +52,12 @@ fi
 # Import default config
 source $OAGCONF
 
-if [ -z "$PERSIST_COVE_MEDIA" ];    then export PERSIST_COVE_MEDIA=$HOME/.openag/data/cove/media; fi
-if [ -z "$PERSIST_COVE_UPLOAD" ];   then export PERSIST_COVE_UPLOAD=$HOME/.openag/data/cove/upload; fi
-if [ -z "$PERSIST_GEO_DATA" ];      then export PERSIST_GEO_DATA=$HOME/.openag/data/geocoder/data; fi
-if [ -z "$PERSIST_GEO_UPLOADS" ];   then export PERSIST_GEO_UPLOADS=$HOME/.openag/data/geocoder/uploads; fi
-if [ -z "$PERSIST_GEO_CONF" ];      then export PERSIST_GEO_CONF=$HOME/.openag/data/geocoder/conf; fi
-if [ -z "$PERSIST_DPORTAL_CACHE" ]; then export PERSIST_DPORTAL_CACHE=$HOME/.openag/data/dportal; fi
+if [ -z "$PERSIST_COVE_MEDIA" ];    then export PERSIST_COVE_MEDIA=$OAGHOME/data/cove/media; fi
+if [ -z "$PERSIST_COVE_UPLOAD" ];   then export PERSIST_COVE_UPLOAD=$OAGHOME/data/cove/upload; fi
+if [ -z "$PERSIST_GEO_DATA" ];      then export PERSIST_GEO_DATA=$OAGHOME/data/geocoder/data; fi
+if [ -z "$PERSIST_GEO_UPLOADS" ];   then export PERSIST_GEO_UPLOADS=$OAGHOME/data/geocoder/uploads; fi
+if [ -z "$PERSIST_GEO_CONF" ];      then export PERSIST_GEO_CONF=$OAGHOME/data/geocoder/conf; fi
+if [ -z "$PERSIST_DPORTAL_CACHE" ]; then export PERSIST_DPORTAL_CACHE=$OAGHOME/data/dportal; fi
 
 for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_DPORTAL_CACHE; do
     if [ ! -d "$path" ]; then
