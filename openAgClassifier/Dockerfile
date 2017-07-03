@@ -17,12 +17,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get -y install git vim htop ngin
 EXPOSE 8012
 
 COPY install.sql /var/tmp/install.sql
-COPY clean.sql /var/tmp/clean.sql
 COPY update.sh /usr/local/bin/update.sh
-
-
 COPY startup.sh /usr/local/bin/startup.sh
-# RUN chmod 777 /usr/local/bin/startup.sh
 
 EXPOSE 9091
 
