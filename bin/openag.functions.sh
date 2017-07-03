@@ -11,7 +11,6 @@ Docker names are:
  * geocoder
  * oipa
  * dportal
- * classifier (only runs if system memory >= 32gb)
  * manager
 
 h   Print help
@@ -119,18 +118,18 @@ function run_openag_pgsql {
         postgres
 }
 
-function run_openag_mysql {
-    if [ -z $SQL_ROOT_PASSWORD ]; then
-        echo "Mysql docker password not set. Either enter here or ctrl-c and set it in ~/.openegrc"
-        read SQL_ROOT_PASSWORD
-    fi
-    docker run \
-        -td \
-        -e SQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD \
-        -v $PERSIST_MYSQL:/var/lib/mysql \
-        --name openag_mysql \
-        mysql
-}
+# function run_openag_mysql {
+    # if [ -z $SQL_ROOT_PASSWORD ]; then
+        # echo "Mysql docker password not set. Either enter here or ctrl-c and set it in ~/.openegrc"
+        # read SQL_ROOT_PASSWORD
+    # fi
+    # docker run \
+        # -td \
+        # -e SQL_ROOT_PASSWORD=$SQL_ROOT_PASSWORD \
+        # -v $PERSIST_MYSQL:/var/lib/mysql \
+        # --name openag_mysql \
+        # mysql
+# }
 
 function run_openag_cove {
     docker run \
@@ -184,18 +183,18 @@ function run_openag_dportal {
         openagdata/dportal
 }
 
-function run_openag_classifier {
-    run_openag_mysql
-    docker run \
-        -e SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD} \
-        -p 8013:8013 \
-        -p 9091:9091 \
-        --link openag_mysql \
-        -v openag-claissifier-data:/opt/autocoder/src/model/clf_data \
-        -dt \
-        --name openag_classisifer \
-        openagdata/classifier
-}
+# function run_openag_classifier {
+    # run_openag_mysql
+    # docker run \
+        # -e SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD} \
+        # -p 8013:8013 \
+        # -p 9091:9091 \
+        # --link openag_mysql \
+        # -v openag-claissifier-data:/opt/autocoder/src/model/clf_data \
+        # -dt \
+        # --name openag_classisifer \
+        # openagdata/classifier
+# }
 
 function run_openag_master {
     docker run \
