@@ -99,9 +99,9 @@ if [ $ACTION != 'status' ] && [ $ACTION != 'start' ] && [ $ACTION != 'stop' ] &&
 	exit 1;
 fi
 
-if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+if [ -z "$SQL_ROOT_PASSWORD" ]; then
     echo "Mysql root password is not set."
-    echo "echo 'export MYSQL_ROOT_PASSWORD=somemysqlpassword' > ~/.openagrc"
+    echo "echo 'export SQL_ROOT_PASSWORD=somemysqlpassword' > ~/.openagrc"
     exit 1
 fi
 
