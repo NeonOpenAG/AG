@@ -70,3 +70,15 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+oag:
+    cove:
+        uri: http://localhost:8008
+    geocoder:
+        uri: http://localhost:8009
+    autogeocoder:
+        uri: http://localhost:8010
+    dportal:
+        uri: http://localhost:8011
+    classifier:
+        uri: http://localhost:8008
