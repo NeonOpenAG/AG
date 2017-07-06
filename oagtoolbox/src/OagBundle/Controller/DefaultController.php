@@ -17,7 +17,8 @@ class DefaultController extends Controller
     $geocoder = $this->get(Geocoder::class);
     $json = $geocoder->autocodeText('somexml');
 
-    return $this->render('OagBundle:Default:index.html.twig', array('json' => $json));
+    $pretty_json = json_encode($json, JSON_PRETTY_PRINT);
+    return $this->render('OagBundle:Default:index.html.twig', array('json' => $pretty_json));
   }
 
   /**
@@ -27,7 +28,8 @@ class DefaultController extends Controller
     $cove = $this->get(Cove::class);
     $json = $cove->autocodeText('somexml');
 
-    return $this->render('OagBundle:Default:index.html.twig', array('json' => $json));
+    $pretty_json = json_encode($json, JSON_PRETTY_PRINT);
+    return $this->render('OagBundle:Default:index.html.twig', array('json' => $pretty_json));
   }
 
 }
