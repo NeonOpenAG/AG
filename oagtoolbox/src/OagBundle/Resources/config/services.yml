@@ -1,4 +1,8 @@
 services:
-#    oag.example:
-#        class: OagBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    OagBundle\:
+        # This could be just ../.. but I have included the bundle name for readability
+        resource: '../../../OagBundle/*'
+        public: true
+        exclude: '../../../OagBundle/{Entity,Repository,Tests,Interfaces}'
+        calls:
+            - [setContainer, ['@service_container']]

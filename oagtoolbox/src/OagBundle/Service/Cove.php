@@ -2,15 +2,19 @@
 // src/OagBundle/Service/Geocoder.php
 namespace OagBundle\Service;
 
-use OagBundle\Service\OagServiceInterface;
 
-class Cove implements OagServiceInterface {
+class Cove extends OagAbstractService {
+
+  public function autocodeUri($sometext) {
+    return $this->autocodeText();
+  }
 
   public function autocodeXml($sometext) {
     return $this->autocodeText();
   }
 
   public function autocodeText($sometext) {
+    $uri = $this->getUri();
 
     $json = array(
       'xml' => '/path/to/file',
@@ -23,6 +27,10 @@ class Cove implements OagServiceInterface {
     );
 
     return $json;
+  }
+
+  public function getName() {
+    return 'cove';
   }
 
 }
