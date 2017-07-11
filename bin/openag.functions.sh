@@ -89,6 +89,7 @@ function start_docker {
 function run_openag_nerserver {
     docker run \
         --name openag_nerserver \
+        -p 9000:9000 \
         -dt \
         openagdata/nerserver
 }
@@ -114,6 +115,11 @@ function run_openag_autogeocoder {
 }
 
 function run_openag_geocoder {
+    set -e
+    mkdir -p $PERSIST_GEO_DATA
+    mkdir -p $PERSIST_GEO_UPLOADS
+    mkdir -p $PERSIST_GEO_CONF
+    set +e
     docker run \
         -dt \
         -p 8009:8009 -p 3333:3333 \
@@ -192,13 +198,14 @@ function openag_install {
 
     echo "Creating openag default config:"
     cat <<EOF > $OAGCONF
-PERSIST_COVE_MEDIA=$OAGLIB/cove/media
-PERSIST_COVE_UPLOAD=$OAGLIB/cove/upload
-PERSIST_GEO_DATA=$OAGLIB/geocoder/data
-PERSIST_GEO_UPLOADS=$OAGLIB/geocoder/uploads
-PERSIST_GEO_CONF=$OAGLIB/geocoder/conf
-PERSIST_DPORTAL_CACHE=$OAGLIB/dportal
+export PERSIST_COVE_MEDIA=$OAGLIB/cove/media
+export PERSIST_COVE_UPLOAD=$OAGLIB/cove/upload
+export PERSIST_GEO_DATA=$OAGLIB/geocoder/data
+export PERSIST_GEO_UPLOADS=$OAGLIB/geocoder/uploads
+export PERSIST_GEO_CONF=$OAGLIB/geocoder/conf
+export PERSIST_DPORTAL_CACHE=$OAGLIB/dportal
 EOF
+    source /usr/local/etc/openag.conf
 
     for path in $PERSIST_COVE_MEDIA $PERSIST_COVE_UPLOAD $PERSIST_GEO_DATA $PERSIST_GEO_UPLOADS $PERSIST_GEO_CONF $PERSIST_DPORTAL_CACHE; do
         if [ ! -d "$path" ]; then

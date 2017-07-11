@@ -15,6 +15,8 @@ RUN sed -i 's/1234/9000/g' /opt/geocoder-ie/src/extraction/locations_extractor.p
 
 RUN apt update
 RUN apt install -y vim htop less git telnet
+
+RUN pip install ner
 WORKDIR /opt/geocoder-ie/src
 
 RUN echo "python geocode.py 46002-P-GN-DB0-005" >> /root/.bash_history

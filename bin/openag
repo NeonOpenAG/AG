@@ -5,6 +5,7 @@ OAGLIB=/usr/local/lib/openag
 OAGCONF=/usr/local/etc/openag.conf
 
 source $(dirname $0)/openag.functions.sh
+source /usr/local/etc/openag.conf
 
 ############################
 # Check config and folders #

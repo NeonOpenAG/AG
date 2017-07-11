@@ -20,3 +20,4 @@ WORKDIR /home/stanford-ner-2016-10-31
 CMD java -mx1000m -cp stanford-ner.jar edu.stanford.nlp.ie.NERServer \
             -loadClassifier $classifierPath \
             -port $port -outputFormat $outputFormat
+# ENTRYPOINT ["/bin/bash"]
