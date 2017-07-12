@@ -10,8 +10,9 @@
     <body>
         <h1>{% block h1 %}OAG Toolbox{% endblock %}</h1>
 
-        <div id="toolstatus">
-            {% block toolstatus %}
+        <div id="menu" style='padding-bottom: 30px'>
+            {% block menu %}
+                <a href="{{ path('app_index') }}">Home</a> | <a href="{{ path('oagfile_upload') }}">Upload file</a>
             {% endblock %}
         </div>
 
