@@ -11,8 +11,10 @@
         <div>{{ message }}</div>
     {% endfor %}
 
-    <pre>
-        {{ json }}
-    </pre>
+    <ul>
+        <li>Process status: {{ status }}</li>
+        <li>StdErr: {{ err }}</li>
+        <li><a href="{{ path('download_file', { 'fileid': id }) }}">XML</a></li>
+    </ul>
 
 {% endblock %}

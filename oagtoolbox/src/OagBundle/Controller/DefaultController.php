@@ -9,6 +9,8 @@ use OagBundle\Service\Cove;
 use Symfony\Component\HttpFoundation\Request;
 use OagBundle\Entity\OagFile;
 use OagBundle\Form\OagFileType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class DefaultController extends Controller
  {
@@ -32,7 +34,21 @@ class DefaultController extends Controller
         $em->remove($oagfile);
       }
       else {
-        $files[$oagfile->getId()] = $oagfile->getPath();
+        $data = array();
+
+        $data['file'] = $oagfile->getPath();
+
+        $xmldir = $this->getParameter('oagxml_directory');
+        if (!is_dir($xmldir)) {
+          mkdir($xmldir, 0755, true);
+        }
+        $filename = $oagfile->XMLFileName();
+        $xmlfile = $xmldir . '/' . $oagfile->getPath();
+        if (file_exists($xmlfile)) {
+          $data['xml'] = $xmlfile;
+        }
+
+        $files[$oagfile->getId()] = $data;
       }
     }
     $em->flush();
@@ -81,6 +97,30 @@ class DefaultController extends Controller
   }
 
   /**
+   * @Route("/download/{fileid}", name="download_file", requirements={"fileid": "\d+"})
+   */
+  public function downloadAction($fileid) {
+    $repository = $this->getDoctrine()->getRepository(OagFile::class);
+    $oagfile = $repository->find($fileid);
+    if (!$oagfile) {
+      // TODO throw 404
+      throw new \RuntimeException('OAG file not found: ' . $fileid);
+    }
+
+    $xmldir = $this->getParameter('oagxml_directory');
+    if (!is_dir($xmldir)) {
+      mkdir($xmldir, 0755, true);
+    }
+    $xmlfile = $xmldir . '/' . $oagfile->XMLFileName();
+
+    $response = new BinaryFileResponse($xmlfile);
+    $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $oagfile->XMLFileName());
+    $response->headers->set('Content-Type', 'text/xml');
+
+    return $response;
+  }
+
+  /**
    * @Route("/cove/{fileid}", name="app_cove", requirements={"fileid": "\d+"})
    * @Template
    */
@@ -107,12 +147,27 @@ class DefaultController extends Controller
     $contents = file_get_contents($path);
     $json = $cove->processString($contents);
 
+    $xml = $json['xml'];
+    $xmldir = $this->getParameter('oagxml_directory');
+    if (!is_dir($xmldir)) {
+      mkdir($xmldir, 0755, true);
+    }
+    $filename = $oagfile->XMLFileName();
+    $xmlfile = $xmldir . '/' . $oagfile->getPath();
+    file_put_contents($xmlfile, $xml);
+
+    $err = $json['err'];
+    $status = $json['status'];
+
     $pretty_json = json_encode($json, JSON_PRETTY_PRINT);
     return $this->render(
         'OagBundle:Default:cove.html.twig', array(
         'messages' => $messages,
         'available' => $avaiable,
-        'json' => $pretty_json,
+        'xml' => $xmlfile,
+        'err' => $err,
+        'status' => $status,
+        'id' => $oagfile->getId(),
         )
     );
   }

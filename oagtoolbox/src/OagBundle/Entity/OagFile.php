@@ -62,5 +62,15 @@ class OagFile
     {
         return $this->path;
     }
+
+  public function XMLFileName() {
+    $filename = $this->getPath();
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if ($ext != 'xml') {
+      $filename = $filename . '.xml';
+    }
+    return $filename;
+  }
+
 }
 
