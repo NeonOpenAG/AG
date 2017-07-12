@@ -10,3 +10,4 @@ parameters:
             uri: http://localhost:8011
         classifier:
             uri: http://gis.foundationcenter.org/OpenAgCoder/extract_codes.php
+    oagfiles_directory: '%kernel.project_dir%/web/uploads/oagfiles'

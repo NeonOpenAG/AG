@@ -1,6 +1,24 @@
-Here
+{# This inherrites from /app/Resources/views/base.html.twig #}
+{% extends 'base.html.twig' %}
 
-<div>{{ uri }}</div>
-<pre>
-{{ json }}
-</pre>
+{% block title %}Tool POCs{% endblock %}
+
+{% block h1 %}Page Title{% endblock %}
+
+{% block body %}
+
+    <table border="1">
+        <tr>
+            <th>File</th><th>Process with...</th>
+        </tr>
+        <tr>
+            {% for id, file in files %}
+            <tr>
+                <td>{{ file }}</td>
+                <td><a href="{{ path('app_cove', { 'fileid': id } ) }}">CoVE</a></td>
+            </tr>
+        {% endfor %}
+        </tr>
+    </table>
+
+{% endblock %}

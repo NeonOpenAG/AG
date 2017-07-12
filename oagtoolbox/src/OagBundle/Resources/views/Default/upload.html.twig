@@ -1,0 +1,28 @@
+{# This inherrites from /app/Resources/views/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload{% endblock %}
+
+{% block h1 %}Upload{% endblock %}
+
+{% block body %}
+
+    <h2>Upload new file</h2>
+
+    <div>
+        {% if form is defined and form is not null %}
+            {{ form_start(form) }}
+            <div>
+                {{ form_row(form.path) }}
+            </div>
+            <div>
+                <button type="submit">Upload</button>
+            </div>
+            {{ form_end(form) }}
+
+        {% else %}
+            NO FORM
+        {% endif %}
+    </div>
+
+{% endblock %}

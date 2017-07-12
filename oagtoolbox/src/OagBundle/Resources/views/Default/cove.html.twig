@@ -1,0 +1,18 @@
+{# This inherrites from /app/Resources/views/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}CoVE{% endblock %}
+
+{% block h1 %}CoVE{% endblock %}
+
+{% block body %}
+
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+
+    <pre>
+        {{ json }}
+    </pre>
+
+{% endblock %}
