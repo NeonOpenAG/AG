@@ -9,21 +9,24 @@
 
     <table border="1">
         <tr>
-            <th>File</th><th>Process with ...</th><th>Download ...</th>
+            <th>File</th><th>Process with ...</th><th>Download ...</th><th>Visualise ...</th>
         </tr>
-        <tr>
-            {% for id, file in files %}
+        {% for id, file in files %}
             <tr>
                 <td>{{ file['file'] }}</td>
                 <td><a href="{{ path('app_cove', { 'fileid': id } ) }}">CoVE</a></td>
                 <td>
                     {% if file['xml'] is defined %}
                         <a href="{{ path('download_file', { 'fileid': id }) }}">XML</a>
+                    </td><td>
+                        <a href="{{ path('app_dportal', { 'fileid': id }) }}">D-Portal</a>
+                    {% else %}
+                    </td><td>
                     {% endif %}
                 </td>
             </tr>
-        {% endfor %}
-        </tr>
+
+            {% endfor %}
     </table>
 
 {% endblock %}

@@ -62,6 +62,30 @@ class DefaultController extends Controller
   }
 
   /**
+   * @Route("/dportal/{fileid}", name="app_dportal", requirements={"fileid": "\d+"})
+   */
+  public function dportalAction($fileid) {
+    $repository = $this->getDoctrine()->getRepository(OagFile::class);
+    $oagfile = $repository->find($fileid);
+    if (!$oagfile) {
+      // TODO throw 404
+      throw new \RuntimeException('OAG file not found: ' . $fileid);
+    }
+
+    $xmldir = $this->getParameter('oagxml_directory');
+    if (!is_dir($xmldir)) {
+      mkdir($xmldir, 0755, true);
+    }
+    $xmlfile = $xmldir . '/' . $oagfile->XMLFileName();
+
+    // TODO This ia filthy inline hack for harry's demo.  this needs to go into the dportal service
+    exec("openag reset dportal");
+    exec("openag import dportal " . $xmlfile);
+
+    return $this->redirect('http://openag.neontribe.org:8011');
+  }
+
+  /**
    * @Route("/upload", name="oagfile_upload")
    * @Template
    */
