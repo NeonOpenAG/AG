@@ -23,7 +23,7 @@
                 </td>
                 {# TODO I guess there is a sy3 way of doping this using form builder #}
                 <td>
-                    <input type="checkbox" name="del_{{ id }}" value="del_{{ id }}" />
+                    {{ form_widget(form.delete_list[loop.index - 1]) }}
                 </td>
             </tr>
         {% endfor %}

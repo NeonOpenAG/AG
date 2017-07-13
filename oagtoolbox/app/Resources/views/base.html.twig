@@ -10,6 +10,14 @@
     <body>
         <h1>{% block h1 %}OAG Toolbox{% endblock %}</h1>
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <div id="menu" style='padding-bottom: 30px'>
             {% block menu %}
                 <a href="{{ path('app_index') }}">Home</a> | <a href="{{ path('oagfile_upload') }}">Upload file</a>
