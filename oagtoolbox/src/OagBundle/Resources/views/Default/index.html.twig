@@ -7,12 +7,12 @@
 
 {% block body %}
 
+    {{ form_start(form) }}
     <table border="1">
         <tr>
-            <th>File</th><th>Process with ...</th><th>Download ...</th>
+            <th>File</th><th>Process with ...</th><th>Download ...</th><th>Delete</th>
         </tr>
-        <tr>
-            {% for id, file in files %}
+        {% for id, file in files %}
             <tr>
                 <td>{{ file['file'] }}</td>
                 <td><a href="{{ path('app_cove', { 'fileid': id } ) }}">CoVE</a></td>
@@ -21,9 +21,23 @@
                         <a href="{{ path('download_file', { 'fileid': id }) }}">XML</a>
                     {% endif %}
                 </td>
+                {# TODO I guess there is a sy3 way of doping this using form builder #}
+                <td>
+                    <input type="checkbox" name="del_{{ id }}" value="del_{{ id }}" />
+                </td>
             </tr>
         {% endfor %}
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+                <div>
+                    <button type="submit">Delete</button>
+                </div>
+            </td>
         </tr>
-    </table>
+</table>
+{{ form_end(form) }}
 
 {% endblock %}

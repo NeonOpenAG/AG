@@ -25,12 +25,25 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
 
+    $defaultData = array();
+    $target = $this->generateUrl('oagfile_delete');
+    $form = $this->createFormBuilder(
+      $defaultData, array('attr' => array('target' => $target))
+    );
+
     $files = array();
     $oagfiles = $repository->findAll();
+
     $uploadDir = $this->getParameter('oagfiles_directory');
+    $xmldir = $this->getParameter('oagxml_directory');
+    if (!is_dir($xmldir)) {
+      mkdir($xmldir, 0755, true);
+    }
+
     foreach ($oagfiles as $oagfile) {
       $path = $uploadDir . '/' . $oagfile->getPath();
       if (!file_exists($path)) {
+        // Document removed from file system, remove from the DB.
         $em->remove($oagfile);
       }
       else {
@@ -38,10 +51,6 @@ class DefaultController extends Controller
 
         $data['file'] = $oagfile->getPath();
 
-        $xmldir = $this->getParameter('oagxml_directory');
-        if (!is_dir($xmldir)) {
-          mkdir($xmldir, 0755, true);
-        }
         $filename = $oagfile->XMLFileName();
         $xmlfile = $xmldir . '/' . $oagfile->getPath();
         if (file_exists($xmlfile)) {
@@ -53,12 +62,28 @@ class DefaultController extends Controller
     }
     $em->flush();
 
-
     return array(
       'json' => 'Some JSON',
       'status' => 'URI',
       'files' => $files,
+      'form' => $form->getForm()->createView(),
     );
+  }
+
+  /**
+   * @Route("/delete", name="oagfile_delete")
+   * @Template
+   */
+  public function deleteAction(Request $request) {
+    if ($request->isMethod('POST')) {
+      $form->handleRequest($request);
+
+      // $data is a simply array with your form fields
+      // like "query" and "category" as defined above.
+      $data = $form->getData();
+    }
+
+    return array('debug' => json_encode($data));
   }
 
   /**
@@ -134,6 +159,7 @@ class DefaultController extends Controller
     }
     else {
       $messages[] = 'CoVE is down, returning fixture data.';
+      // TODO Ant Fixture data please
     }
 
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
