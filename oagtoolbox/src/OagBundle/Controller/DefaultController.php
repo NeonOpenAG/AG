@@ -12,6 +12,9 @@ use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 class DefaultController extends Controller
  {
 
@@ -27,10 +30,19 @@ class DefaultController extends Controller
 
     $files = array();
     $oagfiles = $repository->findAll();
+
     $uploadDir = $this->getParameter('oagfiles_directory');
+    $xmldir = $this->getParameter('oagxml_directory');
+    if (!is_dir($xmldir)) {
+      mkdir($xmldir, 0755, true);
+    }
+
+    $ids = array();
+
     foreach ($oagfiles as $oagfile) {
       $path = $uploadDir . '/' . $oagfile->getPath();
       if (!file_exists($path)) {
+        // Document removed from file system, remove from the DB.
         $em->remove($oagfile);
       }
       else {
@@ -38,10 +50,6 @@ class DefaultController extends Controller
 
         $data['file'] = $oagfile->getPath();
 
-        $xmldir = $this->getParameter('oagxml_directory');
-        if (!is_dir($xmldir)) {
-          mkdir($xmldir, 0755, true);
-        }
         $filename = $oagfile->XMLFileName();
         $xmlfile = $xmldir . '/' . $oagfile->getPath();
         if (file_exists($xmlfile)) {
@@ -49,16 +57,84 @@ class DefaultController extends Controller
         }
 
         $files[$oagfile->getId()] = $data;
+        $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
       }
     }
     $em->flush();
 
+    $defaultData = array();
+    $target = $this->generateUrl('oagfile_confirm_delete');
+    $formbuilder = $this->createFormBuilder(
+      $defaultData, array('action' => $target)
+    );
+    $formbuilder->add('delete_list', ChoiceType::class, array(
+      'choices' => $ids,
+      'expanded' => true,
+      'multiple' => true,
+    ));
 
     return array(
-      'json' => 'Some JSON',
-      'status' => 'URI',
       'files' => $files,
+      'form' => $formbuilder->getForm()->createView(),
     );
+  }
+
+  /**
+   * @Route("/confirm_delete", name="oagfile_confirm_delete")
+   * @Template
+   */
+  public function confirmDeleteAction(Request $request) {
+    if ($request->isMethod('POST')) {
+      $form = $this->createFormBuilder(null)->getForm();
+      $form->handleRequest($request);
+
+      $data = $form->getExtraData();
+
+      if (count($data['delete_list']) == 0) {
+        $this->addFlash(
+          'warn', 'No files where specified!'
+        );
+      }
+
+      $files = [];
+
+      $repository = $this->getDoctrine()->getRepository(OagFile::class);
+      foreach ($data['delete_list'] as $id) {
+        $oagfile = $repository->findOneBy(array('id' => $id));
+        $files[$id] = $oagfile->getPath();
+      }
+
+      return array(
+        'files' => $files,
+        'ids' => implode('+', array_keys($files)),
+      );
+    }
+
+    return $this->redirectToRoute('app_index');
+  }
+
+  /**
+   * @Route("/delete/{ids}", name="oagfile_delete")
+   */
+  public function deleteAction($ids) {
+    $idlist = explode('+', $ids);
+
+    $uploadDir = $this->getParameter('oagfiles_directory');
+    $xmldir = $this->getParameter('oagxml_directory');
+
+    $repository = $this->getDoctrine()->getRepository(OagFile::class);
+    foreach ($idlist as $id) {
+      $oagfile = $repository->findOneBy(array('id' => $id));
+      $file = $uploadDir . '/' . $oagfile->getPath();
+      $xml = $xmldir . '/' . $oagfile->getPath();
+      if (file_exists($file)) {
+        unlink($file);
+      }
+      if (file_exists($xml)) {
+        unlink($xml);
+      }
+    }
+    return $this->redirectToRoute('app_index');
   }
 
   /**
@@ -134,6 +210,7 @@ class DefaultController extends Controller
     }
     else {
       $messages[] = 'CoVE is down, returning fixture data.';
+      // TODO Ant Fixture data please
     }
 
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
