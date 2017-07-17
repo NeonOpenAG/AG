@@ -40,7 +40,7 @@ class DefaultController extends Controller
     $ids = array();
 
     foreach ($oagfiles as $oagfile) {
-      $path = $uploadDir . '/' . $oagfile->getPath();
+      $path = $uploadDir . '/' . $oagfile->getDocumentName();
       if (!file_exists($path)) {
         // Document removed from file system, remove from the DB.
         $em->remove($oagfile);
@@ -48,10 +48,10 @@ class DefaultController extends Controller
       else {
         $data = array();
 
-        $data['file'] = $oagfile->getPath();
+        $data['file'] = $oagfile->getDocumentName();
 
         $filename = $oagfile->XMLFileName();
-        $xmlfile = $xmldir . '/' . $oagfile->getPath();
+        $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
         if (file_exists($xmlfile)) {
           $data['xml'] = $xmlfile;
         }
@@ -101,7 +101,7 @@ class DefaultController extends Controller
       $repository = $this->getDoctrine()->getRepository(OagFile::class);
       foreach ($data['delete_list'] as $id) {
         $oagfile = $repository->findOneBy(array('id' => $id));
-        $files[$id] = $oagfile->getPath();
+        $files[$id] = $oagfile->getDocumentName();
       }
 
       return array(
@@ -125,8 +125,8 @@ class DefaultController extends Controller
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
     foreach ($idlist as $id) {
       $oagfile = $repository->findOneBy(array('id' => $id));
-      $file = $uploadDir . '/' . $oagfile->getPath();
-      $xml = $xmldir . '/' . $oagfile->getPath();
+      $file = $uploadDir . '/' . $oagfile->getDocumentName();
+      $xml = $xmldir . '/' . $oagfile->getDocumentName();
       if (file_exists($file)) {
         unlink($file);
       }
@@ -150,8 +150,9 @@ class DefaultController extends Controller
     if ($request) {
       $form->handleRequest($request);
 
+      // TODO Check for too big files.
       if ($form->isSubmitted() && $form->isValid()) {
-        $file = $oagfile->getPath();
+        $file = $oagfile->getDocumentName();
 
         $filename = $file->getClientOriginalName();
 
@@ -159,7 +160,7 @@ class DefaultController extends Controller
           $this->getParameter('oagfiles_directory'), $filename
         );
 
-        $oagfile->setPath($filename);
+        $oagfile->setDocumentName($filename);
         $em->persist($oagfile);
         $em->flush();
 
@@ -220,7 +221,7 @@ class DefaultController extends Controller
       throw new \RuntimeException('OAG file not found: ' . $fileid);
     }
     // TODO - for bigger files we might need send as Uri
-    $path = $this->getParameter('oagfiles_directory') . '/' . $oagfile->getPath();
+    $path = $this->getParameter('oagfiles_directory') . '/' . $oagfile->getDocumentName();
     $contents = file_get_contents($path);
     $json = $cove->processString($contents);
 
@@ -230,7 +231,7 @@ class DefaultController extends Controller
       mkdir($xmldir, 0755, true);
     }
     $filename = $oagfile->XMLFileName();
-    $xmlfile = $xmldir . '/' . $oagfile->getPath();
+    $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
     file_put_contents($xmlfile, $xml);
 
     $err = $json['err'];
