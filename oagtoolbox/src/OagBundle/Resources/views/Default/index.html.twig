@@ -1,6 +1,11 @@
 {# This inherrites from /app/Resources/views/base.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{ asset('bundles/oag/css/main.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+{% endblock %}
+
 {% block title %}Tool POCs{% endblock %}
 
 {% block h1 %}Page Title{% endblock %}
@@ -8,11 +13,18 @@
 {% block body %}
 
     {{ form_start(form) }}
-    <table border="1">
-        <tr>
-            <th>File</th><th>Process with ...</th><th>Download ...</th><th>Delete</th>
-        </tr>
-        {% for id, file in files %}
+    <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Process with ...</th>
+                <th>Download ...</th>
+                <th>Classify ...</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for id, file in files %}
             <tr>
                 <td>{{ file['file'] }}</td>
                 <td><a href="{{ path('app_cove', { 'fileid': id } ) }}">CoVE</a></td>
@@ -20,6 +32,9 @@
                     {% if file['xml'] is defined %}
                         <a href="{{ path('download_file', { 'fileid': id }) }}">XML</a>
                     {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('classify_index', { 'fileid': id }) }}">Auto-classify</a>
                 </td>
                 {# TODO I guess there is a sy3 way of doping this using form builder #}
                 <td>
@@ -31,13 +46,19 @@
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
+            <td>&nbsp;</td>
             <td>
                 <div>
                     <button type="submit">Delete</button>
                 </div>
             </td>
         </tr>
-</table>
+        </tbody>
+    </table>
 {{ form_end(form) }}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/oag/js/main.js') }}"></script>
 {% endblock %}

@@ -147,6 +147,7 @@ class DefaultController extends Controller
     $oagfile = new OagFile();
     $form = $this->createForm(OagFileType::class, $oagfile);
 
+    // TODO Do something if the form is not valid
     if ($request) {
       $form->handleRequest($request);
 

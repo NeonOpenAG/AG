@@ -2,6 +2,11 @@
 
 namespace OagBundle\Service;
 
+use OagBundle\Service\TextExtractor\ApplicationOctetStream;
+use OagBundle\Service\TextExtractor\ApplicationPdf;
+use OagBundle\Service\TextExtractor\ApplicationXml;
+use OagBundle\Service\TextExtractor\TextPlain;
+
 class Classifier extends OagAbstractService {
 
   public function processUri($sometext) {
@@ -10,15 +15,28 @@ class Classifier extends OagAbstractService {
 
   public function isAvailable() {
     $uri = $this->getUri();
-
-    $request = curl_init();
-    curl_setopt($request, CURLOPT_URL, $uri);
-    curl_setopt($request, CURLOPT_GET);
-    curl_exec($request);
-
-    $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
-    curl_close($request);
-    return ($responseCode >= 200 && $responseCode <= 209);
+//
+//    $request = curl_init();
+//    curl_setopt($request, CURLOPT_URL, $uri);
+//    curl_exec($request);
+//
+//    $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
+//    curl_close($request);
+//    return ($responseCode >= 200 && $responseCode <= 209);
+//
+    // The classifier is VERY slow to respond, use a port check instead.
+    // TODO Does this work with https
+    $parts = parse_url($uri);
+    $host = $parts['host'];
+    $port = 80;
+    if (isset($parts['port'])) {
+      $port = $parts['port'];
+    }
+    elseif (isset($parts['scheme']) && $parts['scheme'] == 'https') {
+      $port = 443;
+    }
+    $connection = @fsockopen($host, $port);
+    return is_resource($connection);
   }
 
   public function getFixtureData() {
@@ -46,13 +64,21 @@ class Classifier extends OagAbstractService {
     $uri = $this->getUri();
     $request = curl_init();
     curl_setopt($request, CURLOPT_URL, $uri);
-    curl_setopt($request, CURLOPT_POST);
+    curl_setopt($request, CURLOPT_POST, true);
+    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+//    curl_setopt($request, CURLOPT_VERBOSE, true);
+//    curl_setopt($request, CURLOPT_HEADER, true);
 
-    $payload = http_build_query(array(
-      'data' => $contents
-    ));
+    $payload = array(
+      'data' => array(
+        'no_key' => array('text' => $contents),
+      ),
+      'chunk' => 'false',
+      'threshold' => 'low',
+      'rollup' => 'false',
+    );
 
-    curl_setopt($request, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($request, CURLOPT_POSTFIELDS, http_build_query($payload));
 
     $data = curl_exec($request);
     $responseCode = curl_getinfo($request, CURLINFO_HTTP_CODE);
@@ -60,7 +86,9 @@ class Classifier extends OagAbstractService {
 
     $response = array(
       'status' => ($responseCode >= 200 && $responseCode <= 209) ? 0 : 1,
-      'data' => $data
+      'data' => $data,
+      'raw' => $contents,
+      'content' => $payload,
     );
 
     return $response;

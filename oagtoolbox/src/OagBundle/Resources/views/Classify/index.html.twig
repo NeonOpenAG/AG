@@ -1,0 +1,13 @@
+{% extends 'OagBundle::Default/index.html.twig' %}
+
+{% block body %}
+
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+
+    <pre>
+        {{ json }}
+    </pre>
+
+{% endblock %}
