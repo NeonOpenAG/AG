@@ -22,14 +22,20 @@ class OagFile
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="path", type="string", length=1024, unique=true)
-     */
-    private $path;
+   * @var string
+   *
+   * @ORM\Column(name="documentName", type="string", length=1024, unique=true)
+   */
+  private $documentName;
 
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="mimeType", type="string", length=1024)
+   */
+  private $mimeType;
 
-    /**
+  /**
      * Get id
      *
      * @return int
@@ -40,31 +46,51 @@ class OagFile
     }
 
     /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return OagFile
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
+   * Set path
+   *
+   * @param string $path
+   *
+   * @return OagFile
+   */
+  public function setDocumentName($documentName) {
+    $this->documentName = $documentName;
 
-        return $this;
-    }
+    return $this;
+  }
 
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
+  /**
+   * Get path
+   *
+   * @return string
+   */
+  public function getDocumentName() {
+    return $this->documentName;
+  }
+
+  /**
+   * Set path
+   *
+   * @param string $path
+   *
+   * @return OagFile
+   */
+  public function setMimeType($mimeType) {
+    $this->mimeType = $mimeType;
+
+    return $this;
+  }
+
+  /**
+   * Get path
+   *
+   * @return string
+   */
+  public function getMimeType() {
+    return $this->mimeType;
+  }
 
   public function XMLFileName() {
-    $filename = $this->getPath();
+    $filename = $this->getDocumentName();
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
     if ($ext != 'xml') {
       $filename = $filename . '.xml';

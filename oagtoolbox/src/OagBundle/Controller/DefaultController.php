@@ -19,7 +19,7 @@ class DefaultController extends Controller
  {
 
   /**
-   * @Route("/", name="app_index")
+   * @Route("/")
    * @Template
    */
   public function indexAction() {
@@ -28,42 +28,47 @@ class DefaultController extends Controller
     $em = $this->getDoctrine()->getManager();
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
 
+    // Fetch all files.
     $files = array();
     $oagfiles = $repository->findAll();
 
+    // Ensure the Upload and XML directories exist.
     $uploadDir = $this->getParameter('oagfiles_directory');
     $xmldir = $this->getParameter('oagxml_directory');
     if (!is_dir($xmldir)) {
       mkdir($xmldir, 0755, true);
     }
 
+    // Store oag file ids for the delete list/form
     $ids = array();
 
     foreach ($oagfiles as $oagfile) {
-      $path = $uploadDir . '/' . $oagfile->getPath();
+      $path = $uploadDir . '/' . $oagfile->getDocumentName();
+      // Document removed from file system, remove from the DB.
       if (!file_exists($path)) {
-        // Document removed from file system, remove from the DB.
         $em->remove($oagfile);
+        continue;
       }
-      else {
-        $data = array();
 
-        $data['file'] = $oagfile->getPath();
+      $data = array();
+      $data['file'] = $oagfile->getDocumentName();
+      $data['mimetype'] = $oagfile->getMimeType();
 
-        $filename = $oagfile->XMLFileName();
-        $xmlfile = $xmldir . '/' . $oagfile->getPath();
-        if (file_exists($xmlfile)) {
-          $data['xml'] = $xmlfile;
-        }
-
-        $files[$oagfile->getId()] = $data;
-        $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
+      $filename = $oagfile->XMLFileName();
+      $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
+      if (file_exists($xmlfile)) {
+        $data['xml'] = $xmlfile;
       }
+
+      $files[$oagfile->getId()] = $data;
+      $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
     }
+    // Flush the entitiy manager to commit delets.
     $em->flush();
 
+    // Build the delete form.
     $defaultData = array();
-    $target = $this->generateUrl('oagfile_confirm_delete');
+    $target = $this->generateUrl('oag_default_confirmdelete');
     $formbuilder = $this->createFormBuilder(
       $defaultData, array('action' => $target)
     );
@@ -80,7 +85,7 @@ class DefaultController extends Controller
   }
 
   /**
-   * @Route("/confirm_delete", name="oagfile_confirm_delete")
+   * @Route("/confirm_delete")
    * @Template
    */
   public function confirmDeleteAction(Request $request) {
@@ -101,7 +106,7 @@ class DefaultController extends Controller
       $repository = $this->getDoctrine()->getRepository(OagFile::class);
       foreach ($data['delete_list'] as $id) {
         $oagfile = $repository->findOneBy(array('id' => $id));
-        $files[$id] = $oagfile->getPath();
+        $files[$id] = $oagfile->getDocumentName();
       }
 
       return array(
@@ -114,7 +119,7 @@ class DefaultController extends Controller
   }
 
   /**
-   * @Route("/delete/{ids}", name="oagfile_delete")
+   * @Route("/delete/{ids}")
    */
   public function deleteAction($ids) {
     $idlist = explode('+', $ids);
@@ -125,8 +130,8 @@ class DefaultController extends Controller
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
     foreach ($idlist as $id) {
       $oagfile = $repository->findOneBy(array('id' => $id));
-      $file = $uploadDir . '/' . $oagfile->getPath();
-      $xml = $xmldir . '/' . $oagfile->getPath();
+      $file = $uploadDir . '/' . $oagfile->getDocumentName();
+      $xml = $xmldir . '/' . $oagfile->getDocumentName();
       if (file_exists($file)) {
         unlink($file);
       }
@@ -134,11 +139,11 @@ class DefaultController extends Controller
         unlink($xml);
       }
     }
-    return $this->redirectToRoute('app_index');
+    return $this->redirectToRoute('oag_default_index');
   }
 
   /**
-   * @Route("/upload", name="oagfile_upload")
+   * @Route("/upload")
    * @Template
    */
   public function uploadAction(Request $request) {
@@ -147,11 +152,15 @@ class DefaultController extends Controller
     $oagfile = new OagFile();
     $form = $this->createForm(OagFileType::class, $oagfile);
 
+    // TODO Do something if the form is not valid
     if ($request) {
       $form->handleRequest($request);
 
+      // TODO Check for too big files.
       if ($form->isSubmitted() && $form->isValid()) {
-        $file = $oagfile->getPath();
+        $file = $oagfile->getDocumentName();
+        $tmpFile = $oagfile->getDocumentName();
+        $oagfile->setMimeType(mime_content_type($tmpFile->getPathname()));
 
         $filename = $file->getClientOriginalName();
 
@@ -159,93 +168,16 @@ class DefaultController extends Controller
           $this->getParameter('oagfiles_directory'), $filename
         );
 
-        $oagfile->setPath($filename);
+        $oagfile->setDocumentName($filename);
         $em->persist($oagfile);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('app_index'));
+        return $this->redirect($this->generateUrl('oag_default_index'));
       }
     }
 
     return array(
       'form' => $form->createView(),
-    );
-  }
-
-  /**
-   * @Route("/download/{fileid}", name="download_file", requirements={"fileid": "\d+"})
-   */
-  public function downloadAction($fileid) {
-    $repository = $this->getDoctrine()->getRepository(OagFile::class);
-    $oagfile = $repository->find($fileid);
-    if (!$oagfile) {
-      // TODO throw 404
-      throw new \RuntimeException('OAG file not found: ' . $fileid);
-    }
-
-    $xmldir = $this->getParameter('oagxml_directory');
-    if (!is_dir($xmldir)) {
-      mkdir($xmldir, 0755, true);
-    }
-    $xmlfile = $xmldir . '/' . $oagfile->XMLFileName();
-
-    $response = new BinaryFileResponse($xmlfile);
-    $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $oagfile->XMLFileName());
-    $response->headers->set('Content-Type', 'text/xml');
-
-    return $response;
-  }
-
-  /**
-   * @Route("/cove/{fileid}", name="app_cove", requirements={"fileid": "\d+"})
-   * @Template
-   */
-  public function coveAction($fileid) {
-    $messages = [];
-    $cove = $this->get(Cove::class);
-
-    $avaiable = false;
-    if ($cove->isAvailable()) {
-      $messages[] = 'CoVE is avaialable';
-    }
-    else {
-      $messages[] = 'CoVE is down, returning fixture data.';
-      // TODO Ant Fixture data please
-    }
-
-    $repository = $this->getDoctrine()->getRepository(OagFile::class);
-    $oagfile = $repository->find($fileid);
-    if (!$oagfile) {
-      // TODO throw 404
-      throw new \RuntimeException('OAG file not found: ' . $fileid);
-    }
-    // TODO - for bigger files we might need send as Uri
-    $path = $this->getParameter('oagfiles_directory') . '/' . $oagfile->getPath();
-    $contents = file_get_contents($path);
-    $json = $cove->processString($contents);
-
-    $xml = $json['xml'];
-    $xmldir = $this->getParameter('oagxml_directory');
-    if (!is_dir($xmldir)) {
-      mkdir($xmldir, 0755, true);
-    }
-    $filename = $oagfile->XMLFileName();
-    $xmlfile = $xmldir . '/' . $oagfile->getPath();
-    file_put_contents($xmlfile, $xml);
-
-    $err = $json['err'];
-    $status = $json['status'];
-
-    $pretty_json = json_encode($json, JSON_PRETTY_PRINT);
-    return $this->render(
-        'OagBundle:Default:cove.html.twig', array(
-        'messages' => $messages,
-        'available' => $avaiable,
-        'xml' => $xmlfile,
-        'err' => $err,
-        'status' => $status,
-        'id' => $oagfile->getId(),
-        )
     );
   }
 

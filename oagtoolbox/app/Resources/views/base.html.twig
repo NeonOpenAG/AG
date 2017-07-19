@@ -20,14 +20,13 @@
 
         <div id="menu" style='padding-bottom: 30px'>
             {% block menu %}
-                <a href="{{ path('app_index') }}">Home</a> | <a href="{{ path('oagfile_upload') }}">Upload file</a>
+                <a href="#">Home</a>
             {% endblock %}
         </div>
 
         <div id="content">
         {% block body %}{% endblock %}
     </div>
-
     {% block javascripts %}
         <script src="{{ asset('js/main.js') }}"></script>
     {% endblock %}
