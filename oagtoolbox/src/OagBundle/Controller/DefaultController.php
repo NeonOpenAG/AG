@@ -159,7 +159,8 @@ class DefaultController extends Controller
       // TODO Check for too big files.
       if ($form->isSubmitted() && $form->isValid()) {
         $file = $oagfile->getDocumentName();
-        $oagfile->setMimeType(mime_content_type($file->getPath()));
+        $tmpFile = $oagfile->getDocumentName();
+        $oagfile->setMimeType(mime_content_type($tmpFile->getPathname()));
 
         $filename = $file->getClientOriginalName();
 

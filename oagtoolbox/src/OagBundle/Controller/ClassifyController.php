@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use OagBundle\Service\TextExtractor\PDFExtractor;
 use OagBundle\Service\TextExtractor\RTFExtractor;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
  * @Route("/classify")
@@ -55,6 +56,12 @@ class ClassifyController extends Controller {
     $sourceFile = tempnam(sys_get_temp_dir(), 'oag') . '.txt';
     switch ($mimetype) {
       case 'application/pdf':
+      case 'application/pdf':
+      case 'application/x-pdf':
+      case 'application/acrobat':
+      case 'applications/vnd.pdf':
+      case 'text/pdf':
+      case 'text/x-pdf':
         // pdf
         $decoder = new PDFExtractor();
         $decoder->setFilename($path);
@@ -62,6 +69,11 @@ class ClassifyController extends Controller {
         file_put_contents($sourceFile, $decoder->output());
         break;
       case 'text/plain':
+      case 'application/txt':
+      case 'browser/internal':
+      case 'text/anytext':
+      case 'widetext/plain':
+      case 'widetext/paragraph':
         // txt
         $sourceFile = $path;
         break;
@@ -70,12 +82,28 @@ class ClassifyController extends Controller {
         $sourceFile = $path;
         $isXml = true;
         break;
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+      case 'application/zip':
+      case 'application/msword':
+      case 'application/doc':
+        // docx
+        // phpword can't save to txt directly
+        $tmpRtfFile = dirname($sourceFile) . '/' . basename($sourceFile, '.txt') . '.rtf';
+        $phpWord = \PhpOffice\PhpWord\IOFactory::load($path, 'Word2007');
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'RTF');
+        $objWriter->save($tmpRtfFile);
+        // Now let the switch fall through to decode rtf
+        $path = $tmpRtfFile;
       case 'text/rtf':
+      case 'application/rtf':
+      case 'application/x-rtf':
+      case 'text/richtext':
         // rtf
         $decoder = new RTFExtractor();
         $decoder->setFilename($path);
         $decoder->decode();
         file_put_contents($sourceFile, $decoder->output());
+        break;
     }
     $this->container->get('logger')->info(sprintf('Processing file %s', $sourceFile));
 

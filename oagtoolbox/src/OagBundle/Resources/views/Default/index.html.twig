@@ -25,6 +25,7 @@
                 <th>Process with ...</th>
                 <th>Download IATI XML ...</th>
                 <th>Drop from library</th>
+                <th>Mimetype</th>
             </tr>
         </thead>
         <tbody>
@@ -32,12 +33,14 @@
             <tr>
                 <td><a href="{{ asset('uploads')}}/oagfiles/{{ file['file'] }}">{{ file['file'] }}</a></td>
                 <td>
-                    {% if file['file'] | isCoveable %}
+                    {% if file['mimetype'] | isCoveable %}
                         <a href="{{ path('oag_cove_index', { 'fileid': id } ) }}">CoVE</a>
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('oag_classify_index', { 'fileid': id }) }}">Classifier</a>
+                    {% if file['mimetype'] | isClassifiable %}
+                        <a href="{{ path('oag_classify_index', { 'fileid': id }) }}">Classifier</a>
+                    {% endif %}
                 </td>
                 <td>
                     {% if file['xml'] is defined %}
@@ -46,6 +49,9 @@
                 </td>
                 <td>
                     {{ form_widget(form.delete_list[loop.index - 1]) }}
+                </td>
+                <td>
+                    {{ file['mimetype'] }}
                 </td>
             </tr>
         {% endfor %}
@@ -59,6 +65,7 @@
                     <button type="submit">Delete</button>
                 </div>
             </td>
+            <td>&nbsp;</td>
         </tr>
         </tbody>
     </table>
