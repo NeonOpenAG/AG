@@ -70,12 +70,13 @@ class Classifier extends OagAbstractService {
 //    curl_setopt($request, CURLOPT_HEADER, true);
 
     $payload = array(
-      'data' => array(
-        'no_key' => array('text' => $contents),
-      ),
-      'chunk' => 'false',
+      'text1' => $contents,
+      'limit' => 0,
+      'anchor' => 0,
+      'ext' => 'fc',
       'threshold' => 'low',
-      'rollup' => 'false',
+      'rollup' => 'true',
+      'chunk' => 'True',
     );
 
     curl_setopt($request, CURLOPT_POSTFIELDS, http_build_query($payload));
@@ -85,13 +86,10 @@ class Classifier extends OagAbstractService {
     curl_close($request);
 
     $response = array(
-      'status' => ($responseCode >= 200 && $responseCode <= 209) ? 0 : 1,
-      'data' => $data,
-      'raw' => $contents,
-      'content' => $payload,
+      'status' => ($responseCode >= 200 && $responseCode <= 209)?0:1,
     );
 
-    return $response;
+    return array_merge($response, json_decode($data, true));
   }
 
   public function getName() {

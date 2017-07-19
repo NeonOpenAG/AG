@@ -2,13 +2,17 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link href="{{ asset('bundles/oag/css/main.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link href="{{ asset('bundles/oag/css/main.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block title %}Tool POCs{% endblock %}
 
 {% block h1 %}Page Title{% endblock %}
+
+{% block menu %}
+    <a href="{{ path('oag_default_index') }}">Home</a> | <a href="{{ path('oag_default_upload') }}">Upload file</a>
+{% endblock %}
 
 {% block body %}
 
@@ -18,25 +22,28 @@
             <tr>
                 <th>File</th>
                 <th>Process with ...</th>
-                <th>Download ...</th>
-                <th>Classify ...</th>
-                <th>Delete</th>
+                <th>Process with ...</th>
+                <th>Download IATI XML ...</th>
+                <th>Drop from library</th>
             </tr>
         </thead>
         <tbody>
             {% for id, file in files %}
             <tr>
-                <td>{{ file['file'] }}</td>
-                <td><a href="{{ path('app_cove', { 'fileid': id } ) }}">CoVE</a></td>
+                <td><a href="{{ asset('uploads')}}/oagfiles/{{ file['file'] }}">{{ file['file'] }}</a></td>
                 <td>
-                    {% if file['xml'] is defined %}
-                        <a href="{{ path('download_file', { 'fileid': id }) }}">XML</a>
+                    {% if file['file'] | isCoveable %}
+                        <a href="{{ path('oag_cove_index', { 'fileid': id } ) }}">CoVE</a>
                     {% endif %}
                 </td>
                 <td>
-                    <a href="{{ path('classify_index', { 'fileid': id }) }}">Auto-classify</a>
+                    <a href="{{ path('oag_classify_index', { 'fileid': id }) }}">Classifier</a>
                 </td>
-                {# TODO I guess there is a sy3 way of doping this using form builder #}
+                <td>
+                    {% if file['xml'] is defined %}
+                        <a href="{{ asset('uploads')}}/xml/{{ file['file'] }}.xml">XML</a>
+                    {% endif %}
+                </td>
                 <td>
                     {{ form_widget(form.delete_list[loop.index - 1]) }}
                 </td>

@@ -2,10 +2,17 @@
 
 namespace OagBundle\Service\TextExtractor;
 
-class PDFExtractor extends PDF2Text {
+use Asika\Pdf2text;
+
+class PDFExtractor extends AbstractExtractor {
+
+  function __construct() {
+    $installed = exec('which pdf2txt');
+  }
 
   public function decode() {
-    $this->decodePDF();
+    $reader = new Pdf2text();
+    $this->output = $reader->decode($this->path);
   }
 
 }

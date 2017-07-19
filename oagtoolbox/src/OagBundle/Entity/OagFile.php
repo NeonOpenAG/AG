@@ -22,11 +22,18 @@ class OagFile
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="documentName", type="string", length=1024, unique=true)
-     */
-    private $documentName;
+   * @var string
+   *
+   * @ORM\Column(name="documentName", type="string", length=1024, unique=true)
+   */
+  private $documentName;
+
+  /**
+   * @var string
+   *
+   * @ORM\Column(name="mimeType", type="string", length=1024)
+   */
+  private $mimeType;
 
   /**
      * Get id
@@ -39,25 +46,47 @@ class OagFile
     }
 
     /**
-     * Set path
-     *
-     * @param string $path
-     *
-     * @return OagFile
-     */
-    public function setDocumentName($documentName) {
+   * Set path
+   *
+   * @param string $path
+   *
+   * @return OagFile
+   */
+  public function setDocumentName($documentName) {
     $this->documentName = $documentName;
 
     return $this;
-    }
+  }
 
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getDocumentName() {
-        return $this->documentName;
+  /**
+   * Get path
+   *
+   * @return string
+   */
+  public function getDocumentName() {
+    return $this->documentName;
+  }
+
+  /**
+   * Set path
+   *
+   * @param string $path
+   *
+   * @return OagFile
+   */
+  public function setMimeType($mimeType) {
+    $this->mimeType = $mimeType;
+
+    return $this;
+  }
+
+  /**
+   * Get path
+   *
+   * @return string
+   */
+  public function getMimeType() {
+    return $this->mimeType;
   }
 
   public function XMLFileName() {

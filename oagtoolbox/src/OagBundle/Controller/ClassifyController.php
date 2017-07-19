@@ -24,8 +24,7 @@ use OagBundle\Service\TextExtractor\RTFExtractor;
 class ClassifyController extends Controller {
 
   /**
-   * @Route("/", name="classify_index")
-   * @Route("/{fileid}", name="classify_index", requirements={"fileid": "\d+"})
+   * @Route("/{fileid}", requirements={"fileid": "\d+"})
    * @Template
    */
   public function indexAction($fileid) {
@@ -57,9 +56,9 @@ class ClassifyController extends Controller {
     switch ($mimetype) {
       case 'application/pdf':
         // pdf
-        $decoder = new PDF2Text();
+        $decoder = new PDFExtractor();
         $decoder->setFilename($path);
-        $decoder->decodePDF();
+        $decoder->decode();
         file_put_contents($sourceFile, $decoder->output());
         break;
       case 'text/plain':
@@ -88,7 +87,7 @@ class ClassifyController extends Controller {
 
     return array(
       'messages' => $messages,
-      'json' => json_encode($json, JSON_PRETTY_PRINT),
+      'response' => $json,
     );
   }
 
