@@ -4,7 +4,7 @@ namespace OagBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class OagAbstractService {
+abstract class AbstractOagService {
 
   private $container;
 
@@ -52,10 +52,6 @@ abstract class OagAbstractService {
       return false;
     }
   }
-
-  abstract function processUri($sometext);
-
-  abstract function processString($sometext);
 
   abstract function getName();
 }

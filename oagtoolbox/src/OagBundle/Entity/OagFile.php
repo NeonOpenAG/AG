@@ -46,8 +46,7 @@ class OagFile
      *
      * @return OagFile
      */
-    public function setPath($path)
-    {
+    public function setDocuemntName($path) {
         $this->path = $path;
 
         return $this;
@@ -58,8 +57,7 @@ class OagFile
      *
      * @return string
      */
-    public function getPath()
-    {
+    public function getDocumentName() {
         return $this->path;
     }
 

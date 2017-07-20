@@ -2,8 +2,7 @@
 // src/OagBundle/Service/Geocoder.php
 namespace OagBundle\Service;
 
-
-class Cove extends OagAbstractService {
+class Cove extends AbstractOagService {
 
   public function isAvailable() {
     $name = $this->getName();
