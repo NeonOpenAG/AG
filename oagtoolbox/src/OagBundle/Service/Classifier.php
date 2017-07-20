@@ -7,7 +7,7 @@ use OagBundle\Service\TextExtractor\ApplicationPdf;
 use OagBundle\Service\TextExtractor\ApplicationXml;
 use OagBundle\Service\TextExtractor\TextPlain;
 
-class Classifier extends OagAbstractService {
+class Classifier extends AbstractAutoService {
 
   public function processUri($sometext) {
     return $this->processString();

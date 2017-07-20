@@ -2,7 +2,7 @@
 
 namespace OagBundle\Service;
 
-class Geocoder extends OagAbstractService {
+class Geocoder extends AbstractAutoService {
 
   public function processUri($sometext) {
     return $this->processString();
