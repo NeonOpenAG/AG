@@ -11,9 +11,9 @@ use OagBundle\Entity\OagFile;
 use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class DefaultController extends Controller
- {
+class DefaultController extends Controller {
 
   /**
    * @Route("/")
@@ -49,18 +49,19 @@ class DefaultController extends Controller
       else {
         $data = array();
 
-      $data = array();
-      $data['file'] = $oagfile->getDocumentName();
-      $data['mimetype'] = $oagfile->getMimeType();
+        $data = array();
+        $data['file'] = $oagfile->getDocumentName();
+        $data['mimetype'] = $oagfile->getMimeType();
 
-      $filename = $oagfile->XMLFileName();
-      $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
-      if (file_exists($xmlfile)) {
-        $data['xml'] = $xmlfile;
+        $filename = $oagfile->XMLFileName();
+        $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
+        if (file_exists($xmlfile)) {
+          $data['xml'] = $xmlfile;
+        }
+
+        $files[$oagfile->getId()] = $data;
+        $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
       }
-
-      $files[$oagfile->getId()] = $data;
-      $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
     }
     // Flush the entitiy manager to commit delets.
     $em->flush();
