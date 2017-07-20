@@ -50,6 +50,7 @@
                         <a href="{{ asset('xml')}}/oagfiles/{{ file['file'] }}.xml">XML</a>
                     {% endif %}
                 </td>
+                {# TODO I guess there is a sy3 way of doping this using form builder #}
                 <td>
                     {% if file['xml'] is defined %}
                         <a href="{{ path('oag_dportal_index', { 'fileid': id }) }}">D-Portal</a>
