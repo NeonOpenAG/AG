@@ -31,7 +31,10 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.3.*",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "asika/pdf2text": "1.*",
+        "phpoffice/phpword": "v0.13.*",
+        "league/flysystem-ziparchive": "1.0.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

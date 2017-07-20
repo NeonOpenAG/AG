@@ -1,0 +1,35 @@
+{% extends 'OagBundle::Default/index.html.twig' %}
+
+{% block body %}
+
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+
+    {% if response['status'] == 0 %}
+        <table class="pure-table pure-table-bordered">
+            <thead>
+                <tr>
+                    <th>AGROVOC Code</th>
+                    <th>Descroption</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in response['data'] %}
+                    <tr>
+                        <td>{{ row['code'] }}</td>
+                        <td>{{ row['description'] }}</td>
+                        <td>{{ row['confidence'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div style='color: red'>Error</div>
+        <pre>
+            {{ response | json_encode }}
+        </pre>
+    {% endif %}
+
+{% endblock %}

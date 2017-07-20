@@ -1,5 +1,4 @@
-{# This inherrites from /app/Resources/views/base.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'OagBundle::Default/index.html.twig' %}
 
 {% block title %}CoVE{% endblock %}
 
@@ -14,7 +13,7 @@
     <ul>
         <li>Process status: {{ status }}</li>
         <li>StdErr: {{ err }}</li>
-        <li><a href="{{ path('download_file', { 'fileid': id }) }}">XML</a></li>
+        <li><a href="{{ asset('xml')}}/oagfiles/{{ path }}">XML</a></li>
     </ul>
 
 {% endblock %}

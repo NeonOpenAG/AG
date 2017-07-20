@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}OAG Toolbox{% endblock %}</title>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         {% block stylesheets %}
             <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
         {% endblock %}
@@ -10,16 +11,25 @@
     <body>
         <h1>{% block h1 %}OAG Toolbox{% endblock %}</h1>
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <div id="menu" style='padding-bottom: 30px'>
             {% block menu %}
-                <a href="{{ path('app_index') }}">Home</a> | <a href="{{ path('oagfile_upload') }}">Upload file</a>
+                <a href="#">Home</a>
             {% endblock %}
         </div>
 
         <div id="content">
         {% block body %}{% endblock %}
     </div>
-
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     {% block javascripts %}
         <script src="{{ asset('js/main.js') }}"></script>
     {% endblock %}

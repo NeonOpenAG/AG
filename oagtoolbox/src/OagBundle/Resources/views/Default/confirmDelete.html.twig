@@ -1,0 +1,22 @@
+{% extends 'OagBundle::Default/index.html.twig' %}
+
+{% block title %}Delete{% endblock %}
+
+{% block h1 %}Delete{% endblock %}
+
+{% block body %}
+
+    <h2>Delete file</h2>
+
+    Are you sure you want to dlete the following files from the OAG Toolkit.
+    <div>
+        <ul>
+            {% for id, file in files %}
+            <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+            <a href='{{ path('oag_default_delete', { 'ids': ids }) }}'>DELETE</a> <a href='{{ path('oag_default_index') }}'>Cancel</a>
+
+{% endblock %}

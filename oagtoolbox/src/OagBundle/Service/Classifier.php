@@ -95,5 +95,4 @@ class Classifier extends AbstractOagService {
   public function getName() {
     return 'classifier';
   }
-
 }

@@ -2,7 +2,8 @@
 // src/OagBundle/Service/Geocoder.php
 namespace OagBundle\Service;
 
-class Cove extends AbstractOagService {
+
+class Cove extends AbstractAutoService {
 
   public function isAvailable() {
     $name = $this->getName();
@@ -44,6 +45,9 @@ class Cove extends AbstractOagService {
       2 => array("pipe", "w"),
     );
     $cmd = "docker run -i openagdata/cove";
+    $this->getContainer()->get('logger')->debug(
+      sprintf('Command: %s', $cmd)
+    );
 
     $process = proc_open($cmd, $descriptorspec, $pipes);
 

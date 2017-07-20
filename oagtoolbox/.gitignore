@@ -18,3 +18,4 @@ web/bundles/
 web/uploads/
 app/sqlite.db
 nbproject/
+web/xml

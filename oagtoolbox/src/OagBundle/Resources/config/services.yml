@@ -6,3 +6,9 @@ services:
         exclude: '../../../OagBundle/{Entity,Repository,Tests,Interfaces}'
         calls:
             - [setContainer, ['@service_container']]
+
+
+    oag.twig_extension:
+        class: OagBundle\Twig\OagExtension
+        tags:
+            - { name: twig.extension }

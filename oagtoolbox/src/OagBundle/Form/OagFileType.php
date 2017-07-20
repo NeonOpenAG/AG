@@ -26,7 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 class OagFileType extends AbstractType {
 
   public function buildForm(FormBuilderInterface $builder, array $options) {
-    $builder->add('path', FileType::class, array('label' => 'Locate on filesystem '));
+    $builder->add('documentName', FileType::class, array('label' => 'Locate on filesystem '));
   }
 
   public function configureOptions(OptionsResolver $resolver) {
