@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}OAG Toolbox{% endblock %}</title>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         {% block stylesheets %}
             <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
         {% endblock %}
@@ -27,6 +28,8 @@
         <div id="content">
         {% block body %}{% endblock %}
     </div>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     {% block javascripts %}
         <script src="{{ asset('js/main.js') }}"></script>
     {% endblock %}

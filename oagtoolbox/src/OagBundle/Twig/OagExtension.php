@@ -15,7 +15,9 @@ class OagExtension extends \Twig_Extension {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'text/xml',
     'application/xml',
-    'application/x-xml',
+    'application/octet-stream',
+    'text/html',
+    'text/plain',
   );
   protected $classifierMimeTypes = array(
     'application/pdf',
@@ -53,6 +55,7 @@ class OagExtension extends \Twig_Extension {
       return true;
     }
 
+    // Should we test file extension?
     // Should we now test for correct csv/xlsx format?
     return false;
   }
@@ -62,6 +65,7 @@ class OagExtension extends \Twig_Extension {
       return true;
     }
 
+    // Should we test file extension?
     // Should we now test for correct csv/xlsx format?
     return false;
   }

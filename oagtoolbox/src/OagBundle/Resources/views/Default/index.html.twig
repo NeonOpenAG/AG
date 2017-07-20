@@ -20,18 +20,21 @@
     <table class="pure-table pure-table-bordered">
         <thead>
             <tr>
+                <th><input type="checkbox" id="select-all-delete" /></th>
                 <th>File</th>
                 <th>Process with ...</th>
                 <th>Process with ...</th>
                 <th>Download IATI XML ...</th>
-                <th>Drop from library</th>
-                <th>Mimetype</th>
+                <th>Visualise</th>
             </tr>
         </thead>
         <tbody>
             {% for id, file in files %}
-            <tr>
-                <td><a href="{{ asset('uploads')}}/oagfiles/{{ file['file'] }}">{{ file['file'] }}</a></td>
+                <tr>
+                    <td>
+                        {{ form_widget(form.delete_list[loop.index - 1], { 'attr': { 'class': 'cbox-del' } }) }}
+                    </td>
+                    <td><a href="{{ asset('uploads')}}/oagfiles/{{ file['file'] }}" title="{{ file['mimetype'] }}">{{ file['file'] }}</a></td>
                 <td>
                     {% if file['mimetype'] | isCoveable %}
                         <a href="{{ path('oag_cove_index', { 'fileid': id } ) }}">CoVE</a>
@@ -44,27 +47,22 @@
                 </td>
                 <td>
                     {% if file['xml'] is defined %}
-                        <a href="{{ asset('uploads')}}/xml/{{ file['file'] }}.xml">XML</a>
+                        <a href="{{ asset('xml')}}/oagfiles/{{ file['file'] }}.xml">XML</a>
                     {% endif %}
                 </td>
                 <td>
-                    {{ form_widget(form.delete_list[loop.index - 1]) }}
-                </td>
-                <td>
-                    {{ file['mimetype'] }}
+                    {% if file['xml'] is defined %}
+                        <a href="{{ path('oag_dportal_index', { 'fileid': id }) }}">D-Portal</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
         <tr>
+            <td><button type="submit">Delete</button></td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>
-                <div>
-                    <button type="submit">Delete</button>
-                </div>
-            </td>
             <td>&nbsp;</td>
         </tr>
         </tbody>
@@ -75,4 +73,14 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('bundles/oag/js/main.js') }}"></script>
+    <script>
+$( function() {
+  $( document ).tooltip();
+
+  $("#select-all-delete").click(function() {
+        var checkBoxes = $(".cbox-del");
+        checkBoxes.prop("checked", !checkBoxes.prop("checked"));
+  });
+});
+    </script>
 {% endblock %}

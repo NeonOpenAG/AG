@@ -1,0 +1,19 @@
+{% extends 'OagBundle::Default/index.html.twig' %}
+
+{% block title %}CoVE{% endblock %}
+
+{% block h1 %}CoVE{% endblock %}
+
+{% block body %}
+
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+
+    <ul>
+        <li>Process status: {{ status }}</li>
+        <li>StdErr: {{ err }}</li>
+        <li><a href="{{ asset('xml')}}/oagfiles/{{ path }}">XML</a></li>
+    </ul>
+
+{% endblock %}

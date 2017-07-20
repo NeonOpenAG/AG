@@ -7,15 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use OagBundle\Service\Classifier;
 use Symfony\Component\HttpFoundation\Request;
+use OagBundle\Service\Cove;
 use OagBundle\Entity\OagFile;
 use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use OagBundle\Service\TextExtractor\PDFExtractor;
-use OagBundle\Service\TextExtractor\RTFExtractor;
 
 /**
  * @Route("/cove")
@@ -57,22 +53,21 @@ class CoveController extends Controller {
       mkdir($xmldir, 0755, true);
     }
     $filename = $oagfile->XMLFileName();
-    $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
+    $xmlfile = $xmldir . '/' . $oagfile->XMLFileName();
     file_put_contents($xmlfile, $xml);
 
-    $err = $json['err'];
-    $status = $json['status'];
+    $err = $json['err']??'';
+    $status = $json['status']??'';
 
     $pretty_json = json_encode($json, JSON_PRETTY_PRINT);
-    return $this->render(
-        'OagBundle:Default:cove.html.twig', array(
-        'messages' => $messages,
-        'available' => $avaiable,
-        'xml' => $xmlfile,
-        'err' => $err,
+    return array(
+      'messages' => $messages,
+      'available' => $avaiable,
+      'path' => $oagfile->getDocumentName(),
+      'xml' => $xmlfile,
+      'err' => $err,
         'status' => $status,
         'id' => $oagfile->getId(),
-        )
     );
   }
 
