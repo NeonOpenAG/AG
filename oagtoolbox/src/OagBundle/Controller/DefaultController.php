@@ -178,7 +178,8 @@ class DefaultController extends Controller {
       }
     }
     $filename = $oagfile->XMLFileName();
-    $xmlfile = $xmldir . '/' . $oagfile->getPath();
+    $xmldir = $this->getParameter('oagxml_directory');
+    $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
     file_put_contents($xmlfile, $xml);
 
     return array(
