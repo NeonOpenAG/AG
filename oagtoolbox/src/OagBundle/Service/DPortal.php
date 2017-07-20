@@ -2,8 +2,7 @@
 // src/OagBundle/Service/Geocoder.php
 namespace OagBundle\Service;
 
-
-class DPortal extends AbstractAutoService {
+class DPortal extends AbstractOagService {
 
   public function isAvailable() {
     $name = $this->getName();
@@ -28,16 +27,9 @@ class DPortal extends AbstractAutoService {
     }
   }
 
-  public function visualise($fileid) {
-    $repository = $this->getDoctrine()->getRepository(OagFile::class);
-    $oagfile = $repository->find($fileid);
+  public function visualise($oagfile) {
 
-    if (!$oagfile) {
-      // TODO throw 404
-      throw new RuntimeException('OAG file not found: ' . $fileid);
-    }
-
-    $xmldir = $this->getParameter('oagxml_directory');
+    $xmldir = $this->getContainer()->getParameter('oagxml_directory');
     if (!is_dir($xmldir)) {
       mkdir($xmldir, 0755, true);
     }

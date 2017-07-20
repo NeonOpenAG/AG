@@ -11,12 +11,9 @@ use OagBundle\Entity\OagFile;
 use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class DefaultController extends Controller
- {
+class DefaultController extends Controller {
 
   /**
    * @Route("/")
@@ -49,19 +46,22 @@ class DefaultController extends Controller
         $em->remove($oagfile);
         continue;
       }
+      else {
+        $data = array();
 
-      $data = array();
-      $data['file'] = $oagfile->getDocumentName();
-      $data['mimetype'] = $oagfile->getMimeType();
+        $data = array();
+        $data['file'] = $oagfile->getDocumentName();
+        $data['mimetype'] = $oagfile->getMimeType();
 
-      $filename = $oagfile->XMLFileName();
-      $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
-      if (file_exists($xmlfile)) {
-        $data['xml'] = $xmlfile;
+        $filename = $oagfile->XMLFileName();
+        $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
+        if (file_exists($xmlfile)) {
+          $data['xml'] = $xmlfile;
+        }
+
+        $files[$oagfile->getId()] = $data;
+        $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
       }
-
-      $files[$oagfile->getId()] = $data;
-      $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
     }
     // Flush the entitiy manager to commit delets.
     $em->flush();
@@ -79,6 +79,8 @@ class DefaultController extends Controller
     ));
 
     return array(
+      'json' => 'Some JSON',
+      'status' => 'URI',
       'files' => $files,
       'form' => $formbuilder->getForm()->createView(),
     );
@@ -175,6 +177,9 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('oag_default_index'));
       }
     }
+    $filename = $oagfile->XMLFileName();
+    $xmlfile = $xmldir . '/' . $oagfile->getPath();
+    file_put_contents($xmlfile, $xml);
 
     return array(
       'form' => $form->createView(),
