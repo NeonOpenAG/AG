@@ -30,7 +30,6 @@ install:
 
 # Run script
 script:
-  - cd oagtoolbox
   - ./vendor/bin/simple-phpunit -c phpunit.xml
 
 # After a build, send email notification with the build results
