@@ -8,9 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use OagBundle\Service\Cove;
 use Symfony\Component\HttpFoundation\Request;
 use OagBundle\Entity\OagFile;
+use OagBundle\Service\OagFileService;
 use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -25,6 +28,8 @@ class DefaultController extends Controller {
     // TODO - Can we amalgamate these two?
     $em = $this->getDoctrine()->getManager();
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
+
+    $srvOagFile = $this->get(OagFileService::class);
 
     // Fetch all files.
     $files = array();
@@ -54,7 +59,7 @@ class DefaultController extends Controller {
         $data['file'] = $oagfile->getDocumentName();
         $data['mimetype'] = $oagfile->getMimeType();
 
-        $filename = $oagfile->XMLFileName();
+        $filename = $srvOagFile->getXMLFileName($oagfile);
         $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
         if (file_exists($xmlfile)) {
           $data['xml'] = $xmlfile;
@@ -63,6 +68,9 @@ class DefaultController extends Controller {
         $files[$oagfile->getId()] = $data;
         $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
       }
+
+      $files[$oagfile->getId()] = $data;
+      $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
     }
     // Flush the entitiy manager to commit delets.
     $em->flush();
