@@ -12,6 +12,8 @@ use OagBundle\Service\OagFileService;
 use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -66,6 +68,9 @@ class DefaultController extends Controller {
         $files[$oagfile->getId()] = $data;
         $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
       }
+
+      $files[$oagfile->getId()] = $data;
+      $ids['Delete ' . $oagfile->getId()] = $oagfile->getId();
     }
     // Flush the entitiy manager to commit delets.
     $em->flush();
