@@ -8,16 +8,16 @@
 
 {% block title %}Tool POCs{% endblock %}
 
-{% block h1 %}Page Title{% endblock %}
+{% block h1 %}Open Ag Toolbox{% endblock %}
 
 {% block menu %}
-    <a href="{{ path('oag_default_index') }}">Home</a> | <a href="{{ path('oag_default_upload') }}">Upload file</a>
+    <a class='home-link' href="{{ path('oag_default_index') }}">Home</a> | <a class='upload-link' href="{{ path('oag_default_upload') }}">Upload file</a>
 {% endblock %}
 
 {% block body %}
 
     {{ form_start(form) }}
-    <table class="pure-table pure-table-bordered">
+    <table class="pure-table pure-table-bordered document-table">
         <thead>
             <tr>
                 <th><input type="checkbox" id="select-all-delete" /></th>
