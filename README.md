@@ -1,5 +1,7 @@
 # AG Dockers
 
+[![Build Status](https://travis-ci.org/neontribe/AG.svg?branch=master)](https://travis-ci.org/neontribe/AG)
+
 ## Installation
 
 [Install instruction](INSTALL.md)
