@@ -44,7 +44,7 @@ class Cove extends AbstractAutoService {
       1 => array("pipe", "w"),
       2 => array("pipe", "w"),
     );
-    $cmd = "docker run -i openagdata/cove";
+    $cmd = "docker run -i -e PROCESS_DATA=true openagdata/cove";
     $this->getContainer()->get('logger')->debug(
       sprintf('Command: %s', $cmd)
     );
@@ -65,7 +65,7 @@ class Cove extends AbstractAutoService {
 
       $data = array(
         'xml' => $xml,
-        'err' => $err,
+        'err' => explode("\n", $err),
         'status' => $return_value,
       );
 

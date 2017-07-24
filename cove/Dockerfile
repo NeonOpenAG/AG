@@ -2,7 +2,6 @@ FROM python:3
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/cove
-ENV SECRET_KEY=somesecretkey
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -15,7 +14,6 @@ RUN apt-get update && \
     python manage.py compilemessages && \
     mkdir -p media
 
-COPY update.sh /usr/local/bin/update.sh
 
 RUN apt install coreutils
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -25,9 +23,11 @@ EXPOSE 8000
 
 # python manage.py upload /opt/cove/upload/${DOCUMENT}\n\
 COPY startup.sh /usr/local/bin/startup.sh
+COPY update.sh /usr/local/bin/update.sh
+COPY process.sh /usr/local/bin/process.sh
 
 ENV DJANGO_SETTINGS_MODULE=cove_iati.settings
-ENV SECRET_KEY=somesecretkey
+# ENV SECRET_KEY=somesecretkey
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]
