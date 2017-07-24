@@ -27,7 +27,7 @@ class CoveController extends Controller {
   public function indexAction($fileid) {
     $messages = [];
     $cove = $this->get(Cove::class);
-		$srvOagFile = $this->get(OagFileService::class);
+    $srvOagFile = $this->get(OagFileService::class);
 
     $avaiable = false;
     if ($cove->isAvailable()) {

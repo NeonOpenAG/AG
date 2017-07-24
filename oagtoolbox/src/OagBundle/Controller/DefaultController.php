@@ -26,7 +26,7 @@ class DefaultController extends Controller {
     $em = $this->getDoctrine()->getManager();
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
 
-		$srvOagFile = $this->get(OagFileService::class);
+    $srvOagFile = $this->get(OagFileService::class);
 
     // Fetch all files.
     $files = array();
