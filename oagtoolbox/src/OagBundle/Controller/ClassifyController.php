@@ -38,7 +38,7 @@ class ClassifyController extends Controller {
     }
     else {
       $messages[] = 'Classifier is down, returning fixture data.';
-      // TODO Ant Fixture data please
+      return $classifier->getFixture();
     }
 
     $repository = $this->getDoctrine()->getRepository(OagFile::class);

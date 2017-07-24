@@ -22,6 +22,17 @@ doctrine:
         path: '%kernel.project_dir%/app/test.db'
 
 parameters:
+    oag:
+        cove:
+            uri: http://localhost:8008
+        geocoder:
+            uri: http://localhost:8009
+        autogeocoder:
+            uri: http://localhost:8010
+        dportal:
+            uri: http://localhost:8011
+        classifier:
+            uri: http://localhost
     oag_test_assets_directory: '%kernel.project_dir%/tests/OagBundle/Resources/assets'
     oagfiles_directory: '%kernel.project_dir%/web/uploads/tests'
     oagxml_directory: '%kernel.project_dir%/web/xml/tests'

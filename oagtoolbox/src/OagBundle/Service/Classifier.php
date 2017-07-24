@@ -68,6 +68,7 @@ class Classifier extends AbstractOagService {
     curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
 //    curl_setopt($request, CURLOPT_VERBOSE, true);
 //    curl_setopt($request, CURLOPT_HEADER, true);
+    $this->getContainer()->get('logger')->info('Accessing classifer at ' . $uri);
 
     $payload = array(
       'text1' => $contents,
@@ -89,7 +90,18 @@ class Classifier extends AbstractOagService {
       'status' => ($responseCode >= 200 && $responseCode <= 209)?0:1,
     );
 
-    return array_merge($response, json_decode($data, true));
+    $json = json_decode($data, true);
+    if (!is_array($json)) {
+      $json = [
+        'data' => [
+          'code' => '',
+          'description' => '',
+          'confidence' => '',
+        ],
+      ];
+      $this->getContainer()->get('logger')->error('Classifier failed to process: ' . $data);
+    }
+    return array_merge($response, $json);
   }
 
   public function getName() {

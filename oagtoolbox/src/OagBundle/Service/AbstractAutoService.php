@@ -9,4 +9,5 @@ abstract class AbstractAutoService extends AbstractOagService {
   abstract function processUri($sometext);
 
   abstract function processString($sometext);
+
 }
