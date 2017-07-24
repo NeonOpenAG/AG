@@ -24,7 +24,7 @@ class OagFile
     /**
    * @var string
    *
-   * @ORM\Column(name="documentName", type="string", length=1024, unique=true)
+   * @ORM\Column(name="documentName", type="string", length=1024)
    */
   private $documentName;
 

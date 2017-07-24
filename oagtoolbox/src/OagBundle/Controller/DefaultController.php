@@ -12,6 +12,7 @@ use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class DefaultController extends Controller {
 
@@ -153,6 +154,9 @@ class DefaultController extends Controller {
     $em = $this->getDoctrine()->getManager();
     $oagfile = new OagFile();
     $form = $this->createForm(OagFileType::class, $oagfile);
+    $form->add('submit', SubmitType::class, array(
+      'attr' => array('class' => 'submit'),
+    ));
 
     // TODO Do something if the form is not valid
     if ($request) {
@@ -177,10 +181,6 @@ class DefaultController extends Controller {
         return $this->redirect($this->generateUrl('oag_default_index'));
       }
     }
-    $filename = $oagfile->XMLFileName();
-    $xmldir = $this->getParameter('oagxml_directory');
-    $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
-    file_put_contents($xmlfile, $xml);
 
     return array(
       'form' => $form->createView(),
