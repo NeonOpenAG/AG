@@ -177,10 +177,10 @@ class DefaultController extends Controller {
         return $this->redirect($this->generateUrl('oag_default_index'));
       }
     }
-    $filename = $oagfile->XMLFileName();
-    $xmldir = $this->getParameter('oagxml_directory');
-    $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
-    file_put_contents($xmlfile, $xml);
+    //$filename = $oagfile->XMLFileName();
+    //$xmldir = $this->getParameter('oagxml_directory');
+    //$xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
+    //file_put_contents($xmlfile, $xml);
 
     return array(
       'form' => $form->createView(),
