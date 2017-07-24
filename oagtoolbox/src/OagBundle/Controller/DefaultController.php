@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use OagBundle\Service\Cove;
 use Symfony\Component\HttpFoundation\Request;
 use OagBundle\Entity\OagFile;
+use OagBundle\Service\OagFileService;
 use OagBundle\Form\OagFileType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -24,6 +25,8 @@ class DefaultController extends Controller {
     // TODO - Can we amalgamate these two?
     $em = $this->getDoctrine()->getManager();
     $repository = $this->getDoctrine()->getRepository(OagFile::class);
+
+		$srvOagFile = $this->get(OagFileService::class);
 
     // Fetch all files.
     $files = array();
@@ -53,7 +56,7 @@ class DefaultController extends Controller {
         $data['file'] = $oagfile->getDocumentName();
         $data['mimetype'] = $oagfile->getMimeType();
 
-        $filename = $oagfile->XMLFileName();
+        $filename = $srvOagFile->getXMLFileName($oagfile);
         $xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
         if (file_exists($xmlfile)) {
           $data['xml'] = $xmlfile;
@@ -177,10 +180,6 @@ class DefaultController extends Controller {
         return $this->redirect($this->generateUrl('oag_default_index'));
       }
     }
-    //$filename = $oagfile->XMLFileName();
-    //$xmldir = $this->getParameter('oagxml_directory');
-    //$xmlfile = $xmldir . '/' . $oagfile->getDocumentName();
-    //file_put_contents($xmlfile, $xml);
 
     return array(
       'form' => $form->createView(),
