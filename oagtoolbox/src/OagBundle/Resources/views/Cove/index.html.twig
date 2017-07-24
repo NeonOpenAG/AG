@@ -12,7 +12,7 @@
 
     <ul>
         <li>Process status: {{ status }}</li>
-        <li>StdErr: {{ err }}</li>
+        <li>StdErr: {% for line in err %}{{ line }}<br />{% endfor %}</li>
         <li><a href="{{ asset('xml')}}/oagfiles/{{ path }}">XML</a></li>
     </ul>
 

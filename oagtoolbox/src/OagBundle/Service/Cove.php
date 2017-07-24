@@ -65,7 +65,7 @@ class Cove extends AbstractAutoService {
 
       $data = array(
         'xml' => $xml,
-        'err' => $err,
+        'err' => explode("\n", $err),
         'status' => $return_value,
       );
 
