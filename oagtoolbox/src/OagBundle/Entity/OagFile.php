@@ -89,14 +89,5 @@ class OagFile
     return $this->mimeType;
   }
 
-  public function XMLFileName() {
-    $filename = $this->getDocumentName();
-    $ext = pathinfo($filename, PATHINFO_EXTENSION);
-    if ($ext != 'xml') {
-      $filename = $filename . '.xml';
-    }
-    return $filename;
-  }
-
 }
 

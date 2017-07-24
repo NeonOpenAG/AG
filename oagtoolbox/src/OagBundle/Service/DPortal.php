@@ -29,11 +29,13 @@ class DPortal extends AbstractOagService {
 
   public function visualise($oagfile) {
 
+    $srvOagFile = $this->getContainer()->get(OagFileService::class);
+
     $xmldir = $this->getContainer()->getParameter('oagxml_directory');
     if (!is_dir($xmldir)) {
       mkdir($xmldir, 0755, true);
     }
-    $xmlfile = $xmldir . '/' . $oagfile->XMLFileName();
+    $xmlfile = $xmldir . '/' . $srvOagFile->getXMLFileName($oagfile);
 
     exec("openag start dportal");
     exec("openag reset dportal");
