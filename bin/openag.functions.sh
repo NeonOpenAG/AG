@@ -97,7 +97,6 @@ function run_openag_nerserver {
 function run_openag_cove {
     docker run \
         -dt \
-        -p 8008:8008 \
         -p 8000:8000 \
         -v $PERSIST_COVE_MEDIA:/opt/cove/media \
         -v $PERSIST_COVE_UPLOAD:/opt/cove/upload \

@@ -20,15 +20,15 @@ Running the script with a -h will give additional options.  See [here](OPENAG.md
 
 You can build the dockers youreslf, or just pull them from docker hub.  You need to pass a set of ports and volumes, these are dtailed on the individual docker pages in this repo:
 
- * [CoVE Dockerfile](./cove) and resources.
- * [Open aid geocoder Dockerfile](./geocoder) and resources.
- * [D-Portal Dockerfile](./dportal) and resources.
+ * [CoVE Dockerfile](./dockers/cove) and resources.
+ * [Open aid geocoder Dockerfile](./dockers/geocoder) and resources.
+ * [D-Portal Dockerfile](./dockers/dportal) and resources.
 
 ## Accessing
 
 Each docker exposes services on a port:
 
- * CoVE on [http://localhost:8008](http://localhost:8008)
+ * CoVE on [http://localhost:8000](http://localhost:8000)
  * Open aid geocoder on [http://localhost:8009](http://localhost:8009)
  * D-Portal on [http://localhost:8011](http://localhost:8011)
 
