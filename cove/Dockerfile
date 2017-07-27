@@ -2,6 +2,7 @@ FROM python:3
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/cove
+ENV SECRET_KEY=somesecretkey
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -12,22 +13,16 @@ RUN apt-get update && \
     pip3 install -r requirements_iati.txt && \
     python manage.py migrate && \
     python manage.py compilemessages && \
-    mkdir -p media
+    mkdir -p media && \
+    echo "#!/bin/bash\n\nif [ ! -z \"$PROCESS_DATA\" ]; then\n/usr/local/bin/process.sh\nexit $?\nfi\n\n/usr/local/bin/update.sh\ncd /opt/cove\nexport DJANGO_SETTINGS_MODULE=cove_iati.settings\npython3 manage.py migrate\npython3 manage.py compilemessages\npython3 manage.py runserver 0.0.0.0:8000" > /usr/local/bin/startup.sh && \
+    echo "#!/bin/bash\n\ngit pull origin $(git rev-parse --abbrev-ref HEAD)\n" > /usr/local/bin/update.sh && \
+    echo "#!/bin/bash\n\necho \"$(</dev/stdin)\" > /tmp/file\nFILEPATH=$(python manage.py upload /tmp/file)\nBASENAME=$(/usr/bin/basename $FILEPATH)\nXML=/opt/cove/media/${BASENAME}/file\nERR=/opt/cove/media/${BASENAME}/*.json\nif [ -e \"$XML\" ]; then\n/bin/cat $XML\nfi\nif [ -e \"$ERR\" ]; then\n(>&2 /bin/cat $ERR)\nfi\n" > /usr/local/bin/process.sh && \
+    chmod 777 /usr/local/bin/startup.sh /usr/local/bin/update.sh /usr/local/bin/process.sh && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
-RUN apt install coreutils
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-EXPOSE 8008
 EXPOSE 8000
 
-# python manage.py upload /opt/cove/upload/${DOCUMENT}\n\
-COPY startup.sh /usr/local/bin/startup.sh
-COPY update.sh /usr/local/bin/update.sh
-COPY process.sh /usr/local/bin/process.sh
-
 ENV DJANGO_SETTINGS_MODULE=cove_iati.settings
-# ENV SECRET_KEY=somesecretkey
 
 ENTRYPOINT ["/usr/local/bin/startup.sh"]
 # ENTRYPOINT ["/bin/bash"]

@@ -2,7 +2,7 @@
 
 ## Run interactive (start web server)
 
-   This is currently broken as listen 0.0.0.0:8000 generates 0.0.0.0 links.
+    docker run -ti -p 8000:8000 openagdata/cove
 
 ## Run non-interactive
 
