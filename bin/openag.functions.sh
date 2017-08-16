@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 function usage {
     echo $USAGE
@@ -130,7 +130,7 @@ function run_openag_geocoder {
 }
 
 function run_openag_dportal {
-    docker run \
+    echo docker run \
         -dt \
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
