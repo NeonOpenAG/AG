@@ -213,7 +213,7 @@ EOF
     done
 
     if [ ! -f "$PERSIST_GEO_CONF/settings.json" ]; then
-        wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/geocoder/conf/settings.json
+        wget -O $PERSIST_GEO_CONF/settings.json https://raw.githubusercontent.com/neontribe/AG/develop/dockers/geocoder/conf/settings.json
     fi
     set +e
 }
