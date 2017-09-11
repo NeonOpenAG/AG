@@ -140,7 +140,8 @@ function run_openag_dportal {
 
 function data_reset {
     if [ "$DOCKER" == 'dportal' ]; then
-        docker exec openag_dportal /bin/bash /opt/D-Portal/bin/dstore_reset
+        rm -f $FILE $PERSIST_DPORTAL_CACHE/*
+        docker exec openag_dportal /bin/bash /opt/D-Portal/bin/dstore_reset > /dev/null
     else
         echo Unsupported action $2 for $DOCKER
     fi
