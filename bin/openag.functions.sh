@@ -130,7 +130,7 @@ function run_openag_geocoder {
 }
 
 function run_openag_dportal {
-    echo docker run \
+    docker run \
         -dt \
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
