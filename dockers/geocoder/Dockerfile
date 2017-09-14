@@ -1,50 +1,35 @@
-FROM node:5.4.3
+FROM python:3.5
 MAINTAINER tobias@neontribe.co.uk
 
 WORKDIR /opt/
 
-RUN ls
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get -y install git vim htop nginx wget
-RUN git clone https://github.com/devgateway/open-aid-geocoder.git
+RUN apt-get -y install git vim htop nginx wget python-dev
+RUN git clone https://github.com/devgateway/geocoder-ie.git
 
-RUN wget https://github.com/devgateway/open-aid-geocoder/raw/windows-local/scripts/update.sh
-RUN wget https://github.com/devgateway/open-aid-geocoder/raw/windows-local/scripts/install.sh
-RUN bash update.sh
-RUN bash install.sh
+# RUN wget https://repo.continuum.io/archive/Anaconda3-4.2.0-Linux-x86_64.sh
+# RUN bash Anaconda3-4.2.0-Linux-x86_64.sh -b -p /opt/anaconda
+# RUN rm Anaconda3-4.2.0-Linux-x86_64.sh
+# ENV PATH=/opt/anaconda/bin:$PATH
+# RUN conda update conda
 
-RUN echo "server {\n\
-    listen 8009 default_server;\n\
-    root /var/www/html;\n\
-    server_name _;\n\
-    location / {\n\
-        proxy_pass http://127.0.0.1:3000;\n\
-    }\n\
-}\n" >> /etc/nginx/sites-available/default
+COPY process.sh /usr/local/bin/process.sh
 
-RUN echo "#!/bin/bash\n\
-\n\
-/usr/local/bin/update.sh\n\
-/etc/init.d/nginx restart\n\
-cd /opt/open-aid-geocoder/scripts\n\
-bash ./start.sh\n" >> /usr/local/bin/startup.sh && chmod 777 /usr/local/bin/startup.sh
+WORKDIR /opt/geocoder-ie
+RUN cat /etc/issue
+RUN echo python --version
 
+# RUN conda config --add channels conda-forge
+# RUN conda config --add channels pypi
+# RUN conda config --add channels brittainhard
+# RUN conda config --add channels contango
+# RUN sed -i '/pycorenlp/d' requirements.txt
+# RUN sed -i '/lxlm/d' requirements.txt
+# RUN sed -i '/flask_cors/d' requirements.txt
+# RUN sed -i '/sner/d' requirements.txt
+# RUN conda install --yes --file requirements.txt
+RUN pip install -r requirements.txt
 
-RUN mkdir /opt/open-aid-geocoder/api/uploads
-RUN rm /opt/open-aid-geocoder/api/data/project-data.json
-RUN rm /opt/open-aid-geocoder/app/conf/settings.json
-
-# VOLUME /opt/open-aid-geocoder/app/conf
-# VOLUME /opt/open-aid-geocoder/api/data/
-# VOLUME /opt/open-aid-geocoder/api/uploads/
-
-COPY update.sh /usr/local/bin/update.sh
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-EXPOSE 8009
-EXPOSE 3333
-WORKDIR /opt/open-aid-geocoder
-
-ENTRYPOINT ["/usr/local/bin/startup.sh"]
+ENTRYPOINT ["/bin/bash"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:
