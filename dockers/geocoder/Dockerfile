@@ -19,11 +19,11 @@ RUN apt install -y ssh
 ENV country uk
 ENV filename fo.pdf
 
-COPY process.sh /usr/local/bin/process.sh
-RUN chmod 777 /usr/local/bin/process.sh
+COPY process.txt.sh /usr/local/bin/process.txt.sh
+COPY process.xml.sh /usr/local/bin/process.xml.sh
+RUN chmod 777 /usr/local/bin/process.txt.sh
+RUN chmod 777 /usr/local/bin/process.xml.sh
 
-COPY example.pdf /var/tmp/example.pdf
-
-ENTRYPOINT ["/usr/bin/top"]
+ENTRYPOINT ["/usr/local/bin/process.txt.sh"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:
