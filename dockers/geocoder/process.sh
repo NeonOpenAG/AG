@@ -1,12 +1,16 @@
 #!/bin/bash
 
 # python3 src/main.py -c geocode -f example.pdf  -tGN && cat out.tsv
+# python3 src/main.py -c geocode -f /tmp/file.txt -tGH
 
-echo "$(</dev/stdin)" > /tmp/file
-cat /tmp/file
+echo "$(</dev/stdin)" > /tmp/file.txt
+cd /opt/geocoder-ie
 
-# cd /opt/geocoder-ie
-# python3 src/main.py -c geocode -f /tmp/file -t${country} > out.txt
+cmd="python3 src/main.py -c geocode -f /tmp/file.txt -t$country"
+echo $cmd
+$cmd > out.txt
 
-# /bin/cat out.tsv
-# /bin/cat out.txt >&2
+/bin/cat out.tsv
+/bin/cat out.txt >&2
+
+/bin/bash

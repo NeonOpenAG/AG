@@ -13,10 +13,17 @@ RUN pip install -r requirements.txt
 COPY geocoder.ini /opt/geocoder-ie
 RUN python setup.py
 
+RUN apt install -y ssh
+# ENTRYPOINT ["/usr/local/bin/process.sh"]
+
+ENV country uk
+ENV filename fo.pdf
+
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/process.sh
-ENV country uk
 
-ENTRYPOINT ["/usr/local/bin/process.sh"]
+COPY example.pdf /var/tmp/example.pdf
+
+ENTRYPOINT ["/usr/bin/top"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:
