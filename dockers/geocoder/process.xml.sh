@@ -10,5 +10,5 @@ cmd="python3 src/main.py -c geocode -f /tmp/file.xml -t$country"
 echo $cmd
 $cmd > out.txt
 
-/bin/cat out.tsv
+/bin/cat out.xml
 /bin/cat out.txt >&2

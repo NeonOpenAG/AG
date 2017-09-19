@@ -19,6 +19,7 @@ RUN apt install -y ssh
 ENV country uk
 ENV filename fo.pdf
 
+RUN ls
 COPY process.txt.sh /usr/local/bin/process.txt.sh
 COPY process.xml.sh /usr/local/bin/process.xml.sh
 RUN chmod 777 /usr/local/bin/process.txt.sh
