@@ -19,12 +19,11 @@ RUN apt install -y ssh
 ENV country uk
 ENV filename fo.pdf
 
-RUN ls
-COPY process.txt.sh /usr/local/bin/process.txt.sh
-COPY process.xml.sh /usr/local/bin/process.xml.sh
-RUN chmod 777 /usr/local/bin/process.txt.sh
-RUN chmod 777 /usr/local/bin/process.xml.sh
+RUN pip install lxml
+COPY process.sh /usr/local/bin/process.sh
+RUN chmod 777 /usr/local/bin/process.sh
 
-ENTRYPOINT ["/usr/local/bin/process.txt.sh"]
+ENTRYPOINT ["top"]
+# ENTRYPOINT ["python3", "src/server.py"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:
