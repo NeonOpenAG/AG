@@ -18,5 +18,4 @@ cmd="python3 src/main.py -c geocode -f $FILENAME -t$COUNTRY -o json"
 $cmd 2> /tmp/error.log 1> /tmp/output.log
 
 /bin/cat out.json
-# /bin/cat /tmp/output.log
 /bin/cat /tmp/error.log >&2
