@@ -12,12 +12,11 @@ RUN apt-get update && apt-get upgrade -y && \
     sudo \
     software-properties-common \
     python-software-properties \
-    gcc g++ build-essential \
+    gcc-5 g++-5 build-essential \
     nodejs-legacy \
     nodejs \
     curl 
 RUN git clone https://github.com/devinit/D-Portal
-    # gcc-5 g++-5 build-essential \
 
 WORKDIR /opt/D-Portal
 
@@ -29,17 +28,20 @@ RUN /opt/D-Portal/bin/npm_install
 
 RUN echo "#!/bin/bash\n\ngit pull origin $(git rev-parse --abbrev-ref HEAD)" > /usr/local/bin/update.sh
 # # RUN ./bin/dstore init && ./bin/dstore_import_bd_ug_hn
-# RUN ./fetch
+RUN ./fetch
 RUN ./install_deps
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/process.sh
 RUN ./bin/dstore init
 RUN mkdir /opt/D-Portal/cache && chmod 777 /usr/local/bin/update.sh
+RUN dportal/build
+
+RUN ls
+ADD dportal_serv dportal/serv
+COPY dportal.startup.sh /usr/local/bin/startup.sh
 
 EXPOSE 8011
-EXPOSE 1408
 
-# ENTRYPOINT ["./bin/serv", "-q", "http://d-portal.org/"]
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/usr/local/bin/startup.sh"]
 
 # vim: set filetype=dockerfile expandtab tabstop=2 shiftwidth=2 autoindent smartindent:

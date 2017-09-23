@@ -1,8 +1,10 @@
 #!/bin/bash
 
-/etc/init.d/nginx restart
+export PATH=/root/.nvm/versions/node/v8.5.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 cd /opt/D-Portal
-./serv -q http://d-portal.org/
-# for dev use this next bash command will mean the conainer does not exit when the dportal service stops
-bash
+ctrack/watch 1>&2 &
 
+cd /opt/D-Portal/dportal
+source settings
+./node_modules/.bin/plated watch --dumpjson --root=$PLATED_ROOT/ --output=$PLATED_OUTPUT --source=$PLATED_SOURCE &
+node js/serv.js --port 8011
