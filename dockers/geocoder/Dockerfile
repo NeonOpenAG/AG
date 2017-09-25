@@ -20,6 +20,7 @@ ENV country uk
 ENV filename fo.pdf
 
 RUN pip install lxml
+RUN ls
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/process.sh
 

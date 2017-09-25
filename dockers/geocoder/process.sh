@@ -8,14 +8,19 @@ if [ -z "$FILENAME" ]; then
 fi
 
 if [ -z "$COUNTRY" ]; then
-    COUNTRY=uk
+    COUNTRY=""
+else
+    COUNTRY="-t$COUNTRY"
 fi
 
 echo "$(</dev/stdin)" > $FILENAME 
 cd /opt/geocoder-ie
 
-cmd="python3 src/main.py -c geocode -f $FILENAME -t$COUNTRY -o json"
+cmd="python3 src/main.py -c geocode -f $FILENAME $COUNTRY -o json"
 $cmd 2> /tmp/error.log 1> /tmp/output.log
 
 /bin/cat out.json
+echo "\n--- Out ---\n" >&2
+/bin/cat /tmp/output.log >&2
+echo "\n--- Err ---\n" >&2
 /bin/cat /tmp/error.log >&2
