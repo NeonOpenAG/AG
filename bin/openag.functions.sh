@@ -91,7 +91,7 @@ function run_openag_nerserver {
         --name openag_nerserver \
         -p 9000:9000 \
         -dt \
-        openagdata/nerserver
+        openagdata/nerserver:live
 }
 
 function run_openag_cove {
@@ -101,16 +101,7 @@ function run_openag_cove {
         -v $PERSIST_COVE_MEDIA:/opt/cove/media \
         -v $PERSIST_COVE_UPLOAD:/opt/cove/upload \
         --name openag_cove \
-        openagdata/cove
-}
-
-function run_openag_autogeocoder {
-    run_openag_nerserver
-    docker run \
-        -ti \
-        --link openag_nerserver \
-        --name openag_autogeocoder \
-        openagdata/autogeocoder
+        openagdata/cove:live
 }
 
 function run_openag_geocoder {
@@ -126,7 +117,7 @@ function run_openag_geocoder {
         -v $PERSIST_GEO_UPLOADS:/opt/open-aid-geocoder/api/uploads/ \
         -v $PERSIST_GEO_CONF:/opt/open-aid-geocoder/app/conf \
         --name openag_geocoder \
-        openagdata/geocoder
+        openagdata/geocoder:live
 }
 
 function run_openag_dportal {
@@ -135,7 +126,7 @@ function run_openag_dportal {
         -p 1408:1408 -p 8011:8011 \
         --name openag_dportal \
         -v $PERSIST_DPORTAL_CACHE:/opt/D-Portal/dstore/cache \
-        openagdata/dportal
+        openagdata/dportal:live
 }
 
 function data_reset {
