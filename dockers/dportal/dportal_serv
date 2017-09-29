@@ -1,3 +1,0 @@
-cd `dirname $0`
-
-node js/serv.js --port 8011
