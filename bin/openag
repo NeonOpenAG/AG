@@ -72,7 +72,7 @@ if [ -z "$IDS" ]; then
 fi
 
 if [ -z "$DOCKERS" ]; then
-    DOCKERS="cove geocoder autogeocoder dportal"
+    DOCKERS="cove geocoder dportal"
 fi
 
 if [ "0" != "$VERBOSE" ]; then
