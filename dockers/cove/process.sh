@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$FILENAME" ]; then
-	FILENAME="unknown"
+	FILENAME="unknown.xml"
 fi
 
 cd /opt/cove
