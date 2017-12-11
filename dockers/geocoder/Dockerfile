@@ -22,12 +22,12 @@ ENV filename fo.pdf
 
 RUN pip install lxml
 RUN ls
+ENV OPENAG_NERSERVER openag_nerserver
+ENV OPENAG_PORT 9000
+
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/process.sh
 RUN chmod 777 /opt/geocoder-ie/server.sh
-
-ENV OPENAG_NERSERVER openag_nerserver
-ENV OPENAG_PORT 9000
 
 ENTRYPOINT ["top"]
 # ENTRYPOINT ["python3", "src/server.py"]
