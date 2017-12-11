@@ -8,3 +8,8 @@ D-Portal now avilable at http://localhost:8011/
 
 Dockerhub [here](https://hub.docker.com/r/openagdata/dportal/).
 
+## Import data at run time
+
+Put the XML to be imported in a folder and mount that on /data.   Then tell the container the name of the file, it defauilts to iati.xml
+
+    docker run -ti -v $(pwd)/data:/data -e IATI_XML=data.xml -p 9011:8011 openagdata/dportal

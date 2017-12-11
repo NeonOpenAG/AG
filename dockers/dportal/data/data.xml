@@ -1,0 +1,428 @@
+<?xml version="1.0"?>
+<iati-activities version="2.02">
+  <iati-activity default-currency="USD">
+    <iati-identifier>XM-DAC-41108-1100001602</iati-identifier>
+    <reporting-org ref="XM-DAC-41108" type="40">
+      <narrative>International Fund for Agricultural Development</narrative>
+    </reporting-org>
+    <title>
+      <narrative>Kisankalagi Unnat Biu-Bijan Karyakram (Improved Seeds for Farmers Programme)</narrative>
+    </title>
+    <description>
+      <narrative>Building on an approach already tested in the IFAD-financed High Value Agriculture Project in Hill and Mountain Areas, this programme targets an area of Nepal that combines high poverty levels and relatively high population densities with significant potential for agricultural seed and livestock production. In partnership with the private sector in the hills of Nepal, it aims to develop the formal seed sector as well as improve smallholder livestock.
+
+The seven-year programme will promote competitive, sustainable and inclusive agricultural growth in the target area, contributing to overall economic development. It seeks to improve productivity through market-led demand for improved seeds and livestock, with an eye toward testing and scaling up a model of growth led by agriculture.
+
+The programme is composed of three components:
+
+    Support for expansion of the formal seed sector &#x2013; addressing the target area's low seed replacement rates, and poor quality seeds for vegetables and cereals, through development of the formal sector and truthful labelling of seeds
+    Smallholder livestock commercialization &#x2013; addressing livestock development, with a focus on raising goats and buffalo, through breed and productivity improvement, nutrition management, veterinary services, farmer training and market linkages
+    Institutional and entrepreneurial development &#x2013; promoting a conducive environment for private sector enterprises by strengthening local institutions and building their capacity at different levels, providing financial and non-financial services to beneficiaries and increasing outreach by microfinance lenders.
+
+The first-phase programme area encompasses four districts in the Mid-Western region (Rukum, Salyan, Rolpa and Pyuthan) and two in the Western region (Gulmi and Arghakhanchi). All targeted districts are in hill areas, some with poverty levels that are considerably above national rural averages. The target group comprises 150,000 households in the first phase of the programme. In the second phase, starting from year four, the programme intends to upscale its activities and expand to other districts, reaching a total of 350,000</narrative>
+    </description>
+    <participating-org role="1" ref="XM-DAC-41108">
+      <narrative>International Fund for Agricultural Development</narrative>
+    </participating-org>
+    <participating-org role="1">
+      <narrative>Heifer Project International</narrative>
+    </participating-org>
+    <activity-status code="2"/>
+    <activity-date type="1" iso-date="2012-09-21"/>
+    <activity-date type="3" iso-date="2019-12-31"/>
+    <contact-info type="1">
+      <organisation>
+        <narrative>International Fund for Agricultural Development</narrative>
+      </organisation>
+      <person-name>
+        <narrative>Lakshmi Moola</narrative>
+      </person-name>
+      <job-title>
+        <narrative>Country Programme Manager</narrative>
+      </job-title>
+      <telephone>+39 0654592359</telephone>
+      <email>l.moola@ifad.org</email>
+      <mailing-address>
+        <narrative>Via Paolo Di Dono, 44, Rome, Italy</narrative>
+      </mailing-address>
+    </contact-info>
+    <activity-scope code="5"/>
+    <recipient-country code="NP" percentage="100"/>
+    <location ref="Rukum">
+      <location-id code="1282843" vocabulary="G1"/>
+      <name>
+        <narrative>Rukum</narrative>
+      </name>
+      <point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+        <pos>28.75 82.58333</pos>
+      </point>
+      <feature-designation code="ADM3"/>
+    </location>
+    <location ref="Salyan">
+      <location-id code="1282827" vocabulary="G1"/>
+      <name>
+        <narrative>Salyan</narrative>
+      </name>
+      <point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+        <pos>28.41667 82.25</pos>
+      </point>
+      <feature-designation code="ADM3"/>
+    </location>
+    <location ref="Rolpa">
+      <location-id code="1282847" vocabulary="G1"/>
+      <name>
+        <narrative>Rolpa</narrative>
+      </name>
+      <point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+        <pos>28.41667 82.75</pos>
+      </point>
+      <feature-designation code="ADM3"/>
+    </location>
+    <location ref="Pyuthan">
+      <location-id code="1282888" vocabulary="G1"/>
+      <name>
+        <narrative>Pyuthan</narrative>
+      </name>
+      <point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+        <pos>28.08333 82.83333</pos>
+      </point>
+      <feature-designation code="ADM3"/>
+    </location>
+    <location ref="Gulmi">
+      <location-id code="1283367" vocabulary="G1"/>
+      <name>
+        <narrative>Gulmi</narrative>
+      </name>
+      <point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+        <pos>28.08333 83.33333</pos>
+      </point>
+      <feature-designation code="ADM3"/>
+    </location>
+    <location ref="Arghakhanchi">
+      <location-id code="1283726" vocabulary="G1"/>
+      <name>
+        <narrative>Arghakhanchi</narrative>
+      </name>
+      <point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">
+        <pos>27.91667 83.08333</pos>
+      </point>
+      <feature-designation code="ADM3"/>
+    </location>
+    <sector vocabulary="2" vocabulary-uri="http://www.oecd.org/dac/stats/dacandcrscodelists.htm" code="311" percentage="100">
+      <narrative>Agriculture</narrative>
+    </sector>
+    <budget type="1">
+      <period-start iso-date="2012-09-21"/>
+      <period-end iso-date="2019-12-31"/>
+      <value value-date="2012-09-21" currency="USD">44000000</value>
+    </budget>
+    <transaction>
+      <transaction-type code="2"/>
+      <transaction-date iso-date="2013-12-30"/>
+      <value currency="USD" value-date="2013-12-30">4481077</value>
+      <description>
+        <narrative>IFAD Financing Type: IFAD Loan</narrative>
+      </description>
+    </transaction>
+    <transaction>
+      <transaction-type code="2"/>
+      <transaction-date iso-date="2012-09-21"/>
+      <value currency="USD" value-date="2012-09-21">17609126</value>
+      <description>
+        <narrative>IFAD Financing Type: IFAD DSF Grant</narrative>
+      </description>
+    </transaction>
+    <transaction ref="MG2RFDB133056491">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2013-06-06"/>
+      <value currency="USD" value-date="2013-06-06">1250000</value>
+      <description>
+        <narrative>Designated Special:1000004340/L-I--881-</narrative>
+      </description>
+    </transaction>
+    <transaction ref="001RFDB141410002">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2014-05-22"/>
+      <value currency="USD" value-date="2014-05-22">206402.33</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB143290013">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2014-11-26"/>
+      <value currency="USD" value-date="2014-11-26">535519.17</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB151770006">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2015-06-30"/>
+      <value currency="USD" value-date="2015-06-30">338835.13</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB153080008">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2015-11-06"/>
+      <value currency="USD" value-date="2015-11-06">553163.65</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB160410006">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-02-12"/>
+      <value currency="USD" value-date="2016-02-12">264177.39</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB161730009">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-06-23"/>
+      <value currency="USD" value-date="2016-06-23">220432.85</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB162150001">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-08-04"/>
+      <value currency="USD" value-date="2016-08-04">271943.42</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB163010007">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-10-31"/>
+      <value currency="USD" value-date="2016-10-31">1224890.44</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB170310006">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2017-02-02"/>
+      <value currency="USD" value-date="2017-02-02">238765.07</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB171580002">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2017-06-09"/>
+      <value currency="USD" value-date="2017-06-09">681276.78</value>
+      <description>
+        <narrative>Replenishment:1000004340/L-I--881-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="MG2RFDB133056492">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2013-06-06"/>
+      <value currency="USD" value-date="2013-06-06">1250000</value>
+      <description>
+        <narrative>Designated Special:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+    </transaction>
+    <transaction ref="001RFDB141410004">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2014-05-22"/>
+      <value currency="USD" value-date="2014-05-22">206402.33</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB143290014">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2014-11-26"/>
+      <value currency="USD" value-date="2014-11-26">535519.16</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB151770007">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2015-06-30"/>
+      <value currency="USD" value-date="2015-06-30">338835.14</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB153080011">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2015-11-06"/>
+      <value currency="USD" value-date="2015-11-06">553163.64</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB160410008">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-02-12"/>
+      <value currency="USD" value-date="2016-02-12">264177.38</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB161730010">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-06-23"/>
+      <value currency="USD" value-date="2016-06-23">220432.85</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB162150002">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-08-04"/>
+      <value currency="USD" value-date="2016-08-04">271943.42</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB163010002">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2016-10-31"/>
+      <value currency="USD" value-date="2016-10-31">1224890.43</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB170310007">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2017-02-02"/>
+      <value currency="USD" value-date="2017-02-02">238765.07</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <transaction ref="001RFDB171580003">
+      <transaction-type code="3"/>
+      <transaction-date iso-date="2017-06-09"/>
+      <value currency="USD" value-date="2017-06-09">681276.78</value>
+      <description>
+        <narrative>Replenishment:1000004341/G-I-DSF-8106-</narrative>
+      </description>
+      <receiver-org>
+        <narrative>KISANKALAGI UNNAT BIU BIJAN KARYAKRAM (KUBK ISFP)</narrative>
+      </receiver-org>
+    </transaction>
+    <document-link url="https://webapps.ifad.org/members/eb/106/docs/EB-2012-106-R-21-Rev-1.pdf" format="application/pdf">
+      <title>
+        <narrative>President's report: proposed loan and grant to the Government of Nepal for the Kisankalagi Unnat Biu-Bijan Karyakram</narrative>
+      </title>
+      <category code="A02"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/documents/654016/05072dc6-20ac-4449-a5c3-12e8a822d3bf" format="application/pdf">
+      <title>
+        <narrative>Design report, September 2012</narrative>
+      </title>
+      <category code="A02"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/documents/654016/32b3ad50-9238-44ed-abf4-43c06404bf14" format="application/pdf">
+      <title>
+        <narrative>Supervision mission, February 2017</narrative>
+      </title>
+      <category code="A07"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/documents/654016/b29a0ae5-b3c2-47c2-a793-f2af6440df99" format="application/pdf">
+      <title>
+        <narrative>Supervision mission, April 2015</narrative>
+      </title>
+      <category code="A07"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/documents/654016/a8640ab0-ce2c-4c4f-848a-fba993802e21" format="application/pdf">
+      <title>
+        <narrative>Supervision mission, April 2014</narrative>
+      </title>
+      <category code="A07"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/documents/654016/f26a5dc3-4b3f-4a2f-ba2f-5d279e5b7639" format="application/pdf">
+      <title>
+        <narrative>Supervision mission, April 2013</narrative>
+      </title>
+      <category code="A07"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/documents/654016/c93b2f53-3802-438d-85b0-b3f28a8cb2f3" format="application/pdf">
+      <title>
+        <narrative>Mid-term review, 29 February - 22 March 2016</narrative>
+      </title>
+      <category code="A07"/>
+      <language code="en"/>
+    </document-link>
+    <document-link url="https://operations.ifad.org/web/ifad/operations/country/project/tags/nepal/1602/" format="text/html">
+      <title>
+        <narrative>Project webpage</narrative>
+      </title>
+      <category code="A12"/>
+      <language code="en"/>
+    </document-link>
+  </iati-activity>
+</iati-activities>

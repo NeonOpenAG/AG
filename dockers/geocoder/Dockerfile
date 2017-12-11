@@ -23,6 +23,7 @@ RUN pip install lxml
 RUN ls
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/process.sh
+RUN chmod 777 /opt/geocoder-ie/server.sh
 
 ENTRYPOINT ["top"]
 # ENTRYPOINT ["python3", "src/server.py"]

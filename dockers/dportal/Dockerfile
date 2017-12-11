@@ -15,6 +15,9 @@ COPY dportal.startup.sh /usr/local/bin/dportal.startup.sh
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/dportal.startup.sh
 RUN chmod 777 /usr/local/bin/process.sh
+RUN mkdir /data
+
+ENV IATI_XML iati.xml
 
 EXPOSE 8011
 # ENTRYPOINT ["./serv", "-q", "http://d-portal.org/"]
