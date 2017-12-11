@@ -11,6 +11,7 @@ WORKDIR /opt/geocoder-ie
 RUN sed -i '/lxlm/d' requirements.txt
 RUN pip install -r requirements.txt
 COPY geocoder.ini /opt/geocoder-ie
+COPY geocoder.tpl /opt/geocoder-ie
 RUN python setup.py
 
 RUN apt install -y ssh
@@ -24,6 +25,9 @@ RUN ls
 COPY process.sh /usr/local/bin/process.sh
 RUN chmod 777 /usr/local/bin/process.sh
 RUN chmod 777 /opt/geocoder-ie/server.sh
+
+ENV OPENAG_NERSERVER openag_nerserver
+ENV OPENAG_PORT 9000
 
 ENTRYPOINT ["top"]
 # ENTRYPOINT ["python3", "src/server.py"]

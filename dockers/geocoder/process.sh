@@ -3,6 +3,12 @@
 # python3 src/main.py -c geocode -f example.pdf  -tGN && cat out.tsv
 # python3 src/main.py -c geocode -f /tmp/file.txt -tGH
 
+if [ ! -z "$OPENAG_NERSERVER" ]; then
+  cp /opt/geocoder-ie/geocoder.tpl /opt/geocoder-ie/geocoder.ini
+  sed -i "s/OPENAG_NERSERVER/$OPENAG_NERSERVER/g" /opt/geocoder-ie/geocoder.ini
+  sed -i "s/OPENAG_PORT/$OPENAG_PORT/g" /opt/geocoder-ie/geocoder.ini
+fi
+
 if [ -z "$FILENAME" ]; then
     FILENAME=/tmp/file.xml
 fi
