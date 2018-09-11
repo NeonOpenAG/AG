@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+    cove:
+        build:
+            context: cove
+        image: cove:live
+        container_name: openag_cove
+        ports:
+            - 8080:8080
+
+    nerserver:
+        build:
+            context: nerserver
+        image: nerserver:live
+        ports:
+            - 9000:9000
+
+    geocoder:
+        build:
+            context: geocoder
+        image: geocoder:live
+        container_name: openag_geocoder
+        environment:
+            OPENAG_NERSERVER: nerserver
+        links:
+            - nerserver
+        depends_on:
+            - nerserver
+        ports:
+            - 5000:5000
+
+    dportal:
+        build:
+            context: dportal
+        image: dportal:live
+        ports:
+            - 8011:8011
+
+    toolbox:
+        build:
+            context: toolbox
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        ports:
+            - 8000:8000
+

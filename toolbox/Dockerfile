@@ -1,8 +1,9 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 MAINTAINER Toby Batch <tobias@neontribe.co.uk>
 
-ENV VERSION=0.1.39
+ENV DEBIAN_FRONTEND=noninteractive
+ENV VERSION=0.1810.01
 
 RUN apt update
 RUN apt install -y \
@@ -30,7 +31,7 @@ RUN apt install -y docker-ce
 WORKDIR /opt
 RUN wget https://github.com/NeonOpenAG/oagtoolbox/archive/v${VERSION}.tar.gz
 RUN tar zxvf v${VERSION}.tar.gz
-RUN apt install php7.0-sqlite3
+RUN apt install -y php-sqlite3
 RUN ln -s /usr/bin/sass /usr/local/bin/sass
 
 WORKDIR /opt/oagtoolbox-${VERSION}

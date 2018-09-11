@@ -1,4 +1,4 @@
-FROM ubuntu:15.04
+FROM ubuntu
 
 MAINTAINER Toby Batch <tobias@neontribe.co.uk>
 
