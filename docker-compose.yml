@@ -4,22 +4,23 @@ services:
     cove:
         build:
             context: cove
-        image: cove:live
+        image: openagdata/cove
         container_name: openag_cove
         ports:
-            - 8080:8080
+            - 8000:8000
 
     nerserver:
         build:
             context: nerserver
-        image: nerserver:live
+        image: openagdata/nerserver
+        container_name: openag_nerserver
         ports:
             - 9000:9000
 
     geocoder:
         build:
             context: geocoder
-        image: geocoder:live
+        image: openagdata/geocoder
         container_name: openag_geocoder
         environment:
             OPENAG_NERSERVER: nerserver
@@ -33,15 +34,18 @@ services:
     dportal:
         build:
             context: dportal
-        image: dportal:live
+        image: openagdata/dportal
+        container_name: openag_dportal
         ports:
             - 8011:8011
 
     toolbox:
         build:
             context: toolbox
+        image: openagdata/geocoder
+        container_name: openag_toolbox
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         ports:
-            - 8000:8000
+            - 8080:8080
 

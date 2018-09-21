@@ -3,7 +3,6 @@ FROM ubuntu:18.04
 MAINTAINER Toby Batch <tobias@neontribe.co.uk>
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV VERSION=0.1810.01
 
 RUN apt update
 RUN apt install -y \
@@ -29,6 +28,7 @@ RUN apt update
 RUN apt install -y docker-ce
 
 WORKDIR /opt
+ENV VERSION=0.1837.02
 RUN wget https://github.com/NeonOpenAG/oagtoolbox/archive/v${VERSION}.tar.gz
 RUN tar zxvf v${VERSION}.tar.gz
 RUN apt install -y php-sqlite3

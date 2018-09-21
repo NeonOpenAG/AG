@@ -6,7 +6,7 @@ fi
 
 cd /opt/cove
 echo "$(</dev/stdin)" > /tmp/$FILENAME
-CMD="/opt/cove/iati-cli -d -o /tmp/out /tmp/$FILENAME"
+CMD="python3 /opt/cove/iati-cli -d -o /tmp/out /tmp/$FILENAME"
 echo "$CMD" >> /tmp/commands.log
 $CMD > /dev/null 2>&1
 ERR=/tmp/out/results.json
